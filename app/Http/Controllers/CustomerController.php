@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
 class CustomerController extends Controller
@@ -12,11 +13,20 @@ class CustomerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Inertia::render('customers/index', [
-            'customers' => 'customers',
-        ]);
+        $search = $request->get('q');
+
+        $query = Customer::orderBy('id', 'DESC');
+
+        if ($search) {
+            $query->where('name', 'like', '%' . $search . '%')
+                ->orWhere('cpf', 'like', '%' . $search . '%');
+        }
+
+        $customers = $query->paginate(12)->withQueryString();
+
+        return Inertia::render('customers/index', ["customers" => $customers]);
     }
 
     /**
@@ -24,7 +34,9 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        //
+        $customer = Customer::exists() ? customer::orderBy('id', 'desc')->first()->id : [];
+
+        return Inertia::render('customers/create-customer', ['customer' => $customer]);
     }
 
     /**
@@ -32,7 +44,31 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $messages = [
+            'required' => 'O campo :attribute deve ser preenchido',
+            'email' => 'Endereço de e-mail válido',
+            'cpf_ou_cnpj' => 'CPF ou CNPJ inválido',
+            'unique' => 'CPF ou CNPJ já está em uso',
+        ];
+        $request->validate(
+            [
+                'name' => 'required',
+                'cpf' => 'required|cpf_ou_cnpj|unique:clientes',
+                'email' => 'required|email|unique:clientes',
+                'phone' => 'required'
+            ],
+            $messages,
+            [
+                'name' => 'nome',
+                'email' => 'e-mail',
+            ]
+        );
+
+        Customer::create($data);
+        Session::flash('success', 'Cliente cadastrado com sucesso!');
+        return redirect()->route('customers.index');
     }
 
     /**

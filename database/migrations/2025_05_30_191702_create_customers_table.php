@@ -12,7 +12,23 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('customers', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedBigInteger('id')->primary()->index();
+            $table->string('name');
+            $table->string('cpf', 50)->nullable();
+            $table->date('birth')->nullable();
+            $table->string('email', 50)->nullable();
+            $table->string('cep', 20)->nullable();
+            $table->string('state', 20)->nullable();
+            $table->string('city', 50)->nullable();
+            $table->string('district', 50)->nullable();
+            $table->string('street', 20)->nullable();
+            $table->string('complement', 80)->nullable();
+            $table->integer('number')->nullable();
+            $table->string('phone', 20)->nullable();
+            $table->string('contactname', 50)->nullable();
+            $table->string('whatsapp', 50)->nullable();
+            $table->string('contactphone', 20)->nullable();
+            $table->text('observations')->nullable();
             $table->timestamps();
         });
     }
