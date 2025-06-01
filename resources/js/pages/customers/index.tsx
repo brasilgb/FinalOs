@@ -3,7 +3,7 @@ import { Icon } from '@/components/icon';
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem, Customer } from '@/types';
 import { Head, Link } from '@inertiajs/react'
-import { Edit, Plus, Trash2, User } from 'lucide-react';
+import { Edit, Pencil, Plus, Trash2, User, Wrench } from 'lucide-react';
 import moment from 'moment'
 import {
   Table,
@@ -17,6 +17,7 @@ import {
 import { Button } from '@/components/ui/button';
 import InputSearch from '@/components/inputSearch';
 import AppPagination from '@/components/app-pagination';
+import ActionDelete from '@/components/action-delete';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -85,18 +86,21 @@ export default function Customers({ customers }: any) {
                     <TableCell>{customer.phone}</TableCell>
                     <TableCell>{moment(customer.created_at).format("DD/MM/YYYY")}</TableCell>
                     <TableCell className='flex justify-end gap-2'>
-                      <Button variant={'secondary'} size={'icon'}>
-                        <Edit />
+
+                      <Button asChild size="icon" className="bg-sky-500 hover:bg-sky-600 text-white">
+                        <Link href={`/orders?cu=${customer.id}`}>
+                        <Wrench className="h-4 w-4" />
+                        </Link>
                       </Button>
-                      <Button variant={'secondary'} size={'icon'}>
-                        <Edit />
+
+                      <Button asChild size="icon" className="bg-orange-500 hover:bg-orange-600 text-white">
+                        <Link href={route("customers.edit", customer.id)}>
+                          <Pencil className="h-4 w-4" />
+                        </Link>
                       </Button>
-                      <Button variant={'secondary'} size={'icon'}>
-                        <Edit />
-                      </Button>
-                      <Button variant={'destructive'} size={'icon'}>
-                        <Trash2 />
-                      </Button>
+
+                      <ActionDelete title={'este cliente'} url={'customers.destroy'} param={customer.id} />
+
                     </TableCell>
                   </TableRow>
                 ))

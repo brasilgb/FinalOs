@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
@@ -55,8 +56,8 @@ class CustomerController extends Controller
         $request->validate(
             [
                 'name' => 'required',
-                'cpf' => 'required|cpf_ou_cnpj|unique:clientes',
-                'email' => 'required|email|unique:clientes',
+                'cpf' => 'required|cpf_ou_cnpj|unique:customers',
+                'email' => 'required|email|unique:customers',
                 'phone' => 'required'
             ],
             $messages,
@@ -76,7 +77,7 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        //
+        return Inertia::render('customers/edit-customer', ['customer' => $customer]);
     }
 
     /**
@@ -84,7 +85,7 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        //
+        return Redirect::route('customers.show', ['customer' => $customer->id]);
     }
 
     /**
@@ -100,6 +101,8 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        //
+        $customer->delete();
+        Session::flash('success', 'Cliente excluido com sucesso!');
+        return redirect()->route('customers.index');
     }
 }

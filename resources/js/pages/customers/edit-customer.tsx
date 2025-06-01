@@ -24,31 +24,31 @@ const breadcrumbs: BreadcrumbItem[] = [
   },
 ];
 
-export default function CreateCustomer({ customer }: any) {
-  const { data, setData, post, progress, processing, errors } = useForm({
+export default function EditCustomer({ customer }: any) {
+  const { data, setData, patch, progress, processing, errors } = useForm({
     id: customer > 0 ? customer + 1 : 1,
-    cpf: '',
-    name: '',
-    birth: '',
-    email: '',
-    cep: '',
-    state: '',
-    city: '',
-    district: '',
-    street: '',
-    complement: '',
-    number: '',
-    phone: '',
-    contactname: '',
-    whatsapp: '',
-    contactphone: '',
-    observations: '',
+    cpf: customer.cpf,
+    name: customer.name,
+    birth: customer.birth,
+    email: customer.email,
+    cep: customer.cep,
+    state: customer.state,
+    city: customer.city,
+    district: customer.district,
+    street: customer.street,
+    complement: customer.complement,
+    number: customer.number,
+    phone: customer.phone,
+    contactname: customer.contactname,
+    whatsapp: customer.customer,
+    contactphone: customer.contactphone,
+    observations: customer.observations,
   });
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    
-    post(route('customers.store'));
+
+    patch(route('customers.update', customer.id));
   }
 
   return (
@@ -143,7 +143,7 @@ export default function CreateCustomer({ customer }: any) {
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="state">state</Label>
+                <Label htmlFor="state">UF</Label>
                 <Input
                   type="text"
                   id="state"
