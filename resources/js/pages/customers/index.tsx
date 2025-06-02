@@ -3,7 +3,7 @@ import { Icon } from '@/components/icon';
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem, Customer } from '@/types';
 import { Head, Link } from '@inertiajs/react'
-import { Edit, Pencil, Plus, Trash2, User, Wrench } from 'lucide-react';
+import { Pencil, Plus, Users, Wrench } from 'lucide-react';
 import moment from 'moment'
 import {
   Table,
@@ -18,6 +18,7 @@ import { Button } from '@/components/ui/button';
 import InputSearch from '@/components/inputSearch';
 import AppPagination from '@/components/app-pagination';
 import ActionDelete from '@/components/action-delete';
+import { maskCpfCnpj, maskPhone } from '@/Utils/mask';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -37,7 +38,7 @@ export default function Customers({ customers }: any) {
       <Head title="Clientes" />
       <div className='flex items-center justify-between h-16 px-4 mb-4'>
         <div className='flex items-center gap-2'>
-          <Icon iconNode={User} className='w-8 h-8' />
+          <Icon iconNode={Users} className='w-8 h-8' />
           <h2 className="text-xl font-semibold tracking-tight">Clientes</h2>
         </div>
         <div>
@@ -82,8 +83,8 @@ export default function Customers({ customers }: any) {
                     <TableCell>{customer.id}</TableCell>
                     <TableCell className="font-medium">{customer.name}</TableCell>
                     <TableCell>{customer.email}</TableCell>
-                    <TableCell>{customer.cpf}</TableCell>
-                    <TableCell>{customer.phone}</TableCell>
+                    <TableCell>{maskCpfCnpj(customer.cpf)}</TableCell>
+                    <TableCell>{maskPhone(customer.phone)}</TableCell>
                     <TableCell>{moment(customer.created_at).format("DD/MM/YYYY")}</TableCell>
                     <TableCell className='flex justify-end gap-2'>
 

@@ -3,7 +3,7 @@ import { NavMain } from '@/components/nav-main';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Bot, Folder, LayoutGrid, User, Users } from 'lucide-react';
+import { BookOpen, Bot, Calendar, Cog, FilePlus2, Folder, LayoutGrid, MessageSquareMore, User, UserCog, Users, Users2, Wrench } from 'lucide-react';
 import AppLogo from './app-logo';
 import NavMainCollapsible from './nav-main-collapsible';
 
@@ -16,29 +16,29 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Clientes',
         href: '/customers',
-        icon: LayoutGrid,
+        icon: Users2,
     },
     {
         title: 'Ordens de serviço',
         href: '/orders',
-        icon: LayoutGrid,
+        icon: Wrench,
     },
     {
         title: 'Agendamentos',
         href: '/schedules',
-        icon: LayoutGrid,
+        icon: Calendar,
     },
     {
         title: 'Mensagens',
         href: '/messages',
-        icon: LayoutGrid,
+        icon: MessageSquareMore,
     },
 ];
 const mainUserItems: NavItem[] = [
     {
         title: 'Usuários',
         href: '/users',
-        icon: Users,
+        icon: UserCog,
     },
 ];
 
@@ -46,7 +46,7 @@ const mainConfItems = [
     {
         title: "Configurações",
         url: "#",
-        icon: Bot,
+        icon: Cog,
         items: [
             {
                 title: 'Dados da empresa',
@@ -81,7 +81,7 @@ const mainOrcaItems = [
     {
         title: "Orçamentos",
         url: "#",
-        icon: Bot,
+        icon: FilePlus2,
         items: [
             {
                 title: 'Cadastrar marcas',

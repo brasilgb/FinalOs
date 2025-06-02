@@ -51,7 +51,7 @@ class CustomerController extends Controller
             'required' => 'O campo :attribute deve ser preenchido',
             'email' => 'Endereço de e-mail válido',
             'cpf_ou_cnpj' => 'CPF ou CNPJ inválido',
-            'unique' => 'CPF ou CNPJ já está em uso',
+            'unique' => 'O :attribute já está em uso',
         ];
         $request->validate(
             [
@@ -93,7 +93,31 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        //
+        $data = $request->all();
+
+        $messages = [
+            'required' => 'O campo :attribute deve ser preenchido',
+            'email' => 'Endereço de e-mail válido',
+            'cpf_ou_cnpj' => 'CPF ou CNPJ inválido',
+            'unique' => 'O :attribute já está em uso',
+        ];
+        $request->validate(
+            [
+                'name' => 'required',
+                'cpf' => 'required|cpf_ou_cnpj|unique:customers,cpf,' . $customer->id,
+                'email' => 'required|email|unique:customers,email,' . $customer->id,
+                'phone' => 'required'
+            ],
+            $messages,
+            [
+                'name' => 'nome',
+                'email' => 'e-mail',
+            ]
+        );
+
+        $customer->update($data);
+        Session::flash('success', 'Cliente alterado com sucesso!');
+        return redirect()->route('customers.show', ['customer' => $customer->id]);
     }
 
     /**

@@ -3,11 +3,13 @@ import { Icon } from "@/components/icon";
 import { Button } from "@/components/ui/button";
 import AppLayout from "@/layouts/app-layout";
 import { BreadcrumbItem } from "@/types";
-import { Head, Link, useForm } from "@inertiajs/react";
-import { ArrowLeft, Save, User } from "lucide-react";
+import { Head, Link, useForm, usePage } from "@inertiajs/react";
+import { ArrowLeft, Save, Users } from "lucide-react";
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { maskCep, maskCpfCnpj, maskDate, maskPhone, unMask } from "@/Utils/mask";
+import { toast } from "sonner";
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -25,8 +27,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function EditCustomer({ customer }: any) {
+  const { flash } = usePage().props as any;
   const { data, setData, patch, progress, processing, errors } = useForm({
-    id: customer > 0 ? customer + 1 : 1,
     cpf: customer.cpf,
     name: customer.name,
     birth: customer.birth,
@@ -47,16 +49,34 @@ export default function EditCustomer({ customer }: any) {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-
     patch(route('customers.update', customer.id));
+    if (flash.message) {
+      toast.success("Editar Cliente", {
+        description: "Dados do cliente editado com sucesso!",
+      });
+    }
   }
+
+  const getCep = (cep: string) => {
+    const cleanCep = unMask(cep);
+    fetch(`https://viacep.com.br/ws/${cleanCep}/json/`)
+      .then((response) => response.json())
+      .then((result) => {
+        setData((data) => ({ ...data, state: result.uf }));
+        setData((data) => ({ ...data, city: result.localidade }));
+        setData((data) => ({ ...data, district: result.bairro }));
+        setData((data) => ({ ...data, street: result.logradouro }));
+        setData((data) => ({ ...data, complement: result.complemento }));
+      })
+      .catch((error) => console.error(error));
+  };
 
   return (
     <AppLayout>
       <Head title="Clientes" />
       <div className='flex items-center justify-between h-16 px-4 mb-4'>
         <div className='flex items-center gap-2'>
-          <Icon iconNode={User} className='w-8 h-8' />
+          <Icon iconNode={Users} className='w-8 h-8' />
           <h2 className="text-xl font-semibold tracking-tight">Clientes</h2>
         </div>
         <div>
@@ -90,8 +110,9 @@ export default function EditCustomer({ customer }: any) {
                 <Input
                   type="text"
                   id="cpf"
-                  value={data.cpf}
+                  value={maskCpfCnpj(data.cpf)}
                   onChange={(e) => setData('cpf', e.target.value)}
+                  maxLength={18}
                 />
                 {errors.cpf && <div className="text-red-500 text-sm">{errors.cpf}</div>}
               </div>
@@ -99,7 +120,7 @@ export default function EditCustomer({ customer }: any) {
               <div className="grid gap-2">
                 <Label htmlFor="birth">Nascimento</Label>
                 <Input
-                  type="text"
+                  type="date"
                   id="birth"
                   value={data.birth}
                   onChange={(e) => setData('birth', e.target.value)}
@@ -137,8 +158,10 @@ export default function EditCustomer({ customer }: any) {
                 <Input
                   type="text"
                   id="cep"
-                  value={data.cep}
+                  value={maskCep(data.cep)}
                   onChange={(e) => setData('cep', e.target.value)}
+                  onBlur={(e) => getCep(e.target.value)}
+                  maxLength={9}
                 />
               </div>
 
@@ -213,8 +236,9 @@ export default function EditCustomer({ customer }: any) {
                 <Input
                   type="text"
                   id="phone"
-                  value={data.phone}
+                  value={maskPhone(data.phone)}
                   onChange={(e) => setData('phone', e.target.value)}
+                  maxLength={15}
                 />
                 {errors.phone && <div className="text-red-500 text-sm">{errors.phone}</div>}
               </div>
@@ -244,8 +268,9 @@ export default function EditCustomer({ customer }: any) {
                 <Input
                   type="text"
                   id="contactphone"
-                  value={data.contactphone}
+                  value={maskPhone(data.contactphone)}
                   onChange={(e) => setData('contactphone', e.target.value)}
+                  maxLength={15}
                 />
               </div>
             </div>
