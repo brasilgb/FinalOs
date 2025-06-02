@@ -1,8 +1,8 @@
 import { Breadcrumbs } from '@/components/breadcrumbs'
 import { Icon } from '@/components/icon';
 import AppLayout from '@/layouts/app-layout'
-import { BreadcrumbItem, Customer } from '@/types';
-import { Head, Link } from '@inertiajs/react'
+import { BreadcrumbItem } from '@/types';
+import { Head, Link, usePage } from '@inertiajs/react'
 import { Pencil, Plus, Users, Wrench } from 'lucide-react';
 import moment from 'moment'
 import {
@@ -19,6 +19,7 @@ import InputSearch from '@/components/inputSearch';
 import AppPagination from '@/components/app-pagination';
 import ActionDelete from '@/components/action-delete';
 import { maskCpfCnpj, maskPhone } from '@/Utils/mask';
+import AlertSuccess from '@/components/app-alert-success';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -32,9 +33,11 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Customers({ customers }: any) {
+  const { flash } = usePage().props as any;
 
   return (
     <AppLayout>
+       {flash.message && <AlertSuccess message={flash.message} />}
       <Head title="Clientes" />
       <div className='flex items-center justify-between h-16 px-4 mb-4'>
         <div className='flex items-center gap-2'>
@@ -90,7 +93,7 @@ export default function Customers({ customers }: any) {
 
                       <Button asChild size="icon" className="bg-sky-500 hover:bg-sky-600 text-white">
                         <Link href={`/orders?cu=${customer.id}`}>
-                        <Wrench className="h-4 w-4" />
+                          <Wrench className="h-4 w-4" />
                         </Link>
                       </Button>
 

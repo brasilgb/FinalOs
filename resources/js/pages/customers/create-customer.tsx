@@ -26,10 +26,9 @@ const breadcrumbs: BreadcrumbItem[] = [
   },
 ];
 
-export default function CreateCustomer({ customer }: any) {
+export default function CreateCustomer() {
   const { flash } = usePage().props as any;
-  const { data, setData, post, progress, processing, errors } = useForm({
-    id: customer > 0 ? customer + 1 : 1,
+  const { data, setData, post, progress, processing, reset, errors } = useForm({
     cpf: '',
     name: '',
     birth: '',
@@ -50,12 +49,9 @@ export default function CreateCustomer({ customer }: any) {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    const ok = post(route('customers.store'));
-    if (flash.message) {
-      toast.success("Cadastrar Cliente", {
-        description: "Cliente cadastrado com sucesso!",
-      });
-    }
+    post(route('customers.store'), {
+      onSuccess: () => reset(),
+    });
   }
 
   const getCep = (cep: string) => {

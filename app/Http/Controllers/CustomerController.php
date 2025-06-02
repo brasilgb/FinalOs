@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CustomerRequest;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -35,41 +37,19 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        $customer = Customer::exists() ? customer::orderBy('id', 'desc')->first()->id : [];
-
-        return Inertia::render('customers/create-customer', ['customer' => $customer]);
+        return Inertia::render('customers/create-customer');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CustomerRequest $request): RedirectResponse
     {
         $data = $request->all();
-
-        $messages = [
-            'required' => 'O campo :attribute deve ser preenchido',
-            'email' => 'Endereço de e-mail válido',
-            'cpf_ou_cnpj' => 'CPF ou CNPJ inválido',
-            'unique' => 'O :attribute já está em uso',
-        ];
-        $request->validate(
-            [
-                'name' => 'required',
-                'cpf' => 'required|cpf_ou_cnpj|unique:customers',
-                'email' => 'required|email|unique:customers',
-                'phone' => 'required'
-            ],
-            $messages,
-            [
-                'name' => 'nome',
-                'email' => 'e-mail',
-            ]
-        );
-
+        $request->validated();
+        $data['id'] = Customer::exists() ? Customer::latest()->first()->id + 1 : 1;
         Customer::create($data);
-        Session::flash('success', 'Cliente cadastrado com sucesso!');
-        return redirect()->route('customers.index');
+        return redirect()->route('customers.index')->with('success', 'Cliente cadastrado com sucesso!');
     }
 
     /**
@@ -91,33 +71,11 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Customer $customer)
+    public function update(CustomerRequest $request, Customer $customer): RedirectResponse
     {
         $data = $request->all();
-
-        $messages = [
-            'required' => 'O campo :attribute deve ser preenchido',
-            'email' => 'Endereço de e-mail válido',
-            'cpf_ou_cnpj' => 'CPF ou CNPJ inválido',
-            'unique' => 'O :attribute já está em uso',
-        ];
-        $request->validate(
-            [
-                'name' => 'required',
-                'cpf' => 'required|cpf_ou_cnpj|unique:customers,cpf,' . $customer->id,
-                'email' => 'required|email|unique:customers,email,' . $customer->id,
-                'phone' => 'required'
-            ],
-            $messages,
-            [
-                'name' => 'nome',
-                'email' => 'e-mail',
-            ]
-        );
-
         $customer->update($data);
-        Session::flash('success', 'Cliente alterado com sucesso!');
-        return redirect()->route('customers.show', ['customer' => $customer->id]);
+        return redirect()->route('customers.show', ['customer' => $customer->id])->with('success', 'Cliente alterado com sucesso!');
     }
 
     /**
@@ -126,7 +84,6 @@ class CustomerController extends Controller
     public function destroy(Customer $customer)
     {
         $customer->delete();
-        Session::flash('success', 'Cliente excluido com sucesso!');
-        return redirect()->route('customers.index');
+        return redirect()->route('customers.index')->with('success', 'Cliente excluido com sucesso!');
     }
 }
