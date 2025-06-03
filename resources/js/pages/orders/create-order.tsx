@@ -50,6 +50,11 @@ export default function CreateOrder({ customers }: any) {
     });
   }
 
+  const changeCustomer = (selected: any) => {
+    setData('customer_id', selected);
+  }
+console.log(data.customer_id);
+
   return (
     <AppLayout>
       <Head title="Ordens" />
@@ -85,20 +90,20 @@ export default function CreateOrder({ customers }: any) {
             <div className="grid grid-cols-8 gap-4 mt-4">
 
               <div className="col-span-2 grid gap-2">
-                <Label htmlFor="name">Cliente</Label>
-                <Select>
+                <Label htmlFor="customer_id">Cliente</Label>
+                  <Select onValueChange={changeCustomer} defaultValue={data.customer_id}>
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Selecione o cliente" />
+                    <SelectValue placeholder="Selecione o cliente" defaultValue={data.customer_id}/>
                   </SelectTrigger>
                   <SelectContent>
-                    {customers.map((status: any) => (
-                      <SelectItem key={status.id} value={status.id}>
-                        {status.name}
+                    {customers.map((customer: any) => (
+                      <SelectItem key={customer.id} value={customer.id}>
+                        {customer.name}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
-                {errors.name && <div className="text-red-500 text-sm">{errors.name}</div>}
+                {errors.customer_id && <div className="text-red-500 text-sm">{errors.customer_id}</div>}
               </div>
 
               <div className="col-span-2 grid gap-2">
@@ -108,8 +113,8 @@ export default function CreateOrder({ customers }: any) {
                   id="equipment"
                   value={data.equipment}
                   onChange={(e) => setData('equipment', e.target.value)}
-                  />
-                  {errors.equipment && <div className="text-red-500 text-sm">{errors.equipment}</div>}
+                />
+                {errors.equipment && <div className="text-red-500 text-sm">{errors.equipment}</div>}
               </div>
 
               <div className="col-span-2 grid gap-2">
