@@ -22,7 +22,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     href: '/customers',
   },
   {
-    title: 'Adicionar',
+    title: 'Editar',
     href: '/customers',
   },
 ];
@@ -72,7 +72,7 @@ export default function EditCustomer({ customer }: any) {
     <AppLayout>
       {flash.message && <AlertSuccess message={flash.message} />}
       <Head title="Clientes" />
-      <div className='flex items-center justify-between h-16 px-4 mb-4'>
+      <div className='flex items-center justify-between h-16 px-4'>
         <div className='flex items-center gap-2'>
           <Icon iconNode={Users} className='w-8 h-8' />
           <h2 className="text-xl font-semibold tracking-tight">Clientes</h2>

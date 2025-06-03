@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Schedule;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ScheduleRequest;
+use App\Models\Customer;
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,10 +16,35 @@ class ScheduleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->get('search');
+        $sdate = $request->get('dt');
+        $status = $request->get('st');
+
+        $query = Schedule::orderBy('id', 'DESC');
+
+        if ($sdate) {
+            $query->whereDate('schedules', $sdate);
+        }
+        if ($status) {
+            $query->where('status', 'like', "%$status%");
+        }
+        if ($search) {
+            $query = Schedule::where(function ($query) use ($search) {
+                $query->where('id', 'like', "%$search%")
+                    ->orWhere('service', 'like', "%$search%");
+            })
+                ->orWhereHas('customer', function ($query) use ($search) {
+                    $query->where('name', 'like', "%$search%");
+                })
+                ->orWhereHas('user', function ($query) use ($search) {
+                    $query->where('name', 'like', "%$search%");
+                });
+        }
+        $schedules = $query->with('user')->with('customer')->paginate(12);
         return Inertia::render('schedules/index', [
-            'schedules' => 'schedules',
+            'schedules' => $schedules,
         ]);
     }
 
@@ -24,15 +53,21 @@ class ScheduleController extends Controller
      */
     public function create()
     {
-        //
+        $customers = Customer::get();
+        $technicals = User::where('roles', 3)->orWhere('roles', 1)->where('is_active', 1)->get();
+        return Inertia::render('schedules/create-schedule', ['customers' => $customers, 'technicals' => $technicals]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ScheduleRequest $request): RedirectResponse
     {
-        //
+        $data = $request->all();
+        $request->validated();
+        $data['id'] = Schedule::exists() ? Schedule::latest()->first()->id + 1 : 1;
+        Schedule::create($data);
+        return redirect()->route('schedules.index')->with('success', 'Agenda cadastrada com sucesso');
     }
 
     /**
@@ -40,23 +75,28 @@ class ScheduleController extends Controller
      */
     public function show(Schedule $schedule)
     {
-        //
+        $customers = Customer::get();
+        $technicals = User::where('roles', 3)->orWhere('roles', 1)->where('is_active', 1)->get();
+        return Inertia::render('schedules/edit-schedule', ['schedule' => $schedule, 'customers' => $customers, 'technicals' => $technicals]);
     }
-
+ 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Schedule $schedule)
     {
-        //
+        return redirect()->route('schedules.show', ['schedule' => $schedule->id]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Schedule $schedule)
+    public function update(ScheduleRequest $request, Schedule $schedule): RedirectResponse
     {
-        //
+        $data = $request->all();
+        $request->validated();
+        $schedule->update($data);
+        return redirect()->route('schedules.index')->with('success', 'Agenda editada com sucesso');
     }
 
     /**
@@ -64,6 +104,7 @@ class ScheduleController extends Controller
      */
     public function destroy(Schedule $schedule)
     {
-        //
+        $schedule->delete();
+        return redirect()->route('schedules.index')->with('success', 'Agenda excluida com sucesso');
     }
 }

@@ -52,6 +52,7 @@ const statusMessage = [
 ];
 
 const statusOrcamento = [
+    { value: 1, label: "Ordem Aberta" },
     { value: 3, label: "Orçamento Gerado" },
     { value: 4, label: "Orçamento Aprovado" },
 ];

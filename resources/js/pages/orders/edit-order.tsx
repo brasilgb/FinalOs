@@ -4,13 +4,16 @@ import { Button } from "@/components/ui/button";
 import AppLayout from "@/layouts/app-layout";
 import { BreadcrumbItem } from "@/types";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
-import { ArrowLeft, Save, Users } from "lucide-react";
+import { ArrowLeft, Save, Wrench } from "lucide-react";
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { maskCep, maskCpfCnpj, maskPhone, unMask } from "@/Utils/mask";
-import { Alert } from "@/components/ui/alert";
+import { equipamento, statusServico } from "@/Utils/dataSelect";
+import Select from 'react-select';
+import InputError from "@/components/input-error";
 import AlertSuccess from "@/components/app-alert-success";
+import { useEffect } from "react";
+import { maskMoney, maskMoneyDot } from "@/Utils/mask";
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -18,64 +21,95 @@ const breadcrumbs: BreadcrumbItem[] = [
     href: '/dashboard',
   },
   {
-    title: 'Clientes',
-    href: '/customers',
+    title: 'Ordens',
+    href: '/orders',
   },
   {
-    title: 'Adicionar',
-    href: '/customers',
+    title: 'Editar',
+    href: '/orders',
   },
 ];
 
-export default function EditCustomer({ customer }: any) {
+export default function EditOrder({ customers, order, technicals }: any) {
   const { flash } = usePage().props as any;
 
-  const { data, setData, patch, progress, processing, errors } = useForm({
-    cpf: customer.cpf,
-    name: customer.name,
-    birth: customer.birth,
-    email: customer.email,
-    cep: customer.cep,
-    state: customer.state,
-    city: customer.city,
-    district: customer.district,
-    street: customer.street,
-    complement: customer.complement,
-    number: customer.number,
-    phone: customer.phone,
-    contactname: customer.contactname,
-    whatsapp: customer.customer,
-    contactphone: customer.contactphone,
-    observations: customer.observations,
+  const optionsCustomer = customers.map((customer: any) => ({
+    value: customer.id,
+    label: customer.name,
+  }));
+
+  const optionsTechnical = technicals.map((technical: any) => ({
+    value: technical.id,
+    label: technical.name,
+  }));
+
+  const { data, setData, patch, progress, processing, reset, errors } = useForm({
+    customer_id: order?.customer_id,
+    equipment: order?.equipment, // equipamento
+    model: order?.model,
+    password: order?.password,
+    defect: order?.defect,
+    state_conservation: order?.state_conservation, //estado de conservação
+    accessories: order?.accessories,
+    budget_description: order?.budget_description, // descrição do orçamento
+    budget_value: order?.budget_value, // valor do orçamento
+
+    services_performed: order.services_performed, // servicos executados
+    parts: order.parts,
+    parts_value: order.parts_value,
+    service_value: order.service_value,
+    service_cost: order.service_cost, // custo
+    delivery_date: order.delivery_date, // data de entrega
+    responsible_technician: order.responsible_technician,
+
+    service_status: order?.service_status,
+    delivery_forecast: order?.delivery_forecast, // previsao de entrega
+    observations: order?.observations,
   });
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    patch(route('customers.update', customer.id))
+    patch(route('orders.update', order.id))
+
   }
 
-  const getCep = (cep: string) => {
-    const cleanCep = unMask(cep);
-    fetch(`https://viacep.com.br/ws/${cleanCep}/json/`)
-      .then((response) => response.json())
-      .then((result) => {
-        setData((data) => ({ ...data, state: result.uf }));
-        setData((data) => ({ ...data, city: result.localidade }));
-        setData((data) => ({ ...data, district: result.bairro }));
-        setData((data) => ({ ...data, street: result.logradouro }));
-        setData((data) => ({ ...data, complement: result.complemento }));
-      })
-      .catch((error) => console.error(error));
+  useEffect(() => {
+      setData((data: any) => ({ ...data, parts_value: maskMoneyDot(data?.parts_value) }));
+      setData((data: any) => ({ ...data, service_value: maskMoneyDot(data?.service_value) }));
+      const serviceCost = parseFloat(data?.parts_value) + parseFloat(data?.service_value);
+      setData((data: any) => ({ ...data, service_cost: serviceCost.toFixed(2) }));
+      // setData((data: any) => ({ ...data, service_cost: maskMoneyDot(data?.service_cost) }));
+  }, [data.parts_value, data.service_value]);
+
+  const changeCustomer = (selected: any) => {
+    setData('customer_id', selected?.value || '');
   };
+
+  const changeEquipment = (selected: any) => {
+    setData('equipment', selected?.value);
+  };
+
+  const changeServiceStatus = (selected: any) => {
+    setData('service_status', selected?.value);
+  };
+
+  const changeResponsibleTechnician = (selected: any) => {
+    setData('responsible_technician', selected?.value);
+  };
+
+  const defaultCustomer = optionsCustomer?.filter((o: any) => o.value == order?.customer_id).map((opt: any) => ({ value: opt.value, label: opt.label }));
+  const defaultEquipament = equipamento?.filter((o: any) => o.value == order?.equipment).map((opt: any) => ({ value: opt.value, label: opt.label }));
+  const statusDefault = statusServico?.filter((o: any) => o.value == order?.service_status).map((opt: any) => ({ value: opt.value, label: opt.label }));
+  const defaultTechnical = optionsTechnical?.filter((o: any) => o.value == order?.responsible_technician).map((opt: any) => ({ value: opt.value, label: opt.label }));
 
   return (
     <AppLayout>
       {flash.message && <AlertSuccess message={flash.message} />}
-      <Head title="Clientes" />
-      <div className='flex items-center justify-between h-16 px-4 mb-4'>
+      <Head title="Ordens" />
+      <div className='flex items-center justify-between h-16 px-4'>
         <div className='flex items-center gap-2'>
-          <Icon iconNode={Users} className='w-8 h-8' />
-          <h2 className="text-xl font-semibold tracking-tight">Clientes</h2>
+          <Icon iconNode={Wrench} className='w-8 h-8' />
+          <h2 className="text-xl font-semibold tracking-tight">Ordens</h2>
         </div>
         <div>
           <Breadcrumbs breadcrumbs={breadcrumbs} />
@@ -86,7 +120,7 @@ export default function EditCustomer({ customer }: any) {
         <div>
           <Button variant={'default'} asChild>
             <Link
-              href={route('customers.index')}
+              href={route('orders.index')}
             >
               <ArrowLeft h-4 w-4 />
               <span>Voltar</span>
@@ -101,185 +135,283 @@ export default function EditCustomer({ customer }: any) {
         <div className='border rounded-lg p-2'>
 
           <form onSubmit={handleSubmit} className="space-y-8">
-            <div className="grid grid-cols-6 gap-4 mt-4">
+            <div className="grid grid-cols-8 gap-4 mt-4">
 
-              <div className=" grid gap-2">
-                <Label htmlFor="name">CPF/CNPJ</Label>
+              <div className="col-span-2 grid gap-2">
+                <Label htmlFor="customer_id">Cliente</Label>
+                <Select
+                  menuPosition='fixed'
+                  defaultValue={defaultCustomer}
+                  options={optionsCustomer}
+                  onChange={changeCustomer}
+                  placeholder="Selecione o cliente"
+                  className="shadow-xs p-0 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-9"
+                  styles={{
+                    control: (baseStyles, state) => ({
+                      ...baseStyles,
+                      fontSize: '14px',
+                      boxShadow: 'none',
+                      border: 'none',
+                      background: 'transparent',
+                      paddingBottom: '2px',
+                    }),
+                    dropdownIndicator: (base) => ({
+                      ...base,
+
+                    }),
+                    menuList: (base) => ({
+                      ...base,
+                      fontSize: '14px',
+                    }),
+                  }}
+                />
+                <InputError className="mt-2" message={errors.customer_id} />
+              </div>
+
+              <div className="col-span-2 grid gap-2">
+                <Label htmlFor="equipment">Equipamento</Label>
+                <Select
+                  menuPosition='fixed'
+                  defaultValue={defaultEquipament}
+                  options={equipamento}
+                  onChange={changeEquipment}
+                  placeholder="Selecione o status"
+                  className="shadow-xs p-0 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-9"
+                  styles={{
+                    control: (baseStyles, state) => ({
+                      ...baseStyles,
+                      fontSize: '14px',
+                      boxShadow: 'none',
+                      border: 'none',
+                      background: 'transparent',
+                      paddingBottom: '2px',
+                    }),
+                    dropdownIndicator: (base) => ({
+                      ...base,
+
+                    }),
+                    menuList: (base) => ({
+                      ...base,
+                      fontSize: '14px',
+                    }),
+                  }}
+                />
+                {errors.equipment && <div className="text-red-500 text-sm">{errors.equipment}</div>}
+              </div>
+
+              <div className="col-span-2 grid gap-2">
+                <Label htmlFor="model">Modelo</Label>
                 <Input
                   type="text"
-                  id="cpf"
-                  value={maskCpfCnpj(data.cpf)}
-                  onChange={(e) => setData('cpf', e.target.value)}
-                  maxLength={18}
+                  id="model"
+                  value={data.model}
+                  onChange={(e) => setData('model', e.target.value)}
                 />
-                {errors.cpf && <div className="text-red-500 text-sm">{errors.cpf}</div>}
+                {errors.model && <div className="text-red-500 text-sm">{errors.model}</div>}
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="birth">Nascimento</Label>
+                <Label htmlFor="password">Senha</Label>
+                <Input
+                  type="text"
+                  id="password"
+                  value={data.password}
+                  onChange={(e) => setData('password', e.target.value)}
+                />
+                {errors.password && <div className="text-red-500 text-sm">{errors.password}</div>}
+              </div>
+
+              <div className="grid gap-2">
+                <Label htmlFor="delivery_forecast">Previsão de entrada</Label>
                 <Input
                   type="date"
-                  id="birth"
-                  value={data.birth}
-                  onChange={(e) => setData('birth', e.target.value)}
+                  id="delivery_forecast"
+                  value={data.delivery_forecast}
+                  onChange={(e) => setData('delivery_forecast', e.target.value)}
                 />
+                {errors.delivery_forecast && <div className="text-red-500 text-sm">{errors.delivery_forecast}</div>}
               </div>
-
-              <div className="col-span-2 grid gap-2">
-                <Label htmlFor="name">Name</Label>
-                <Input
-                  type="text"
-                  id="name"
-                  value={data.name}
-                  onChange={(e) => setData('name', e.target.value)}
-                />
-                {errors.name && <div className="text-red-500 text-sm">{errors.name}</div>}
-              </div>
-
-              <div className="col-span-2 grid gap-2">
-                <Label htmlFor="email">E-mail</Label>
-                <Input
-                  type="text"
-                  id="email"
-                  value={data.email}
-                  onChange={(e) => setData('email', e.target.value)}
-                />
-                {errors.email && <div className="text-red-500 text-sm">{errors.email}</div>}
-              </div>
-
             </div>
 
-            <div className="grid grid-cols-6 gap-4 mt-4">
+            <div className="grid grid-cols-3 gap-4 mt-4">
 
               <div className="grid gap-2">
-                <Label htmlFor="cep">CEP</Label>
-                <Input
-                  type="text"
-                  id="cep"
-                  value={maskCep(data.cep)}
-                  onChange={(e) => setData('cep', e.target.value)}
-                  onBlur={(e) => getCep(e.target.value)}
-                  maxLength={9}
+                <Label htmlFor="defect">Defeito relatado</Label>
+                <Textarea
+                  id="defect"
+                  value={data.defect}
+                  onChange={(e) => setData('defect', e.target.value)}
                 />
+                {errors.defect && <div className="text-red-500 text-sm">{errors.defect}</div>}
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="state">UF</Label>
-                <Input
-                  type="text"
-                  id="state"
-                  value={data.state}
-                  onChange={(e) => setData('state', e.target.value)}
+                <Label htmlFor="state_conservation">Estado de conservação</Label>
+                <Textarea
+                  id="state_conservation"
+                  value={data.state_conservation}
+                  onChange={(e) => setData('state_conservation', e.target.value)}
                 />
-                {errors.state && <div>{errors.state}</div>}
+                {errors.state_conservation && <div>{errors.state_conservation}</div>}
               </div>
 
-              <div className="col-span-2 grid gap-2">
-                <Label htmlFor="city">Cidade</Label>
-                <Input
-                  type="text"
-                  id="city"
-                  value={data.city}
-                  onChange={(e) => setData('city', e.target.value)}
+              <div className="grid gap-2">
+                <Label htmlFor="accessories">Acessórios</Label>
+                <Textarea
+                  id="accessories"
+                  value={data.accessories}
+                  onChange={(e) => setData('accessories', e.target.value)}
                 />
               </div>
-
-              <div className="col-span-2 grid gap-2">
-                <Label htmlFor="district">Bairro</Label>
-                <Input
-                  type="text"
-                  id="district"
-                  value={data.district}
-                  onChange={(e) => setData('district', e.target.value)}
-                />
-              </div>
-
             </div>
 
-            <div className="grid grid-cols-4 gap-4 mt-4">
+            <div className="grid grid-cols-3 gap-4 mt-4">
               <div className="grid gap-2 col-span-2">
-                <Label htmlFor="street">Endereço</Label>
-                <Input
-                  type="text"
-                  id="street"
-                  value={data.street}
-                  onChange={(e) => setData('street', e.target.value)}
+                <Label htmlFor="budget_description">Descrição do orcamento</Label>
+                <Textarea
+                  id="budget_description"
+                  value={data.budget_description}
+                  onChange={(e) => setData('budget_description', e.target.value)}
                 />
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="complement">Complemento</Label>
+                <Label htmlFor="budget_value">Valor orçamento</Label>
                 <Input
                   type="text"
-                  id="complement"
-                  value={data.complement}
-                  onChange={(e) => setData('complement', e.target.value)}
-                />
-              </div>
-
-              <div className="grid gap-2">
-                <Label htmlFor="number">Número</Label>
-                <Input
-                  type="text"
-                  id="number"
-                  value={data.number}
-                  onChange={(e) => setData('number', e.target.value)}
+                  id="budget_value"
+                  value={maskMoney(data.budget_value.toString())}
+                  onChange={(e) => setData('budget_value', e.target.value)}
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-5 gap-4 mt-4">
-              <div className="grid gap-2">
-                <Label htmlFor="phone">Telefone</Label>
-                <Input
-                  type="text"
-                  id="phone"
-                  value={maskPhone(data.phone)}
-                  onChange={(e) => setData('phone', e.target.value)}
-                  maxLength={15}
-                />
-                {errors.phone && <div className="text-red-500 text-sm">{errors.phone}</div>}
-              </div>
-
-              <div className="grid gap-2">
-                <Label htmlFor="whatsapp">Whatsapp</Label>
-                <Input
-                  type="text"
-                  id="whatsapp"
-                  value={data.whatsapp}
-                  onChange={(e) => setData('whatsapp', e.target.value)}
-                />
-              </div>
 
               <div className="grid gap-2 col-span-2">
-                <Label htmlFor="contactname">Contato</Label>
+                <Label htmlFor="parts">Peças adicionadas</Label>
                 <Input
                   type="text"
-                  id="contactname"
-                  value={data.contactname}
-                  onChange={(e) => setData('contactname', e.target.value)}
+                  id="parts"
+                  value={data.parts}
+                  onChange={(e) => setData('parts', e.target.value)}
                 />
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="contactphone">Telefone do contato</Label>
+                <Label htmlFor="parts_value">Valor das peças</Label>
                 <Input
                   type="text"
-                  id="contactphone"
-                  value={maskPhone(data.contactphone)}
-                  onChange={(e) => setData('contactphone', e.target.value)}
-                  maxLength={15}
+                  id="parts_value"
+                  value={maskMoney(data.parts_value.toString())}
+                  onChange={(e) => setData('parts_value', e.target.value)}
+                />
+              </div>
+
+              <div className="grid gap-2">
+                <Label htmlFor="service_value">Valor do serviço</Label>
+                <Input
+                  type="text"
+                  id="service_value"
+                  value={maskMoney(data.service_value.toString())}
+                  onChange={(e) => setData('service_value', e.target.value)}
+                />
+              </div>
+
+              <div className="grid gap-2">
+                <Label htmlFor="service_cost">Valor total</Label>
+                <Input
+                  type="text"
+                  id="service_cost"
+                  value={maskMoney(data.service_cost.toString())}
+                  onChange={(e) => setData('service_cost', e.target.value)}
+                />
+              </div>
+
+            </div>
+
+            <div className="grid grid-cols-2 gap-4 mt-4">
+              <div className="grid gap-2">
+                <Label htmlFor="service_status">Técnico responsável</Label>
+                <Select
+                  menuPosition='fixed'
+                  defaultValue={defaultTechnical}
+                  options={optionsTechnical}
+                  onChange={changeResponsibleTechnician}
+                  placeholder="Selecione o técnico"
+                  className="shadow-xs p-0 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-9"
+                  styles={{
+                    control: (baseStyles, state) => ({
+                      ...baseStyles,
+                      fontSize: '14px',
+                      boxShadow: 'none',
+                      border: 'none',
+                      background: 'transparent',
+                      paddingBottom: '2px',
+                    }),
+                    dropdownIndicator: (base) => ({
+                      ...base,
+
+                    }),
+                    menuList: (base) => ({
+                      ...base,
+                      fontSize: '14px',
+                    }),
+                  }}
+                />
+              </div>
+
+              <div className="grid gap-2">
+                <Label htmlFor="service_status">Status orçamento</Label>
+                <Select
+                  menuPosition='fixed'
+                  defaultValue={statusDefault}
+                  options={statusServico}
+                  onChange={changeServiceStatus}
+                  placeholder="Selecione o status"
+                  className="shadow-xs p-0 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-9"
+                  styles={{
+                    control: (baseStyles, state) => ({
+                      ...baseStyles,
+                      fontSize: '14px',
+                      boxShadow: 'none',
+                      border: 'none',
+                      background: 'transparent',
+                      paddingBottom: '2px',
+                    }),
+                    dropdownIndicator: (base) => ({
+                      ...base,
+
+                    }),
+                    menuList: (base) => ({
+                      ...base,
+                      fontSize: '14px',
+                    }),
+                  }}
                 />
               </div>
             </div>
 
-            <div className="grid gap-2">
-              <Label htmlFor="observations">Observações</Label>
-              <Textarea
-                id="observations"
-                value={data.observations}
-                onChange={(e) => setData('observations', e.target.value)}
-              />
+            <div className="grid grid-cols-2 gap-4 mt-4">
+              <div className="grid gap-2">
+                <Label htmlFor="services_performed">Serviços executados</Label>
+                <Textarea
+                  id="services_performed"
+                  value={data.services_performed}
+                  onChange={(e) => setData('services_performed', e.target.value)}
+                />
+                {errors.services_performed && <div className="text-red-500 text-sm">{errors.services_performed}</div>}
+              </div>
+
+              <div className="grid gap-2">
+                <Label htmlFor="observations">Observações</Label>
+                <Textarea
+                  id="observations"
+                  value={data.observations}
+                  onChange={(e) => setData('observations', e.target.value)}
+                />
+                {errors.observations && <div className="text-red-500 text-sm">{errors.observations}</div>}
+              </div>
             </div>
 
             <div className="flex justify-end">

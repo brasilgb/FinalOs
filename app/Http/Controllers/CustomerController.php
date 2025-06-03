@@ -74,6 +74,7 @@ class CustomerController extends Controller
     public function update(CustomerRequest $request, Customer $customer): RedirectResponse
     {
         $data = $request->all();
+        $request->validated();
         $customer->update($data);
         return redirect()->route('customers.show', ['customer' => $customer->id])->with('success', 'Cliente alterado com sucesso!');
     }

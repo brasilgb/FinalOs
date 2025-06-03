@@ -8,8 +8,9 @@ import { ArrowLeft, Save, Wrench } from "lucide-react";
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { statusOrcamento } from "@/Utils/dataSelect";
+import { equipamento, statusOrcamento } from "@/Utils/dataSelect";
+import Select from 'react-select';
+import InputError from "@/components/input-error";
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -28,6 +29,12 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function CreateOrder({ customers }: any) {
   const { flash } = usePage().props as any;
+
+  const optionsCustomer = customers.map((customer: any) => ({
+    value: customer.id,
+    label: customer.name,
+  }));
+
   const { data, setData, post, progress, processing, reset, errors } = useForm({
     customer_id: '',
     equipment: '', // equipamento
@@ -37,7 +44,7 @@ export default function CreateOrder({ customers }: any) {
     state_conservation: '', //estado de conservação
     accessories: '',
     budget_description: '', // descrição do orçamento
-    budget_value: '', // valor do orçamento
+    budget_value: '0', // valor do orçamento
     service_status: '',
     delivery_forecast: '', // previsao de entrega
     observations: '',
@@ -45,20 +52,29 @@ export default function CreateOrder({ customers }: any) {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+    console.log(data);
+
     post(route('orders.store'), {
       onSuccess: () => reset(),
     });
   }
 
   const changeCustomer = (selected: any) => {
-    setData('customer_id', selected);
-  }
-console.log(data.customer_id);
+    setData('customer_id', selected?.value || '');
+  };
+
+  const changeEquipment = (selected: any) => {
+    setData('equipment', selected?.value);
+  };
+
+  const changeServiceStatus = (selected: any) => {
+    setData('service_status', selected?.value);
+  };
 
   return (
     <AppLayout>
       <Head title="Ordens" />
-      <div className='flex items-center justify-between h-16 px-4 mb-4'>
+      <div className='flex items-center justify-between h-16 px-4'>
         <div className='flex items-center gap-2'>
           <Icon iconNode={Wrench} className='w-8 h-8' />
           <h2 className="text-xl font-semibold tracking-tight">Ordens</h2>
@@ -91,28 +107,59 @@ console.log(data.customer_id);
 
               <div className="col-span-2 grid gap-2">
                 <Label htmlFor="customer_id">Cliente</Label>
-                  <Select onValueChange={changeCustomer} defaultValue={data.customer_id}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Selecione o cliente" defaultValue={data.customer_id}/>
-                  </SelectTrigger>
-                  <SelectContent>
-                    {customers.map((customer: any) => (
-                      <SelectItem key={customer.id} value={customer.id}>
-                        {customer.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                {errors.customer_id && <div className="text-red-500 text-sm">{errors.customer_id}</div>}
+                <Select
+                  options={optionsCustomer}
+                  onChange={changeCustomer}
+                  placeholder="Selecione o cliente"
+                  className="shadow-xs p-0 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-9"
+                  styles={{
+                    control: (baseStyles, state) => ({
+                      ...baseStyles,
+                      fontSize: '14px',
+                      boxShadow: 'none',
+                      border: 'none',
+                      background: 'transparent',
+                      paddingBottom: '2px',
+                    }),
+                    dropdownIndicator: (base) => ({
+                      ...base,
+
+                    }),
+                    menuList: (base) => ({
+                      ...base,
+                      fontSize: '14px',
+                    }),
+                  }}
+                />
+                <InputError className="mt-2" message={errors.customer_id} />
               </div>
 
               <div className="col-span-2 grid gap-2">
                 <Label htmlFor="equipment">Equipamento</Label>
-                <Input
-                  type="text"
-                  id="equipment"
-                  value={data.equipment}
-                  onChange={(e) => setData('equipment', e.target.value)}
+                <Select
+                  menuPosition='fixed'
+                  options={equipamento}
+                  onChange={changeEquipment}
+                  placeholder="Selecione o status"
+                  className="shadow-xs p-0 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-9"
+                  styles={{
+                    control: (baseStyles, state) => ({
+                      ...baseStyles,
+                      fontSize: '14px',
+                      boxShadow: 'none',
+                      border: 'none',
+                      background: 'transparent',
+                      paddingBottom: '2px',
+                    }),
+                    dropdownIndicator: (base) => ({
+                      ...base,
+
+                    }),
+                    menuList: (base) => ({
+                      ...base,
+                      fontSize: '14px',
+                    }),
+                  }}
                 />
                 {errors.equipment && <div className="text-red-500 text-sm">{errors.equipment}</div>}
               </div>
@@ -205,18 +252,32 @@ console.log(data.customer_id);
 
               <div className="grid gap-2">
                 <Label htmlFor="service_status">Status orçamento</Label>
-                <Select>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Selecione o status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {statusOrcamento.map((status: any) => (
-                      <SelectItem key={status.value} value={status.value}>
-                        {status.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <Select
+                  menuPosition='fixed'
+                  options={statusOrcamento}
+                  onChange={changeServiceStatus}
+                  placeholder="Selecione o status"
+                  defaultValue={[{ value: statusOrcamento[0].value, label: statusOrcamento[0].label }]}
+                  className="shadow-xs p-0 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-9"
+                  styles={{
+                    control: (baseStyles, state) => ({
+                      ...baseStyles,
+                      fontSize: '14px',
+                      boxShadow: 'none',
+                      border: 'none',
+                      background: 'transparent',
+                      paddingBottom: '2px',
+                    }),
+                    dropdownIndicator: (base) => ({
+                      ...base,
+
+                    }),
+                    menuList: (base) => ({
+                      ...base,
+                      fontSize: '14px',
+                    }),
+                  }}
+                />
               </div>
             </div>
 

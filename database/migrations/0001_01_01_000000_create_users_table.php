@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,7 +20,7 @@ return new class extends Migration
             $table->string('whatsapp')->nullable();
             $table->string('password');
             $table->tinyInteger('roles')->default(1); // 1-Administrador, 2-Usuário, 3-Técnico
-            $table->boolean('is_admin')->default(0);
+            $table->boolean('is_root')->default(0);
             $table->boolean('is_active')->default(1);
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
@@ -51,4 +52,21 @@ return new class extends Migration
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
     }
+
+    
+    // public function schedules(): HasMany
+    // {
+    //     return $this->hasMany(Schedule::class);
+    // }
+    
+    // public function senders(): HasMany
+    // {
+    //     return $this->hasMany(Message::class);
+    // }
+
+    // public function recipients(): HasMany
+    // {
+    //     return $this->hasMany(Message::class);
+    // }
+    
 };

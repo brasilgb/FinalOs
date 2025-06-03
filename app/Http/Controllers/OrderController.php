@@ -21,6 +21,7 @@ class OrderController extends Controller
         $search = $request->get('search');
         $sdate = $request->get('dt');
         $status = $request->get('st');
+        $customer = $request->get('cl');
 
         $query = Order::orderBy('id', 'DESC');
         if ($sdate) {
@@ -28,6 +29,9 @@ class OrderController extends Controller
         }
         if ($status) {
             $query->where('service_status', 'like', "%$status%");
+        }
+        if ($customer) {
+            $query->where('customer_id', $customer);
         }
         if ($search) {
             $query = Order::where(function ($query) use ($search) {
@@ -71,8 +75,9 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        $technicals = User::where('roles', 'tech')->orWhere('roles', 'admin')->where('is_active', 1)->get();
-        return Inertia::render('orders/edit-order', ['order' => $order]);
+        $customers = Customer::get();
+        $technicals = User::where('roles', 3)->orWhere('roles', 1)->where('is_active', 1)->get();
+        return Inertia::render('orders/edit-order', ['order' => $order, 'customers' => $customers, 'technicals' => $technicals]);
      }
 
     /**
@@ -91,16 +96,15 @@ class OrderController extends Controller
         $data = $request->all();
         $request->validated();
         $order->update($data);
-        return redirect()->route('orders.index')->with('success', 'Ordem atualizada com sucesso');
+        return redirect()->route('orders.show', ['order' => $order->id])->with('success', 'Ordem atualizada com sucesso');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, Order $order)
+    public function destroy(Order $order)
     {
-        $data = $request->all();
-        $order->delete($data);
+        $order->delete();
         return redirect()->route('orders.index')->with('success', 'Ordem excluída com sucesso');
     }
 }

@@ -92,7 +92,7 @@ export default function Customers({ customers }: any) {
                     <TableCell className='flex justify-end gap-2'>
 
                       <Button asChild size="icon" className="bg-sky-500 hover:bg-sky-600 text-white">
-                        <Link href={`/orders?cu=${customer.id}`}>
+                        <Link href={`/orders?cl=${customer.id}`}>
                           <Wrench className="h-4 w-4" />
                         </Link>
                       </Button>

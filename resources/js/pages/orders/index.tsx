@@ -3,7 +3,7 @@ import { Icon } from '@/components/icon';
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react'
-import { Pencil, Plus, Users, Wrench } from 'lucide-react';
+import { ImageUp, Pencil, Plus, Users, Wrench } from 'lucide-react';
 import moment from 'moment'
 import {
   Table,
@@ -39,9 +39,9 @@ export default function Orders({ orders }: any) {
     <AppLayout>
       {flash.message && <AlertSuccess message={flash.message} />}
       <Head title="Ordens" />
-      <div className='flex items-center justify-between h-16 px-4 mb-4'>
+      <div className='flex items-center justify-between h-16 px-4'>
         <div className='flex items-center gap-2'>
-          <Icon iconNode={Users} className='w-8 h-8' />
+          <Icon iconNode={Wrench} className='w-8 h-8' />
           <h2 className="text-xl font-semibold tracking-tight">Ordens</h2>
         </div>
         <div>
@@ -87,16 +87,17 @@ export default function Orders({ orders }: any) {
                   <TableRow key={order.id}>
                     <TableCell>{order.id}</TableCell>
                     <TableCell className="font-medium">{order.customer.name}</TableCell>
+                    <TableCell>{maskPhone(order.customer.phone)}</TableCell>
                     <TableCell>{moment(order.created_at).format("DD/MM/YYYY")}</TableCell>
-                    <TableCell>{maskCpfCnpj(order.equipment)}</TableCell>
-                    <TableCell>{maskPhone(order.model)}</TableCell>
-                    <TableCell>{maskPhone(order.service_status)}</TableCell>
+                    <TableCell>{order.equipment}</TableCell>
+                    <TableCell>{order.model}</TableCell>
+                    <TableCell>{order.service_status}</TableCell>
                     <TableCell>{moment(order.delevery_date).format("DD/MM/YYYY")}</TableCell>
                     <TableCell className='flex justify-end gap-2'>
 
-                      <Button asChild size="icon" className="bg-sky-500 hover:bg-sky-600 text-white">
-                        <Link href={`/orders?cu=${order.id}`}>
-                          <Wrench className="h-4 w-4" />
+                      <Button asChild size="icon" className="bg-fuchsia-700 hover:bg-fuchsia-700 text-white">
+                        <Link href={`/orders?cl=${order.id}`}>
+                          <ImageUp className="h-4 w-4" />
                         </Link>
                       </Button>
 
@@ -106,7 +107,7 @@ export default function Orders({ orders }: any) {
                         </Link>
                       </Button>
 
-                      <ActionDelete title={'este ordem'} url={'orders.destroy'} param={order.id} />
+                      <ActionDelete title={'esta ordem'} url={'orders.destroy'} param={order.id} />
 
                     </TableCell>
                   </TableRow>
