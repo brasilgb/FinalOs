@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import Select from 'react-select';
 import InputError from "@/components/input-error";
 import { statusAgenda } from "@/Utils/dataSelect";
+import AlertSuccess from "@/components/app-alert-success";
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -27,7 +28,7 @@ const breadcrumbs: BreadcrumbItem[] = [
   },
 ];
 
-export default function EditCustomer({ customers, schedule, technicals }: any) {
+export default function EditSchedule({ customers, schedule, technicals }: any) {
   const { flash } = usePage().props as any;
 
   const optionsCustomer = customers.map((customer: any) => ({
@@ -67,13 +68,14 @@ export default function EditCustomer({ customers, schedule, technicals }: any) {
     setData('user_id', selected?.value);
   };
 
-    const defaultCustomer = optionsCustomer?.filter((o: any) => o.value == schedule?.customer_id).map((opt: any) => ({ value: opt.value, label: opt.label }));
-    const statusDefault = statusAgenda?.filter((o: any) => o.value == schedule?.status).map((opt: any) => ({ value: opt.value, label: opt.label }));
-    const defaultTechnical = optionsTechnical?.filter((o: any) => o.value == schedule?.user_id).map((opt: any) => ({ value: opt.value, label: opt.label }));
-  
+  const defaultCustomer = optionsCustomer?.filter((o: any) => o.value == schedule?.customer_id).map((opt: any) => ({ value: opt.value, label: opt.label }));
+  const statusDefault = statusAgenda?.filter((o: any) => o.value == schedule?.status).map((opt: any) => ({ value: opt.value, label: opt.label }));
+  const defaultTechnical = optionsTechnical?.filter((o: any) => o.value == schedule?.user_id).map((opt: any) => ({ value: opt.value, label: opt.label }));
+
   return (
     <AppLayout>
-      <Head title="Clientes" />
+      <Head title="Agendamentos" />
+      {flash.message && <AlertSuccess message={flash.message} />}
       <div className='flex items-center justify-between h-16 px-4'>
         <div className='flex items-center gap-2'>
           <Icon iconNode={Calendar} className='w-8 h-8' />

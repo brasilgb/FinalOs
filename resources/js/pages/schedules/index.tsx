@@ -37,8 +37,8 @@ export default function Schedules({ schedules }: any) {
 
   return (
     <AppLayout>
-       {flash.message && <AlertSuccess message={flash.message} />}
       <Head title="Agendamentos" />
+       {flash.message && <AlertSuccess message={flash.message} />}
       <div className='flex items-center justify-between h-16 px-4 mb-4'>
         <div className='flex items-center gap-2'>
           <Icon iconNode={Calendar} className='w-8 h-8' />

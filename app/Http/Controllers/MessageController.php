@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Message;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\MessageRequest;
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,10 +15,28 @@ class MessageController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->get('q');
+        $sdate = $request->get('dt');
+
+        $query = Message::orderBy('id', 'DESC');
+        if ($sdate) {
+            $query->whereDate('messages', $sdate);
+        }
+        if ($search) {
+            $query = Message::where(function ($query) use ($search) {
+                $query->where('id', 'like', "%$search%")
+                ->orWhere('service', 'like', "%$search%");
+            })
+            ->orWhereHas('user', function ($query) use ($search) {
+                $query->where('name', 'like', "%$search%");
+            });
+        }
+        $messages = $query->with('user')->paginate(12)->withQueryString();
+        // dd($messages);
         return Inertia::render('messages/index', [
-            'messages' => 'messages',
+            'messages' => $messages
         ]);
     }
 
@@ -24,15 +45,20 @@ class MessageController extends Controller
      */
     public function create()
     {
-        //
+        $users = User::get();
+        return Inertia::render('messages/create-message', ['users' => $users]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(MessageRequest $request): RedirectResponse
     {
-        //
+        $data = $request->all();
+        $request->validated();
+        $data['id'] = Message::exists() ? Message::latest()->first()->id + 1 : 1;
+        Message::create($data);
+        return redirect()->route('messages.index')->with('success', 'Agenda cadastrada com sucesso');
     }
 
     /**
@@ -40,7 +66,8 @@ class MessageController extends Controller
      */
     public function show(Message $message)
     {
-        //
+        $users = User::get();
+        return Inertia::render('messages/edit-message', ['message' => $message, 'users' => $users]);
     }
 
     /**
@@ -48,15 +75,18 @@ class MessageController extends Controller
      */
     public function edit(Message $message)
     {
-        //
+        return redirect()->route('messages.show', ['message' => $message->id]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Message $message)
+    public function update(MessageRequest $request, Message $message): RedirectResponse
     {
-        //
+        $data = $request->all();
+        $request->validated();
+        $message->update($data);
+        return redirect()->route('messages.show', ['message' => $message->id])->with('success', 'Agenda editada com sucesso');
     }
 
     /**
@@ -64,6 +94,7 @@ class MessageController extends Controller
      */
     public function destroy(Message $message)
     {
-        //
+        $message->delete();
+        return redirect()->route('messages.index')->with('success', 'Mensagem excluida com sucesso!');
     }
 }

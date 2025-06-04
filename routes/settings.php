@@ -1,12 +1,17 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::middleware('auth')->group(function () {
+
     Route::redirect('settings', 'settings/profile');
+
+    Route::get('company', [CompanyController::class, 'index'])->name('company.index');
+    Route::get('company/{company}', [CompanyController::class, 'update'])->name('company.update');
 
     Route::get('settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('settings/profile', [ProfileController::class, 'update'])->name('profile.update');

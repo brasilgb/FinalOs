@@ -30,11 +30,11 @@ const statusUserByValue = (value: any) => {
 
 const roleUserByValue = (value: any) => {
     switch (value) {
-        case 'admin':
+        case 1:
             return "Administrador";
-        case 'user':
+        case 2:
             return "Usuário";
-        case 'tech':
+        case 3:
             return "Técnico";
     }
 };

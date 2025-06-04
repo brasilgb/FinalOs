@@ -18,6 +18,7 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+
     protected $fillable = [
         'name',
         'email',
@@ -58,12 +59,7 @@ class User extends Authenticatable
         return $this->hasMany(Schedule::class);
     }
 
-    public function senders(): HasMany
-    {
-        return $this->hasMany(Message::class);
-    }
-
-    public function recipients(): HasMany
+    public function messages(): HasMany
     {
         return $this->hasMany(Message::class);
     }

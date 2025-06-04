@@ -24,6 +24,7 @@ class MessageRequest extends FormRequest
         return [
             'sender' => 'required',
             'recipient' => 'required',
+            'title' => 'required',
             'message' => 'required',
             'status' => 'required',
         ];
@@ -34,6 +35,7 @@ class MessageRequest extends FormRequest
         return [
             'sender' => 'remetente',
             'recipient' => 'destinatário',
+            'title' => 'título',
             'message' => 'mensagem',
             'status' => 'status',
         ];

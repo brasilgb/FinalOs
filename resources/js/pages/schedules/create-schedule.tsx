@@ -28,7 +28,7 @@ const breadcrumbs: BreadcrumbItem[] = [
   },
 ];
 
-export default function CreateCustomer({ customers, technicals }: any) {
+export default function CreateSchedule({ customers, technicals }: any) {
   const { flash } = usePage().props as any;
 
   const optionsCustomer = customers.map((customer: any) => ({
@@ -72,7 +72,7 @@ export default function CreateCustomer({ customers, technicals }: any) {
 
   return (
     <AppLayout>
-      <Head title="Clientes" />
+      <Head title="Agendamentos" />
       <div className='flex items-center justify-between h-16 px-4'>
         <div className='flex items-center gap-2'>
           <Icon iconNode={Calendar} className='w-8 h-8' />

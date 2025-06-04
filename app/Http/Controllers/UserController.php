@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -11,11 +16,15 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-                return Inertia::render('users/index', [
-            'users' => 'users',
-        ]);
+        $search = $request->get('q');
+        $query = User::orderBy('id', 'DESC');
+        if ($search) {
+            $query->where('name', 'like', '%' . $search . '%');
+        }
+        $users = $query->paginate(12);
+        return Inertia::render('users/index', ['users' => $users]);
     }
 
     /**
@@ -23,46 +32,60 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('users/create-user');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserRequest $request): RedirectResponse
     {
-        //
+        $data = $request->all();
+        $request->validated();
+        $data['id'] = User::exists() ? User::latest()->first()->id + 1 : 1;
+        $data['password'] = Hash::make($request->password);
+        Model::reguard();
+        User::create($data);
+        Model::unguard();
+        return redirect()->route('users.index')->with('success', 'Usuário cadastrado com sucesso');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $user)
     {
-        //
+        return Inertia::render('users/edit-user', ['user' => $user]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        //
+        return redirect()->route('users.show', ['user' => $user->id]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UserRequest $request, User $user): RedirectResponse
     {
-        //
+        $data = $request->all();
+        $request->validated();
+        $data['password'] = $request->password ? Hash::make($request->password) : $user->password;
+        Model::reguard();
+        $user->update($data);
+        Model::unguard();
+        return redirect()->route('users.show', ['user' => $user->id])->with('success', 'Usuário editado com sucesso');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return redirect()->route('users.index')->with('success', 'Usuário excluido com sucesso!');
     }
 }

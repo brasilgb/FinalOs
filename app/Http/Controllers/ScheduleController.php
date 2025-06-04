@@ -18,7 +18,7 @@ class ScheduleController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->get('search');
+        $search = $request->get('q');
         $sdate = $request->get('dt');
         $status = $request->get('st');
 
@@ -41,7 +41,7 @@ class ScheduleController extends Controller
                 ->orWhereHas('user', function ($query) use ($search) {
                     $query->where('name', 'like', "%$search%");
                 });
-        }
+        } 
         $schedules = $query->with('user')->with('customer')->paginate(12);
         return Inertia::render('schedules/index', [
             'schedules' => $schedules,
@@ -96,7 +96,7 @@ class ScheduleController extends Controller
         $data = $request->all();
         $request->validated();
         $schedule->update($data);
-        return redirect()->route('schedules.index')->with('success', 'Agenda editada com sucesso');
+        return redirect()->route('schedules.show', ['schedule' => $schedule->id])->with('success', 'Agenda editada com sucesso');
     }
 
     /**
