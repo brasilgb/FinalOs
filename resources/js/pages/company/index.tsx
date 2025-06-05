@@ -3,7 +3,7 @@ import { Icon } from "@/components/icon";
 import { Button } from "@/components/ui/button";
 import AppLayout from "@/layouts/app-layout";
 import { BreadcrumbItem } from "@/types";
-import { Head, Link, useForm, usePage } from "@inertiajs/react";
+import { Head, Link, useForm, usePage, router } from "@inertiajs/react";
 import { ArrowLeft, Cog, Save, Users } from "lucide-react";
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label";
@@ -29,7 +29,7 @@ export default function Company({ company }: any) {
         shortname: company?.shortname,
         companyname: company?.companyname,
         cnpj: company?.cnpj,
-        logo: company?.logo,
+        logo: null,
         cep: company?.cep,
         state: company?.state,
         city: company?.city,
@@ -45,7 +45,26 @@ export default function Company({ company }: any) {
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        patch(route('companies.update', company.id))
+
+        router.post(route('company.update', company.id), {
+            _method: "put",
+            shortname: data?.shortname,
+            companyname: data?.companyname,
+            cnpj: data?.cnpj,
+            logo: data?.logo,
+            cep: data?.cep,
+            state: data?.state,
+            city: data?.city,
+            district: data?.district,
+            street: data?.street,
+            number: data?.number,
+            complement: data?.complement,
+            telephone: data?.telephone,
+            whatsapp: data?.whatsapp,
+            site: data?.site,
+            email: data?.email,
+            preserveScroll: true,
+        })
     }
 
     const getCep = (cep: string) => {
@@ -78,37 +97,32 @@ export default function Company({ company }: any) {
 
             <div className='flex items-center justify-between p-4'>
                 <div>
-                    <Button variant={'default'} asChild>
-                        <Link
-                            href={route('customers.index')}
-                        >
-                            <ArrowLeft h-4 w-4 />
-                            <span>Voltar</span>
-                        </Link>
-                    </Button>
-                </div>
-                <div>
+                  
                 </div>
             </div>
 
             <div className='p-4'>
                 <div className='border rounded-lg p-2'>
-
+                    <div className="w-24 my-10">
+                        <img
+                            src={`/storage/logos/${company.logo ? company.logo : "default.png"}`}
+                            alt="Imagem de logo"
+                        />
+                    </div>
                     <form onSubmit={handleSubmit} className="space-y-8">
                         <div className="grid grid-cols-6 gap-4 mt-4">
 
-                            <div className=" grid gap-2">
+                            <div className="grid gap-2">
                                 <Label htmlFor="logo">Logotipo</Label>
                                 <Input
                                     type="file"
                                     id="logo"
-                                    value={data.logo}
-                                    onChange={(e) => setData('logo', e.target.value)}
+                                    onChange={(e: any) => setData('logo', e.target.files[0])}
                                 />
                                 {errors.logo && <div className="text-red-500 text-sm">{errors.logo}</div>}
                             </div>
 
-                            <div className=" grid gap-2">
+                            <div className="col-span-2 grid gap-2">
                                 <Label htmlFor="name">CPF/CNPJ</Label>
                                 <Input
                                     type="text"
@@ -139,17 +153,6 @@ export default function Company({ company }: any) {
                                     onChange={(e) => setData('companyname', e.target.value)}
                                 />
                                 {errors.companyname && <div className="text-red-500 text-sm">{errors.companyname}</div>}
-                            </div>
-
-                            <div className="col-span-2 grid gap-2">
-                                <Label htmlFor="email">E-mail</Label>
-                                <Input
-                                    type="text"
-                                    id="email"
-                                    value={data.email}
-                                    onChange={(e) => setData('email', e.target.value)}
-                                />
-                                {errors.email && <div className="text-red-500 text-sm">{errors.email}</div>}
                             </div>
 
                         </div>
@@ -202,47 +205,7 @@ export default function Company({ company }: any) {
                         </div>
 
                         <div className="grid grid-cols-4 gap-4 mt-4">
-                            <div className="grid gap-2 col-span-2">
-                                <Label htmlFor="cep">CEP</Label>
-                                <Input
-                                    type="text"
-                                    id="cep"
-                                    value={data.cep}
-                                    onChange={(e) => setData('cep', e.target.value)}
-                                />
-                            </div>
-
-                            <div className="grid gap-2 col-span-2">
-                                <Label htmlFor="state">UF</Label>
-                                <Input
-                                    type="text"
-                                    id="state"
-                                    value={data.state}
-                                    onChange={(e) => setData('state', e.target.value)}
-                                />
-                            </div>
-
-                            <div className="grid gap-2">
-                                <Label htmlFor="city">Cidade</Label>
-                                <Input
-                                    type="text"
-                                    id="city"
-                                    value={data.city}
-                                    onChange={(e) => setData('city', e.target.value)}
-                                />
-                            </div>
-
-                            <div className="grid gap-2">
-                                <Label htmlFor="district">Bairro</Label>
-                                <Input
-                                    type="text"
-                                    id="district"
-                                    value={data.district}
-                                    onChange={(e) => setData('district', e.target.value)}
-                                />
-                            </div>
-
-                            <div className="grid gap-2">
+                            <div className="col-span-2 grid gap-2">
                                 <Label htmlFor="street">Logradouro</Label>
                                 <Input
                                     type="text"
@@ -273,7 +236,7 @@ export default function Company({ company }: any) {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-5 gap-4 mt-4">
+                        <div className="grid grid-cols-6 gap-4 mt-4">
                             <div className="grid gap-2">
                                 <Label htmlFor="telephone">Telefone</Label>
                                 <Input
@@ -306,14 +269,13 @@ export default function Company({ company }: any) {
                                 />
                             </div>
 
-                            <div className="grid gap-2">
+                            <div className="grid gap-2 col-span-2">
                                 <Label htmlFor="email">E-mail</Label>
                                 <Input
                                     type="text"
                                     id="email"
-                                    value={maskPhone(data.email)}
+                                    value={data.email}
                                     onChange={(e) => setData('email', e.target.value)}
-                                    maxLength={15}
                                 />
                             </div>
                         </div>

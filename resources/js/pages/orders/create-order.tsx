@@ -52,8 +52,6 @@ export default function CreateOrder({ customers }: any) {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log(data);
-
     post(route('orders.store'), {
       onSuccess: () => reset(),
     });

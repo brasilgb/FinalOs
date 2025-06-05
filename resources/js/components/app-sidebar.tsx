@@ -55,17 +55,17 @@ const mainConfItems = [
             },
             {
                 title: 'Mensagens do Whatsapp',
-                url: '/whatsapp-messages',
+                url: '/whatsapp-message',
                 icon: LayoutGrid,
             },
             {
                 title: 'Impressões de recibos',
-                url: '/receipt-printouts',
+                url: '/receipts',
                 icon: LayoutGrid,
             },
             {
                 title: 'Impressão de etiquetas',
-                url: '/schedules',
+                url: '/label-printing',
                 icon: LayoutGrid,
             },
             {

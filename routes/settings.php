@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\LabelPrintingController;
+use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
+use App\Http\Controllers\WhatsappMessageController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -10,8 +13,10 @@ Route::middleware('auth')->group(function () {
 
     Route::redirect('settings', 'settings/profile');
 
-    Route::get('company', [CompanyController::class, 'index'])->name('company.index');
-    Route::get('company/{company}', [CompanyController::class, 'update'])->name('company.update');
+    Route::resource('company', CompanyController::class);
+    Route::resource('whatsapp-message', WhatsappMessageController::class)->parameters(['whatsapp-message' => 'whatsappmessage']);
+    Route::resource('receipts', ReceiptController::class);
+    Route::resource('label-printing', LabelPrintingController::class);
 
     Route::get('settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('settings/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -19,7 +24,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('settings/password', [PasswordController::class, 'edit'])->name('password.edit');
     Route::put('settings/password', [PasswordController::class, 'update'])->name('password.update');
-
+ 
     Route::get('settings/appearance', function () {
         return Inertia::render('settings/appearance');
     })->name('appearance');
