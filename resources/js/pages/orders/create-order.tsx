@@ -27,12 +27,17 @@ const breadcrumbs: BreadcrumbItem[] = [
   },
 ];
 
-export default function CreateOrder({ customers }: any) {
+export default function CreateOrder({ customers, equipments }: any) {
   const { flash } = usePage().props as any;
 
   const optionsCustomer = customers.map((customer: any) => ({
     value: customer.id,
     label: customer.name,
+  }));
+
+  const optionsEquipment = equipments.map((equipment: any) => ({
+    value: equipment.id,
+    label: equipment.equipment,
   }));
 
   const { data, setData, post, progress, processing, reset, errors } = useForm({
@@ -136,7 +141,7 @@ export default function CreateOrder({ customers }: any) {
                 <Label htmlFor="equipment">Equipamento</Label>
                 <Select
                   menuPosition='fixed'
-                  options={equipamento}
+                  options={optionsEquipment}
                   onChange={changeEquipment}
                   placeholder="Selecione o status"
                   className="shadow-xs p-0 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-9"

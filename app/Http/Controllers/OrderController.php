@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\OrderRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\Equipment;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -43,7 +44,6 @@ class OrderController extends Controller
                 });
         }
         $orders = $query->with('customer')->paginate(12);
-
         return Inertia::render('orders/index', [
             'orders' => $orders,
         ]);
@@ -54,8 +54,10 @@ class OrderController extends Controller
      */
     public function create()
     {
+        
+        $equipments = Equipment::get();
         $customers = Customer::get();
-        return Inertia::render('orders/create-order', ['customers' => $customers]);
+        return Inertia::render('orders/create-order', ['customers' => $customers, 'equipments' => $equipments]);
     }
 
     /**
@@ -75,9 +77,10 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
+        $equipments = Equipment::get();
         $customers = Customer::get();
         $technicals = User::where('roles', 3)->orWhere('roles', 1)->where('is_active', 1)->get();
-        return Inertia::render('orders/edit-order', ['order' => $order, 'customers' => $customers, 'technicals' => $technicals]);
+        return Inertia::render('orders/edit-order', ['order' => $order, 'customers' => $customers, 'technicals' => $technicals, 'equipments' => $equipments]);
      }
 
     /**

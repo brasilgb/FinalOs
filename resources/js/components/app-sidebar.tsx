@@ -3,7 +3,7 @@ import { NavMain } from '@/components/nav-main';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Bot, Calendar, Cog, FilePlus2, Folder, LayoutGrid, MessageSquareMore, User, UserCog, Users, Users2, Wrench } from 'lucide-react';
+import { BookOpen, Bot, Calendar, Cog, FilePlus2, Folder, LayoutGrid, MessageSquareMore, PackagePlus, User, UserCog, Users, Users2, Wrench } from 'lucide-react';
 import AppLogo from './app-logo';
 import NavMainCollapsible from './nav-main-collapsible';
 
@@ -76,6 +76,40 @@ const mainConfItems = [
         ]
     }
 ];
+const mainRegisterItems = [
+    {
+        title: "Cadastros",
+        url: "#",
+        icon: PackagePlus,
+        items: [
+            {
+                title: 'Cadastrar marcas',
+                url: '/register-brands',
+                icon: LayoutGrid,
+            },
+            {
+                title: 'Cadastrar tipo equipamento',
+                url: '/register-equipments',
+                icon: LayoutGrid,
+            },
+            {
+                title: 'Cadastrar modelos',
+                url: '/register-models',
+                icon: LayoutGrid,
+            },
+            {
+                title: 'Cadastrar serviços',
+                url: '/register-services',
+                icon: LayoutGrid,
+            },
+            {
+                title: 'Cadastrar checklist',
+                url: '/register-checklists',
+                icon: LayoutGrid,
+            },
+        ]
+    }
+];
 
 const mainOrcaItems = [
     {
@@ -140,7 +174,7 @@ export function AppSidebar() {
                 <NavMain items={mainNavItems} />
 
                 <NavMainCollapsible items={mainConfItems} />
-                <NavMainCollapsible items={mainOrcaItems} />
+                <NavMainCollapsible items={mainRegisterItems} />
 
                 <NavMain items={mainUserItems} />
             </SidebarContent>

@@ -158,7 +158,7 @@ export default function CreateMessage({ users }: any) {
                 checked={data.status}
                 onCheckedChange={(checked: any) => setData('status', checked)}
               />
-              </div>
+            </div>
 
             <div className="flex justify-end">
               <Button type="submit" disabled={processing}>
