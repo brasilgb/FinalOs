@@ -37,12 +37,12 @@ export default function Services({ equipments, services }: any) {
 
   return (
     <AppLayout>
-      <Head title="Checklists" />
+      <Head title="Serviços" />
       {flash.message && <AlertSuccess message={flash.message} />}
       <div className='flex items-center justify-between h-16 px-4 mb-4'>
         <div className='flex items-center gap-2'>
           <Icon iconNode={PackagePlus} className='w-8 h-8' />
-          <h2 className="text-xl font-semibold tracking-tight">Checklists</h2>
+          <h2 className="text-xl font-semibold tracking-tight">Serviços</h2>
         </div>
         <div>
           <Breadcrumbs breadcrumbs={breadcrumbs} />
@@ -74,8 +74,8 @@ export default function Services({ equipments, services }: any) {
                 services?.data?.map((service: any) => (
                   <TableRow key={service.id}>
                     <TableCell>{service.id}</TableCell>
-                    <TableCell className="font-medium">{service.service}</TableCell>
                     <TableCell className="font-medium">{service.equipment.equipment}</TableCell>
+                    <TableCell className="font-medium">{service.service}</TableCell>
                     <TableCell>{moment(service.created_at).format("DD/MM/YYYY")}</TableCell>
                     <TableCell className='flex justify-end gap-2'>
                       <EditService service={service} equipments={equipments} />

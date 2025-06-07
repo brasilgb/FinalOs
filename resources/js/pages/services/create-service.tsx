@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Plus, Save } from "lucide-react"
 import { useForm } from "@inertiajs/react"
-import Select from 'react-select';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 export default function CreateService({ equipments }: any) {
     const [open, setOpen] = useState(false)
@@ -33,7 +33,7 @@ export default function CreateService({ equipments }: any) {
 
     }
 
-    const optionsService = equipments.map((equipment: any) => ({
+    const optionsEquipment = equipments.map((equipment: any) => ({
         value: equipment.id,
         label: equipment.equipment,
     }));
@@ -60,29 +60,21 @@ export default function CreateService({ equipments }: any) {
                         <div className="col-span-2 grid gap-2">
                             <Label htmlFor="customer_id">Serviço</Label>
                             <Select
-                                options={optionsService}
-                                onChange={changeService}
-                                placeholder="Selecione a marca"
-                                className="shadow-xs p-0 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-9"
-                                styles={{
-                                    control: (baseStyles, state) => ({
-                                        ...baseStyles,
-                                        fontSize: '14px',
-                                        boxShadow: 'none',
-                                        border: 'none',
-                                        background: 'transparent',
-                                        paddingBottom: '2px',
-                                    }),
-                                    dropdownIndicator: (base) => ({
-                                        ...base,
-
-                                    }),
-                                    menuList: (base) => ({
-                                        ...base,
-                                        fontSize: '14px',
-                                    }),
-                                }}
-                            />
+                                onValueChange={(value) => setData('equipment_id', value)}
+                                defaultValue={`${data.equipment_id}`}
+                                value={`${data.equipment_id}`}
+                            >
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Selecione o equipamento" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        {optionsEquipment.map((opt: any) => (
+                                            <SelectItem value={`${opt.value}`}>{opt.label}</SelectItem>
+                                        ))}
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
                             {errors.equipment_id && <div className="text-red-500 text-sm">{errors.equipment_id}</div>}
                         </div>
 

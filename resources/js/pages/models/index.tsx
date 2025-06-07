@@ -74,13 +74,12 @@ export default function Models({ models, brands }: any) {
                 models?.data?.map((model: any) => (
                   <TableRow key={model.id}>
                     <TableCell>{model.id}</TableCell>
-                    <TableCell className="font-medium">{model.model}</TableCell>
                     <TableCell className="font-medium">{model.brand.brand}</TableCell>
+                    <TableCell className="font-medium">{model.model}</TableCell>
                     <TableCell>{moment(model.created_at).format("DD/MM/YYYY")}</TableCell>
                     <TableCell className='flex justify-end gap-2'>
                       <EditModel model={model} brands={brands} />
                       <ActionDelete title={'este modelo'} url={'register-models.destroy'} param={model.id} />
-
                     </TableCell>
                   </TableRow>
                 ))

@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Pencil, Save } from "lucide-react"
 import { useForm } from "@inertiajs/react"
-import Select from 'react-select';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 export default function EditModel({ brands, model }: any) {
     const [open, setOpen] = useState(false)
@@ -31,16 +31,10 @@ export default function EditModel({ brands, model }: any) {
         });
     }
 
-    const optionsBrands = brands.map((brand: any) => ({
+    const optionsBrand = brands.map((brand: any) => ({
         value: brand.id,
         label: brand.brand,
     }));
-
-    const changeCustomer = (selected: any) => {
-        setData('brand_id', selected?.value);
-    };
-
-    const defaultBrand = optionsBrands?.filter((o: any) => o.value == model?.brand_id).map((opt: any) => ({ value: opt.value, label: opt.label }));
 
     return (
         <div>
@@ -58,30 +52,21 @@ export default function EditModel({ brands, model }: any) {
                         <div className="col-span-2 grid gap-2">
                             <Label htmlFor="brand_id">Marca</Label>
                             <Select
-                                defaultValue={defaultBrand}
-                                options={optionsBrands}
-                                onChange={changeCustomer}
-                                placeholder="Selecione a marca"
-                                className="shadow-xs p-0 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-9"
-                                styles={{
-                                    control: (baseStyles, state) => ({
-                                        ...baseStyles,
-                                        fontSize: '14px',
-                                        boxShadow: 'none',
-                                        border: 'none',
-                                        background: 'transparent',
-                                        paddingBottom: '2px',
-                                    }),
-                                    dropdownIndicator: (base) => ({
-                                        ...base,
-
-                                    }),
-                                    menuList: (base) => ({
-                                        ...base,
-                                        fontSize: '14px',
-                                    }),
-                                }}
-                            />
+                                onValueChange={(value) => setData('brand_id', value)}
+                                defaultValue={`${data.brand_id}`}
+                                value={`${data.brand_id}`}
+                            >
+                                <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Selecione a marca" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        {optionsBrand.map((opt: any) => (
+                                            <SelectItem value={`${opt.value}`}>{opt.label}</SelectItem>
+                                        ))}
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
                             {errors.brand_id && <div className="text-red-500 text-sm">{errors.brand_id}</div>}
                         </div>
 
