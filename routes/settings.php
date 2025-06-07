@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\LabelPrintingController;
+use App\Http\Controllers\OtherController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
@@ -11,6 +12,7 @@ use Inertia\Inertia;
 
 Route::middleware('auth')->group(function () {
 
+    Route::get('other-settings', [OtherController::class, 'index']);
     Route::redirect('settings', 'settings/profile');
 
     Route::resource('company', CompanyController::class);

@@ -3,7 +3,7 @@ import { NavMain } from '@/components/nav-main';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Bot, Calendar, Cog, FilePlus2, Folder, LayoutGrid, MessageSquareMore, PackagePlus, User, UserCog, Users, Users2, Wrench } from 'lucide-react';
+import { BookOpen, Link as linkmegb, Bot, Calendar, Cog, FilePlus2, Folder, LayoutGrid, MessageSquareMore, PackagePlus, User, UserCog, Users, Users2, Wrench } from 'lucide-react';
 import AppLogo from './app-logo';
 import NavMainCollapsible from './nav-main-collapsible';
 
@@ -107,6 +107,11 @@ const mainRegisterItems = [
                 url: '/register-checklists',
                 icon: LayoutGrid,
             },
+            {
+                title: 'Cadastrar orçamentos',
+                url: '/register-budgets',
+                icon: LayoutGrid,
+            },
         ]
     }
 ];
@@ -143,15 +148,15 @@ const mainOrcaItems = [
 
 const footerNavItems: NavItem[] = [
     {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: Folder,
+        title: 'MEGB',
+        href: 'https://megb.com.br',
+        icon: linkmegb,
     },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpen,
-    },
+    // {
+    //     title: 'Documentation',
+    //     href: 'https://laravel.com/docs/starter-kits#react',
+    //     icon: BookOpen,
+    // },
 ];
 
 export function AppSidebar() {
