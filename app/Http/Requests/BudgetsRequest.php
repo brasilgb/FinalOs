@@ -11,7 +11,7 @@ class BudgetsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,19 @@ class BudgetsRequest extends FormRequest
      */
     public function rules(): array
     {
+         return [
+            'service_id' => 'required',
+            'description' => 'required',
+            'value' => 'required',
+        ];
+    }
+
+    public function attributes(): array
+    {
         return [
-            //
+            'service_id' => 'serviço',
+            'description' => 'descrição',
+            'value' => 'valor',
         ];
     }
 }

@@ -43,7 +43,7 @@ class OrderController extends Controller
                         ->orWhere('cpf', 'like', '%' . $search . '%');
                 });
         }
-        $orders = $query->with('customer')->paginate(12);
+        $orders = $query->with('equipment')->with('customer')->paginate(12)->withQueryString();
         return Inertia::render('orders/index', [
             'orders' => $orders,
         ]);

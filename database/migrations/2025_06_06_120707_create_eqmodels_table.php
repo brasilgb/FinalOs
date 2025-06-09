@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('e_q_models', function (Blueprint $table) {
-            $table->id();
+        Schema::create('eqmodels', function (Blueprint $table) {
+            $table->unsignedBigInteger('id')->primary()->index();
             $table->foreignId('brand_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('model');
             $table->timestamps();
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('e_q_models');
+        Schema::dropIfExists('eqmodels');
     }
 };

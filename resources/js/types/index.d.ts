@@ -60,3 +60,12 @@ export interface Customer {
     contactphone: string;
     observations: string;
 }
+
+export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
+    auth: {
+        user: User;
+    };
+    errors: Record<string, string>;
+    success?: string; // Optional success message from Laravel
+    error?: string; // Optional error message from Laravel
+};

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->unsignedBigInteger('id')->primary()->index();
             $table->foreignId('customer_id')->nullable()->constrained()->onDelete('cascade');
-            $table->tinyInteger('equipment'); // equipamento
+            $table->foreignId('equipment_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('model', 50)->nullable();
             $table->string('password', 50)->nullable();
             $table->text('defect');

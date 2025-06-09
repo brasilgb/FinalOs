@@ -42,7 +42,7 @@ export default function CreateOrder({ customers, equipments }: any) {
 
   const { data, setData, post, progress, processing, reset, errors } = useForm({
     customer_id: '',
-    equipment: '', // equipamento
+    equipment_id: '', // equipamento
     model: '',
     password: '',
     defect: '',
@@ -67,7 +67,7 @@ export default function CreateOrder({ customers, equipments }: any) {
   };
 
   const changeEquipment = (selected: any) => {
-    setData('equipment', selected?.value);
+    setData('equipment_id', selected?.value);
   };
 
   const changeServiceStatus = (selected: any) => {
@@ -164,7 +164,7 @@ export default function CreateOrder({ customers, equipments }: any) {
                     }),
                   }}
                 />
-                {errors.equipment && <div className="text-red-500 text-sm">{errors.equipment}</div>}
+                {errors.equipment_id && <div className="text-red-500 text-sm">{errors.equipment_id}</div>}
               </div>
 
               <div className="col-span-2 grid gap-2">

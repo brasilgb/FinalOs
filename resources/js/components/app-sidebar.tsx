@@ -1,6 +1,6 @@
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
-import { Sidebar, SidebarContent, SidebarFooter, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import { BookOpen, Link as linkmegb, Bot, Calendar, Cog, FilePlus2, Folder, LayoutGrid, MessageSquareMore, PackagePlus, User, UserCog, Users, Users2, Wrench } from 'lucide-react';
@@ -173,16 +173,16 @@ export function AppSidebar() {
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarHeader>
-
             <SidebarContent>
-                <SidebarGroupLabel>Operações do sistema</SidebarGroupLabel>
-                <NavMain items={mainNavItems} />
-
-                <NavMainCollapsible items={mainConfItems} />
-                <NavMainCollapsible items={mainRegisterItems} />
-
-                <NavMain items={mainUserItems} />
+                <SidebarGroup>
+                    <SidebarGroupLabel>Operações do sistema</SidebarGroupLabel>
+                    <NavMain items={mainNavItems} />
+                    <NavMainCollapsible items={mainConfItems} />
+                    <NavMainCollapsible items={mainRegisterItems} />
+                    <NavMain items={mainUserItems} />
+                </SidebarGroup>
             </SidebarContent>
+
             <SidebarFooter>
                 <NavFooter items={footerNavItems} className="mt-auto" />
             </SidebarFooter>

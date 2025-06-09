@@ -32,7 +32,6 @@ export default function NavMainCollapsible({
   }[]
 }) {
   return (
-
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible

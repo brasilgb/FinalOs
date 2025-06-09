@@ -89,14 +89,14 @@ export default function Orders({ orders }: any) {
                     <TableCell className="font-medium">{order.customer.name}</TableCell>
                     <TableCell>{maskPhone(order.customer.phone)}</TableCell>
                     <TableCell>{moment(order.created_at).format("DD/MM/YYYY")}</TableCell>
-                    <TableCell>{order.equipment}</TableCell>
+                    <TableCell>{order.equipment.equipment}</TableCell>
                     <TableCell>{order.model}</TableCell>
                     <TableCell>{order.service_status}</TableCell>
                     <TableCell>{moment(order.delevery_date).format("DD/MM/YYYY")}</TableCell>
                     <TableCell className='flex justify-end gap-2'>
 
                       <Button asChild size="icon" className="bg-fuchsia-700 hover:bg-fuchsia-700 text-white">
-                        <Link href={`/orders?cl=${order.id}`}>
+                        <Link href={`/images?or=${order.id}`}>
                           <ImageUp className="h-4 w-4" />
                         </Link>
                       </Button>

@@ -19,6 +19,7 @@ import InputSearch from '@/components/inputSearch';
 import AppPagination from '@/components/app-pagination';
 import ActionDelete from '@/components/action-delete';
 import AlertSuccess from '@/components/app-alert-success';
+import { statusAgendaByValue } from '@/Utils/functions';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -87,7 +88,7 @@ export default function Schedules({ schedules }: any) {
                     <TableCell className="font-medium">{schedule.customer.name}</TableCell>
                     <TableCell>{moment(schedule.created_at).format("DD/MM/YYYY")}</TableCell>
                     <TableCell>{schedule.service}</TableCell>
-                    <TableCell>{schedule.status}</TableCell>
+                    <TableCell>{statusAgendaByValue(schedule.status)}</TableCell>
                     <TableCell>{schedule.user.name}</TableCell>
                     <TableCell>{moment(schedule.created_at).format("DD/MM/YYYY")}</TableCell>
                     <TableCell className='flex justify-end gap-2'>

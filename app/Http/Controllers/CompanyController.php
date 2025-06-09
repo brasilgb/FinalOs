@@ -31,7 +31,6 @@ class CompanyController extends Controller
     public function update(Request $request, Company $company): RedirectResponse
     {
         $data = $request->all();
-        // dd($data);
         $storePath = public_path('storage/logos');
         if ($request->hasfile('logo')) {
             $fileName = time() . '.' . $request->logo->extension();

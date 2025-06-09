@@ -50,7 +50,7 @@ export default function EditOrder({ customers, order, technicals, equipments }: 
 
   const { data, setData, patch, progress, processing, reset, errors } = useForm({
     customer_id: order?.customer_id,
-    equipment: order?.equipment, // equipamento
+    equipment_id: order?.equipment_id, // equipamento
     model: order?.model,
     password: order?.password,
     defect: order?.defect,
@@ -91,7 +91,7 @@ export default function EditOrder({ customers, order, technicals, equipments }: 
   };
 
   const changeEquipment = (selected: any) => {
-    setData('equipment', selected?.value);
+    setData('equipment_id', selected?.value);
   };
 
   const changeServiceStatus = (selected: any) => {
@@ -201,7 +201,7 @@ export default function EditOrder({ customers, order, technicals, equipments }: 
                     }),
                   }}
                 />
-                {errors.equipment && <div className="text-red-500 text-sm">{errors.equipment}</div>}
+                {errors.equipment_id && <div className="text-red-500 text-sm">{errors.equipment_id}</div>}
               </div>
 
               <div className="col-span-2 grid gap-2">

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\ChecklistController;
 use App\Http\Controllers\EQModelController;
 use App\Http\Controllers\EquipmentController;
@@ -13,4 +14,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('register-models', EQModelController::class)->parameters(['register-models' => 'eQModel']);
     Route::resource('register-services', ServiceController::class)->parameters(['register-services' => 'service']);
     Route::resource('register-checklists', ChecklistController::class)->parameters(['register-checklists' => 'checklist']);
+    Route::resource('register-budgets', BudgetController::class)->parameters(['register-budgets' => 'budget']);
 });

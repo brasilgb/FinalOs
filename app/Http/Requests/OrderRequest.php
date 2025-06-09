@@ -23,7 +23,7 @@ class OrderRequest extends FormRequest
     {
         return [
             'customer_id' => 'required',
-            'equipment' => 'required',
+            'equipment_id' => 'required',
             'defect' => 'required',
         ];
     }
@@ -32,7 +32,7 @@ class OrderRequest extends FormRequest
     {
         return [
             'customer_id' => 'cliente',
-            'equipment' => 'equipamento',
+            'equipment_id' => 'equipamento',
             'defect' => 'defeito',
         ];
     }

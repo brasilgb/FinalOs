@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('receipts', function (Blueprint $table) {
-            $table->id();
+            $table->unsignedBigInteger('id')->primary()->index();
             $table->text('receivingequipment')->nullable(); // Impressão de recibos recebimento de equipamento
             $table->text('equipmentdelivery')->nullable();  // Impressão de recibos entrega equipamento
             $table->text('budgetissuance')->nullable();     // Impressão de recibos emissão de orçamento

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\LabelPrintingController;
 use App\Http\Controllers\OtherController;
 use App\Http\Controllers\ReceiptController;
@@ -11,7 +12,9 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::middleware('auth')->group(function () {
-
+    Route::get('images', [ImageController::class, 'index'])->name('images.index');
+    Route::post('images', [ImageController::class, 'store'])->name('images.store');
+    
     Route::get('other-settings', [OtherController::class, 'index']);
     Route::redirect('settings', 'settings/profile');
 

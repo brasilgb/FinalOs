@@ -13,4 +13,14 @@ class Order extends Model
     {
         return $this->belongsTo(Customer::class);
     }
+
+    public function equipment(): BelongsTo
+    {
+        return $this->belongsTo(Equipment::class);
+    }
+
+    public function images(): HasMany
+    {
+        return $this->hasMany(Image::class);
+    }
 }
