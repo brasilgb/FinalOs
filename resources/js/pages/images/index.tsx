@@ -30,10 +30,10 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-const ImageUpload: React.FC<PageProps> = ({ images, orderid, errors, success, error }) => {
+const ImageUpload: React.FC<PageProps> = ({ savedimages, orderid, errors, success, error }: any) => {
 
     const { flash } = usePage().props as any;
-    const { data, post, processing, setData } = useForm({
+    const { data, post, delete: destroy, processing, setData } = useForm({
         images: [] as File[],
         order_id: orderid as string,
     });
@@ -61,10 +61,12 @@ const ImageUpload: React.FC<PageProps> = ({ images, orderid, errors, success, er
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        console.log(data);
-        
         post(route('images.store'));
     };
+
+    const handleDeletaImageBanco = (id:any) => {
+        destroy(route("images.destroy", id));
+    }
 
     return (
         <AppLayout>
@@ -86,13 +88,18 @@ const ImageUpload: React.FC<PageProps> = ({ images, orderid, errors, success, er
 
                     <div className="container mx-auto p-4">
 
-                        <div className='pb-4'>
-                        <HeadingSmall 
-                        title="Imagens para ordens de serviço" 
-                        description="Cadastre imagens de equipamento." 
-                        />
+                        <div className='flex items-center justify-between'>
+                            <div className='pb-4'>
+                                <HeadingSmall
+                                    title="Imagens para ordens de serviço"
+                                    description="Cadastre imagens de equipamento."
+                                />
+                            </div>
+                            <div>
+                                <h1 className='text-lg'>Ordem#<span>{orderid}</span></h1>
+                            </div>
                         </div>
-                                            
+
                         {error && (
                             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
                                 <strong className="font-bold">Erro!</strong>
@@ -117,6 +124,30 @@ const ImageUpload: React.FC<PageProps> = ({ images, orderid, errors, success, er
                                 {errors.images && <p className="text-red-500 text-xs italic">{errors.images}</p>}
                             </div>
 
+                            {savedimages.length > 0 && (
+                                <div className="mb-4">
+                                    <h3 className="text-lg font-semibold mb-2">Imagens disponíveis no banco:</h3>
+                                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                                        {savedimages.map((img: any) => (
+                                            <div key={img.id} className="relative group">
+                                                <img
+                                                    src={`${img.path}/${img.filename}`}
+                                                    alt="Preview"
+                                                    className="w-full h-32 object-cover rounded shadow-md"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleDeletaImageBanco(img.id)}
+                                                    className="absolute top-1 right-1 bg-red-500 text-white rounded-full h-4 w-4 items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                                                    title="Remover imagem"
+                                                >
+                                                    &times;
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                             {imagePreviews.length > 0 && (
                                 <div className="mb-4">
                                     <h3 className="text-lg font-semibold mb-2">Pré-visualização:</h3>
@@ -131,7 +162,7 @@ const ImageUpload: React.FC<PageProps> = ({ images, orderid, errors, success, er
                                                 <button
                                                     type="button"
                                                     onClick={() => handleRemoveImage(image.id)}
-                                                    className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                                                    className="absolute top-1 right-1 bg-red-500 text-white rounded-full h-4 w-4 items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity"
                                                     title="Remover imagem"
                                                 >
                                                     &times;

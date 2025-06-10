@@ -14,6 +14,7 @@ use Inertia\Inertia;
 Route::middleware('auth')->group(function () {
     Route::get('images', [ImageController::class, 'index'])->name('images.index');
     Route::post('images', [ImageController::class, 'store'])->name('images.store');
+    Route::delete('images/{image}', [ImageController::class, 'destroy'])->name('images.destroy');
     
     Route::get('other-settings', [OtherController::class, 'index']);
     Route::redirect('settings', 'settings/profile');
@@ -21,6 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('company', CompanyController::class);
     Route::resource('whatsapp-message', WhatsappMessageController::class)->parameters(['whatsapp-message' => 'whatsappmessage']);
     Route::resource('receipts', ReceiptController::class);
+    Route::get('receipts/{or}/{tp}', [ReceiptController::class, 'printing'])->name('receipts.printing');
     Route::resource('label-printing', LabelPrintingController::class);
 
     Route::get('settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');

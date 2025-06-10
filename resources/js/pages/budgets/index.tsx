@@ -18,8 +18,6 @@ import InputSearch from '@/components/inputSearch';
 import AppPagination from '@/components/app-pagination';
 import ActionDelete from '@/components/action-delete';
 import AlertSuccess from '@/components/app-alert-success';
-import CreateChecklist from '../checklists/create-checklist';
-import EditChecklist from '../checklists/edit-checklist';
 import CreateBudget from './create-budget';
 import EditBudget from './edit-budget';
 

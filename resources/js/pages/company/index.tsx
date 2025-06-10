@@ -3,12 +3,11 @@ import { Icon } from "@/components/icon";
 import { Button } from "@/components/ui/button";
 import AppLayout from "@/layouts/app-layout";
 import { BreadcrumbItem } from "@/types";
-import { Head, Link, useForm, usePage, router } from "@inertiajs/react";
-import { ArrowLeft, Cog, Save, Users } from "lucide-react";
+import { Head, useForm, usePage, router } from "@inertiajs/react";
+import { Cog, Save } from "lucide-react";
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { maskCep, maskCnpj, maskCpfCnpj, maskPhone, unMask } from "@/Utils/mask";
+import { maskCep, maskCnpj, maskPhone, unMask } from "@/Utils/mask";
 import AlertSuccess from "@/components/app-alert-success";
 
 const breadcrumbs: BreadcrumbItem[] = [

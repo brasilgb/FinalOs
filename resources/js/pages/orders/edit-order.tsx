@@ -103,7 +103,7 @@ export default function EditOrder({ customers, order, technicals, equipments }: 
   };
 
   const defaultCustomer = optionsCustomer?.filter((o: any) => o.value == order?.customer_id).map((opt: any) => ({ value: opt.value, label: opt.label }));
-  const defaultEquipament = equipamento?.filter((o: any) => o.value == order?.equipment).map((opt: any) => ({ value: opt.value, label: opt.label }));
+  const defaultEquipament = optionsEquipment?.filter((o: any) => o.value == order?.equipment_id).map((opt: any) => ({ value: opt.value, label: opt.label }));
   const statusDefault = statusServico?.filter((o: any) => o.value == order?.service_status).map((opt: any) => ({ value: opt.value, label: opt.label }));
   const defaultTechnical = optionsTechnical?.filter((o: any) => o.value == order?.responsible_technician).map((opt: any) => ({ value: opt.value, label: opt.label }));
 

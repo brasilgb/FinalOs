@@ -17,7 +17,7 @@ class ImageController extends Controller
 
         $images = Image::where("order_id", $query)->get();
 
-        return Inertia::render('images/index', ['images' => $images, 'orderid' => $query]);
+        return Inertia::render('images/index', ['savedimages' => $images, 'orderid' => $query]);
     }
 
     public function store(Request $request): RedirectResponse
@@ -37,13 +37,11 @@ class ImageController extends Controller
             if ($request->images) {
                 foreach ($request->images as $imageFile) {
                     $filename = uniqid() . '.' . $imageFile->getClientOriginalExtension();
-                    $path = public_path('storage/uploads');
-                    // $path = $imageFile->storeAs('public/uploads', $filename); // Store in storage/app/public/uploads
                     $imageFile->move($storePath, $filename);
                     $image = Image::create([
                         'order_id' => $request->order_id, // If images belong to a product
                         'filename' => $filename,
-                        'path' => 'storage/ordens/'
+                        'path' => 'storage/orders/' . $request->order_id
                     ]);
                     // dd($image);
                     $uploadedImages[] = $image;
@@ -53,5 +51,15 @@ class ImageController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Erro ao enviar imagens: ' . $e->getMessage());
         }
+    }
+
+    public function destroy(Image $image)
+    {
+        $storePath = public_path('storage/orders/' . $image->order_id);
+        if (file_exists($storePath . DIRECTORY_SEPARATOR . $image->filename)) {
+            unlink($storePath . DIRECTORY_SEPARATOR . $image->filename);
+        }
+        $image->delete();
+        return redirect()->back()->with('success', 'Imagem excluida com sucesso!');
     }
 }

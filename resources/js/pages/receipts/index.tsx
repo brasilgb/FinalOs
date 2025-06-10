@@ -20,7 +20,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function WhatsappMessage({ receipt }: any) {
+export default function Receipts({ receipt }: any) {
     const { flash } = usePage().props as any;
 
     const { data, setData, patch, progress, processing, errors } = useForm({
