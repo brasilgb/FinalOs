@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Checklist;
 use App\Models\Company;
 use App\Models\Order;
 use App\Models\Receipt;
@@ -40,7 +41,8 @@ class ReceiptController extends Controller
         $order = Order::where('id', $or)->with('customer')->with('equipment')->first();
         $company = Company::first();
         $receipt = Receipt::first();
-        // dd($order);
-        return Inertia::render('receipts/print-receipt', ['order' => $order, 'type' => $tp, 'company' => $company, 'receipt' => $receipt]);
+        $checklist = Checklist::where('equipment_id', $order->equipment_id)->first('checklist');
+
+        return Inertia::render('receipts/print-receipt', ['order' => $order, 'type' => $tp, 'company' => $company, 'receipt' => $receipt, 'checklist' => $checklist]);
     }
 }

@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('whatsapp-message', WhatsappMessageController::class)->parameters(['whatsapp-message' => 'whatsappmessage']);
     Route::resource('receipts', ReceiptController::class);
     Route::get('receipts/{or}/{tp}', [ReceiptController::class, 'printing'])->name('receipts.printing');
+    
     Route::resource('label-printing', LabelPrintingController::class);
 
     Route::get('settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');

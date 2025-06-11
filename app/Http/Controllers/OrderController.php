@@ -54,7 +54,6 @@ class OrderController extends Controller
      */
     public function create()
     {
-        
         $equipments = Equipment::get();
         $customers = Customer::get();
         return Inertia::render('orders/create-order', ['customers' => $customers, 'equipments' => $equipments]);
@@ -98,6 +97,7 @@ class OrderController extends Controller
     {
         $data = $request->all();
         $request->validated();
+        $data['delivery_date'] = $data['service_status'] === 8 ? date(now()) : '';
         $order->update($data);
         return redirect()->route('orders.show', ['order' => $order->id])->with('success', 'Ordem atualizada com sucesso');
     }

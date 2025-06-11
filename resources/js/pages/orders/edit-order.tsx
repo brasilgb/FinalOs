@@ -8,7 +8,7 @@ import { ArrowLeft, Save, Wrench } from "lucide-react";
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { equipamento, statusServico } from "@/Utils/dataSelect";
+import { statusServico } from "@/Utils/dataSelect";
 import Select from 'react-select';
 import InputError from "@/components/input-error";
 import AlertSuccess from "@/components/app-alert-success";
@@ -79,12 +79,13 @@ export default function EditOrder({ customers, order, technicals, equipments }: 
   }
 
   useEffect(() => {
+      setData((data: any) => ({ ...data, budget_value: maskMoneyDot(data?.budget_value) }));
       setData((data: any) => ({ ...data, parts_value: maskMoneyDot(data?.parts_value) }));
       setData((data: any) => ({ ...data, service_value: maskMoneyDot(data?.service_value) }));
       const serviceCost = parseFloat(data?.parts_value) + parseFloat(data?.service_value);
       setData((data: any) => ({ ...data, service_cost: serviceCost.toFixed(2) }));
       // setData((data: any) => ({ ...data, service_cost: maskMoneyDot(data?.service_cost) }));
-  }, [data.parts_value, data.service_value]);
+  }, [data.parts_value, data.service_value, data.budget_value]);
 
   const changeCustomer = (selected: any) => {
     setData('customer_id', selected?.value || '');

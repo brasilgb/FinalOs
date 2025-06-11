@@ -3,7 +3,7 @@ import { Icon } from '@/components/icon';
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react'
-import { Pencil, Plus, Users, Wrench } from 'lucide-react';
+import { Calendar, Pencil, Plus, Users, Wrench } from 'lucide-react';
 import moment from 'moment'
 import {
   Table,
@@ -90,6 +90,12 @@ export default function Customers({ customers }: any) {
                     <TableCell>{maskPhone(customer.phone)}</TableCell>
                     <TableCell>{moment(customer.created_at).format("DD/MM/YYYY")}</TableCell>
                     <TableCell className='flex justify-end gap-2'>
+
+                      <Button asChild size="icon" className="bg-emerald-500 hover:bg-emerald-600 text-white">
+                        <Link href={`/schedules?cl=${customer.id}`}>
+                          <Calendar className="h-4 w-4" />
+                        </Link>
+                      </Button>
 
                       <Button asChild size="icon" className="bg-sky-500 hover:bg-sky-600 text-white">
                         <Link href={`/orders?cl=${customer.id}`}>

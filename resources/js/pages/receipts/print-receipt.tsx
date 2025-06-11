@@ -1,38 +1,21 @@
 import { Button } from "@/components/ui/button"
 import { Link } from "@inertiajs/react"
-import { ArrowLeft, Printer } from "lucide-react"
+import { ArrowLeft, Printer, Square } from "lucide-react"
 import moment from "moment"
 
-interface ReceiptData {
-    orderNumber: string
-    companyName: string
-    companyAddress: string
-    companyPhone: string
-    companyEmail: string
-    serviceDescription: string
-    serviceValue: string
-    city: string
-    date: string
-}
-
-const defaultData: ReceiptData = {
-    orderNumber: "325",
-    companyName: "Empresa de Serviços Ltda",
-    companyAddress: "Rua das Flores, 123 - Centro",
-    companyPhone: "(11) 9999-9999",
-    companyEmail: "contato@empresa.com.br",
-    serviceDescription: "Serviço de manutenção e reparo",
-    serviceValue: "R$ 350,00",
-    city: "São Paulo",
-    date: new Date().toLocaleDateString("pt-BR"),
-}
-
-function ReceiptCopy({ order, company, type, receipt }: { order: any; company: any; type: string, receipt: any }) {
+function ReceiptCopy({ order, company, type, receipt, checklist }: { order: any; company: any; type: string, receipt: any, checklist: any }) {
+    const listchec = (checklist.checklist).split(',');
 
     return (
         <div className="h-[50vh] p-6 border-b-2 border-dashed border-gray-400 print:border-black flex flex-col justify-between">
             {/* Cabeçalho */}
-            <div className="flex justify-between items-start mb-2">
+            <div className="text-xs text-center uppercase font-semibold text-gray-500 bg-gray-100 mb-1.5 py-0.5">
+                {type === 'oraberta' && 'Recibo de Entrada de Equipamento'}
+                {type === 'orentrega' && 'Recibo de Entrega de Equipamento'}
+                {type === 'ororcamento' && 'Recibo de geração de orçamento'}
+                {type === 'orchecklist' && 'Checklist para Entrega do Equipamento'}
+            </div>
+            <div className="flex justify-between items-start mb-1.5">
                 <div className="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center print:bg-gray-300">
                     <span className="text-xs font-bold">
                         <img src={`/storage/logos/${company.logo ? company.logo : "default.png"}`} alt="" />
@@ -57,8 +40,8 @@ function ReceiptCopy({ order, company, type, receipt }: { order: any; company: a
             </div>
 
             {/* Dados do cliente */}
-            <div className="mb-2">
-                <h2 className="text-xs font-semibold mb-2 border-b border-gray-300 p-1 bg-gray-100">Dados do Cliente</h2>
+            <div className="mb-1.5">
+                <h2 className="text-xs font-semibold mb-1.5 border-b border-gray-100 p-1 bg-gray-50">Dados do Cliente</h2>
                 <div className="grid grid-cols-2">
                     <div className="grid grid-cols-1 gap-1 text-xs">
                         <p>
@@ -79,8 +62,8 @@ function ReceiptCopy({ order, company, type, receipt }: { order: any; company: a
                 </div>
             </div>
             {/* Dados da Empresa */}
-            <div className="mb-2">
-                <h2 className="text-xs font-semibold mb-2 border-b border-gray-300 p-1 bg-gray-100">Informações do equipamento</h2>
+            <div className="mb-1.5">
+                <h2 className="text-xs font-semibold mb-1.5 border-b border-gray-100 p-1 bg-gray-50">Informações do equipamento</h2>
                 <div className="grid grid-cols-3 text-xs">
 
                     <p>
@@ -96,34 +79,72 @@ function ReceiptCopy({ order, company, type, receipt }: { order: any; company: a
             </div>
 
             {/* GArantias e observações */}
-            <div className="mb-2">
-                <h2 className="text-xs font-semibold mb-2 border-b border-gray-300 p-1 bg-gray-100">Garantias e/ou observações</h2>
+            <div className="mb-1.5">
+                <h2 className="text-xs font-semibold mb-1.5 border-b border-gray-100 p-1 bg-gray-50">Garantias e/ou observações</h2>
                 <div className="bg-gray-50 rounded-lg print:bg-gray-100">
-                    <p className="text-xs mb-2">{receipt.receivingequipment}</p>
+                    <p className="text-[10px] mb-1.5">
+                        {type === 'oraberta' && receipt.receivingequipment}
+                        {type === 'orentrega' && receipt.equipmentdelivery}
+                        {type === 'ororcamento' && receipt.budgetissuance}
+                        {type === 'orchecklist' && 'checklist'}
+                    </p>
                 </div>
             </div>
 
-            {/* Serviço Prestado */}
-            <div className="mb-2">
-                <h2 className="text-xs font-semibold mb-2 border-b border-gray-300 p-1 bg-gray-100">Serviço Prestado</h2>
-                <div className="bg-gray-50 rounded-lg print:bg-gray-100">
-                    <p className="text-xs mb-2">{order.services_performed}</p>
-                    <div className="flex items-center justify-between border-t border-gray-300">
-                        <div className="flex justify-between items-center pt-2 gap-2">
-                        <span className="font-medium">Peças: </span>
-                        <span className="text-lg font-medium text-gray-600">{order.service_cost}</span>
-                    </div>
-                    <div className="flex justify-between items-center pt-2 gap-2">
-                        <span className="font-medium">Serviço: </span>
-                        <span className="text-lg font-medium text-gray-600">{order.service_cost}</span>
-                    </div>
-                    <div className="flex justify-between items-center pt-2 gap-2">
-                        <span className="font-medium text-sm">Total: </span>
-                        <span className="text-lg font-bold text-gray-600">{order.service_cost}</span>
-                    </div>
+            {/* Orçamento gerado */}
+            {type === 'orchecklist' &&
+                <div className="mb-1.5">
+                    <h2 className="text-xs font-semibold mb-1.5 border-b border-gray-100 p-1 bg-gray-50">Checklist</h2>
+                    <div className="rounded-lg print:bg-gray-100">
+                        <ul className="flex flex-wrap items-center justify-start gap-1">
+                        {listchec.map((list: any) => (
+                            <li className="flex items-center gap-2"><Square className="h-4 w-4" /> {list}</li>
+                        ))}
+                        </ul>
                     </div>
                 </div>
-            </div>
+            }
+            {/* Orçamento gerado */}
+            {type === 'ororcamento' &&
+                <div className="mb-1.5">
+                    <h2 className="text-xs font-semibold mb-1.5 border-b border-gray-100 p-1 bg-gray-50">Orçamento gerado</h2>
+                    <div className="bg-gray-50 rounded-lg print:bg-gray-100">
+                        <p className="text-xs mb-1.5">{order.budget_description}</p>
+                        <div className="flex items-center justify-between border-t border-gray-300">
+                            <div className="flex justify-between items-center pt-2 gap-2">
+                            </div>
+                            <div className="flex justify-between items-center pt-2 gap-2">
+                                <span className="font-medium text-sm">Valor: </span>
+                                <span className="text-sm font-bold text-gray-600">{order.budget_value}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            {/* Serviço Prestado */}
+            {type === 'orentrega' &&
+                <div className="mb-1.5">
+                    <h2 className="text-xs font-semibold mb-1.5 border-b border-gray-100 p-1 bg-gray-50">Serviço Prestado</h2>
+                    <div className="bg-gray-50 rounded-lg print:bg-gray-100">
+                        <p className="text-xs mb-1.5">{order.services_performed}</p>
+                        {order.parts && <p className="text-xs mb-1.5"><span className="font-bold">Peças adiciondas: </span>{order.parts}</p>}
+                        <div className="flex items-center justify-between border-t border-gray-300">
+                            <div className="flex justify-between items-center pt-2 gap-2">
+                                <span className="font-medium">Peças: </span>
+                                <span className="text-sm font-medium text-gray-600">{order.parts_value}</span>
+                            </div>
+                            <div className="flex justify-between items-center pt-2 gap-2">
+                                <span className="font-medium">Serviço: </span>
+                                <span className="text-sm font-medium text-gray-600">{order.service_value}</span>
+                            </div>
+                            <div className="flex justify-between items-center pt-2 gap-2">
+                                <span className="font-medium text-sm">Total: </span>
+                                <span className="text-sm font-bold text-gray-600">{order.service_cost}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
 
             {/* Rodapé */}
             <div className="mt-auto">
@@ -143,7 +164,7 @@ function ReceiptCopy({ order, company, type, receipt }: { order: any; company: a
     )
 }
 
-export default function Receipt({ order, company, type, receipt }: { order: any; company: any; type: any, receipt: any }) {
+export default function Receipt({ order, company, type, receipt, checklist }: { order: any; company: any; type: any, receipt: any, checklist: any }) {
     const handlePrint = () => {
         window.print()
     }
@@ -165,10 +186,10 @@ export default function Receipt({ order, company, type, receipt }: { order: any;
             {/* Recibo para Impressão */}
             <div className="bg-white shadow-lg print:shadow-none print:h-screen">
                 {/* Primeira Via */}
-                <ReceiptCopy order={order} company={company} type={type} receipt={receipt} />
+                <ReceiptCopy order={order} company={company} type={type} receipt={receipt} checklist={checklist} />
 
                 {/* Segunda Via */}
-                <ReceiptCopy order={order} company={company} type={type} receipt={receipt} />
+                <ReceiptCopy order={order} company={company} type={type} receipt={receipt} checklist={checklist} />
             </div>
         </div>
     )
