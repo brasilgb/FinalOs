@@ -110,7 +110,7 @@ export default function CreateSchedule({ customers, technicals }: any) {
                   options={optionsCustomer}
                   onChange={changeCustomer}
                   placeholder="Selecione o cliente"
-                  className="shadow-xs p-0 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-9"
+                  className="shadow-xs p-0 border text-gray-700 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-9"
                   styles={{
                     control: (baseStyles, state) => ({
                       ...baseStyles,
@@ -177,7 +177,7 @@ export default function CreateSchedule({ customers, technicals }: any) {
                   options={optionsTechnical}
                   onChange={changeResponsibleTechnician}
                   placeholder="Selecione o técnico"
-                  className="shadow-xs p-0 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-9"
+                  className="shadow-xs p-0 border text-gray-700 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-9"
                   styles={{
                     control: (baseStyles, state) => ({
                       ...baseStyles,
@@ -206,7 +206,7 @@ export default function CreateSchedule({ customers, technicals }: any) {
                   options={statusAgenda}
                   onChange={changeServiceStatus}
                   placeholder="Selecione o status"
-                  className="shadow-xs p-0 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-9"
+                  className="shadow-xs p-0 border text-gray-700 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-9"
                   styles={{
                     control: (baseStyles, state) => ({
                       ...baseStyles,

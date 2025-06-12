@@ -1,165 +1,14 @@
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/react';
-import { BookOpen, Link as linkmegb, Bot, Calendar, Cog, FilePlus2, Folder, LayoutGrid, MessageSquareMore, PackagePlus, User, UserCog, Users, Users2, Wrench } from 'lucide-react';
+import { Link, usePage } from '@inertiajs/react';
 import AppLogo from './app-logo';
 import NavMainCollapsible from './nav-main-collapsible';
-
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: '/',
-        icon: LayoutGrid,
-    },
-    {
-        title: 'Clientes',
-        href: '/customers',
-        icon: Users2,
-    },
-    {
-        title: 'Ordens de serviço',
-        href: '/orders',
-        icon: Wrench,
-    },
-    {
-        title: 'Agendamentos',
-        href: '/schedules',
-        icon: Calendar,
-    },
-    {
-        title: 'Mensagens',
-        href: '/messages',
-        icon: MessageSquareMore,
-    },
-];
-const mainUserItems: NavItem[] = [
-    {
-        title: 'Usuários',
-        href: '/users',
-        icon: UserCog,
-    },
-];
-
-const mainConfItems = [
-    {
-        title: "Configurações",
-        url: "#",
-        icon: Cog,
-        items: [
-            {
-                title: 'Dados da empresa',
-                url: '/company',
-                icon: LayoutGrid,
-            },
-            {
-                title: 'Mensagens do Whatsapp',
-                url: '/whatsapp-message',
-                icon: LayoutGrid,
-            },
-            {
-                title: 'Impressões de recibos',
-                url: '/receipts',
-                icon: LayoutGrid,
-            },
-            {
-                title: 'Impressão de etiquetas',
-                url: '/label-printing',
-                icon: LayoutGrid,
-            },
-            {
-                title: 'Outras configurações',
-                url: '/other-settings',
-                icon: LayoutGrid,
-            },
-        ]
-    }
-];
-const mainRegisterItems = [
-    {
-        title: "Cadastros",
-        url: "#",
-        icon: PackagePlus,
-        items: [
-            {
-                title: 'Cadastrar marcas',
-                url: '/register-brands',
-                icon: LayoutGrid,
-            },
-            {
-                title: 'Cadastrar tipo equipamento',
-                url: '/register-equipments',
-                icon: LayoutGrid,
-            },
-            {
-                title: 'Cadastrar modelos',
-                url: '/register-models',
-                icon: LayoutGrid,
-            },
-            {
-                title: 'Cadastrar serviços',
-                url: '/register-services',
-                icon: LayoutGrid,
-            },
-            {
-                title: 'Cadastrar checklist',
-                url: '/register-checklists',
-                icon: LayoutGrid,
-            },
-            {
-                title: 'Cadastrar orçamentos',
-                url: '/register-budgets',
-                icon: LayoutGrid,
-            },
-        ]
-    }
-];
-
-const mainOrcaItems = [
-    {
-        title: "Orçamentos",
-        url: "#",
-        icon: FilePlus2,
-        items: [
-            {
-                title: 'Cadastrar marcas',
-                url: '/register-brands',
-                icon: LayoutGrid,
-            },
-            {
-                title: 'Cadastrar modelos',
-                url: '/register models',
-                icon: LayoutGrid,
-            },
-            {
-                title: 'Cadastrar serviços',
-                url: '/register services',
-                icon: LayoutGrid,
-            },
-            {
-                title: 'Cadastrar pré-orçamentos',
-                url: '/pre-budgets',
-                icon: LayoutGrid,
-            },
-        ],
-    }
-];
-
-const footerNavItems: NavItem[] = [
-    {
-        title: 'MEGB',
-        href: 'https://megb.com.br',
-        icon: linkmegb,
-    },
-    // {
-    //     title: 'Documentation',
-    //     href: 'https://laravel.com/docs/starter-kits#react',
-    //     icon: BookOpen,
-    // },
-];
+import { footerNavItems, mainConfItems, mainNavItems, mainRegisterItems, mainUserItems } from '@/Utils/navLinks';
 
 export function AppSidebar() {
+    const { othersettings } = usePage().props as any;
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
@@ -176,10 +25,17 @@ export function AppSidebar() {
             <SidebarContent>
                 <SidebarGroup>
                     <SidebarGroupLabel>Operações do sistema</SidebarGroupLabel>
+                    
                     <NavMain items={mainNavItems} />
+
                     <NavMainCollapsible items={mainConfItems} />
-                    <NavMainCollapsible items={mainRegisterItems} />
+
+                    {othersettings?.budget ?
+                        <NavMainCollapsible items={mainRegisterItems} /> : ''
+                    }
+
                     <NavMain items={mainUserItems} />
+
                 </SidebarGroup>
             </SidebarContent>
 

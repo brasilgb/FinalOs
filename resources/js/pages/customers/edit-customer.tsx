@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { maskCep, maskCpfCnpj, maskPhone, unMask } from "@/Utils/mask";
 import { Alert } from "@/components/ui/alert";
 import AlertSuccess from "@/components/app-alert-success";
+import apios from "@/Utils/connectApi";
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -49,9 +50,23 @@ export default function EditCustomer({ customer }: any) {
     observations: customer.observations,
   });
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     patch(route('customers.update', customer.id))
+
+    await apios.post('insert-user', {
+      "customers": [{
+        "id": customer.id,
+        "nome": data.name,
+        "cpf": data.cpf,
+        "email": data.email
+      }]
+    })
+      .then((res) => {
+        console.log(res.data.response.message);
+      }).catch((err) => {
+        console.log(err);
+      });
   }
 
   const getCep = (cep: string) => {

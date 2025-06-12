@@ -39,7 +39,7 @@ export default function Equipment({ equipments }: any) {
     <AppLayout>
       <Head title="Equipamentos" />
       {flash.message && <AlertSuccess message={flash.message} />}
-      <div className='flex items-center justify-between h-16 px-4 mb-4'>
+      <div className='flex items-center justify-between h-16 px-4'>
         <div className='flex items-center gap-2'>
           <Icon iconNode={PackagePlus} className='w-8 h-8' />
           <h2 className="text-xl font-semibold tracking-tight">Equipamentos</h2>

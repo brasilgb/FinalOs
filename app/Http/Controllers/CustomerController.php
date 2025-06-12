@@ -28,8 +28,8 @@ class CustomerController extends Controller
         }
 
         $customers = $query->paginate(12)->withQueryString();
-
-        return Inertia::render('customers/index', ["customers" => $customers]);
+        $customerlast = Customer::orderBy('id', 'DESC')->first();
+        return Inertia::render('customers/index', ["customers" => $customers, "customerlast" => $customerlast]);
     }
 
     /**

@@ -39,7 +39,7 @@ export default function Messages({ messages }: any) {
     <AppLayout>
       {flash.message && <AlertSuccess message={flash.message} />}
       <Head title="Mensagens" />
-      <div className='flex items-center justify-between h-16 px-4 mb-4'>
+      <div className='flex items-center justify-between h-16 px-4'>
         <div className='flex items-center gap-2'>
           <Icon iconNode={MessageSquareMore} className='w-8 h-8' />
           <h2 className="text-xl font-semibold tracking-tight">Mensagens</h2>

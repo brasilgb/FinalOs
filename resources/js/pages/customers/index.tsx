@@ -39,7 +39,7 @@ export default function Customers({ customers }: any) {
     <AppLayout>
        {flash.message && <AlertSuccess message={flash.message} />}
       <Head title="Clientes" />
-      <div className='flex items-center justify-between h-16 px-4 mb-4'>
+      <div className='flex items-center justify-between h-16 px-4'>
         <div className='flex items-center gap-2'>
           <Icon iconNode={Users} className='w-8 h-8' />
           <h2 className="text-xl font-semibold tracking-tight">Clientes</h2>
@@ -65,7 +65,7 @@ export default function Customers({ customers }: any) {
         </div>
       </div>
 
-      <div className='p-4'>
+      <div className='p-4'> 
         <div className='border rounded-lg'>
           <Table>
             <TableHeader>

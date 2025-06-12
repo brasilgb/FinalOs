@@ -28,6 +28,7 @@ export interface SharedData {
     auth: Auth;
     ziggy: Config & { location: string };
     sidebarOpen: boolean;
+    othersettings: {budget: boolean, navigation: boolean}
     [key: string]: unknown;
 }
 

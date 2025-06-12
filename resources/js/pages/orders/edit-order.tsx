@@ -14,6 +14,7 @@ import InputError from "@/components/input-error";
 import AlertSuccess from "@/components/app-alert-success";
 import { useEffect } from "react";
 import { maskMoney, maskMoneyDot } from "@/Utils/mask";
+import apios from "@/Utils/connectApi";
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -72,19 +73,40 @@ export default function EditOrder({ customers, order, technicals, equipments }: 
     observations: order?.observations,
   });
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    patch(route('orders.update', order.id))
+    patch(route('orders.update', order.id));
 
+    await apios.post('insert-order', {
+      "orders": [{
+        "id": order.id,
+        "cliente_id": order.customer_id,
+        "detalhes": data.services_performed,
+        "defeito": data.defect,
+        "descorcamento": data.budget_description,
+        "valorcamento": maskMoneyDot(data.budget_value.toString()),
+        "valservico": maskMoneyDot(data.service_value.toString()),
+        "custo": maskMoneyDot(data.service_cost.toString()),
+        "valpecas": maskMoneyDot(data.parts_value.toString()),
+        "created_at": order.created_at,
+        "dtentrega": order.dtentrega,
+        "status": data.service_status
+      }]
+    })
+      .then((res) => {
+        console.log(res.data.response.message);
+      }).catch((err) => {
+        console.log(err);
+      });
   }
 
   useEffect(() => {
-      setData((data: any) => ({ ...data, budget_value: maskMoneyDot(data?.budget_value) }));
-      setData((data: any) => ({ ...data, parts_value: maskMoneyDot(data?.parts_value) }));
-      setData((data: any) => ({ ...data, service_value: maskMoneyDot(data?.service_value) }));
-      const serviceCost = parseFloat(data?.parts_value) + parseFloat(data?.service_value);
-      setData((data: any) => ({ ...data, service_cost: serviceCost.toFixed(2) }));
-      // setData((data: any) => ({ ...data, service_cost: maskMoneyDot(data?.service_cost) }));
+    setData((data: any) => ({ ...data, budget_value: maskMoneyDot(data?.budget_value) }));
+    setData((data: any) => ({ ...data, parts_value: maskMoneyDot(data?.parts_value) }));
+    setData((data: any) => ({ ...data, service_value: maskMoneyDot(data?.service_value) }));
+    const serviceCost = parseFloat(data?.parts_value) + parseFloat(data?.service_value);
+    setData((data: any) => ({ ...data, service_cost: serviceCost.toFixed(2) }));
+    // setData((data: any) => ({ ...data, service_cost: maskMoneyDot(data?.service_cost) }));
   }, [data.parts_value, data.service_value, data.budget_value]);
 
   const changeCustomer = (selected: any) => {
@@ -151,7 +173,7 @@ export default function EditOrder({ customers, order, technicals, equipments }: 
                   options={optionsCustomer}
                   onChange={changeCustomer}
                   placeholder="Selecione o cliente"
-                  className="shadow-xs p-0 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-9"
+                  className="shadow-xs p-0 border text-gray-700 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-9"
                   styles={{
                     control: (baseStyles, state) => ({
                       ...baseStyles,
@@ -182,7 +204,7 @@ export default function EditOrder({ customers, order, technicals, equipments }: 
                   options={optionsEquipment}
                   onChange={changeEquipment}
                   placeholder="Selecione o status"
-                  className="shadow-xs p-0 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-9"
+                  className="shadow-xs p-0 border text-gray-700 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-9"
                   styles={{
                     control: (baseStyles, state) => ({
                       ...baseStyles,
@@ -345,7 +367,7 @@ export default function EditOrder({ customers, order, technicals, equipments }: 
                   options={optionsTechnical}
                   onChange={changeResponsibleTechnician}
                   placeholder="Selecione o técnico"
-                  className="shadow-xs p-0 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-9"
+                  className="shadow-xs p-0 border text-gray-700 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-9"
                   styles={{
                     control: (baseStyles, state) => ({
                       ...baseStyles,
@@ -375,7 +397,7 @@ export default function EditOrder({ customers, order, technicals, equipments }: 
                   options={statusServico}
                   onChange={changeServiceStatus}
                   placeholder="Selecione o status"
-                  className="shadow-xs p-0 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-9"
+                  className="shadow-xs p-0 border text-gray-700 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-9"
                   styles={{
                     control: (baseStyles, state) => ({
                       ...baseStyles,

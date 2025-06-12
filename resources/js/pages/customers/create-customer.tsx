@@ -10,6 +10,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { maskCep, maskCpfCnpj, maskPhone, unMask } from "@/Utils/mask";
 import { toast } from "sonner";
+import apios from "@/Utils/connectApi";
+import { useEffect } from "react";
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -26,7 +28,7 @@ const breadcrumbs: BreadcrumbItem[] = [
   },
 ];
 
-export default function CreateCustomer() {
+export default function CreateCustomer({ customerlast }: any) {
   const { flash } = usePage().props as any;
   const { data, setData, post, progress, processing, reset, errors } = useForm({
     cpf: '',
@@ -47,12 +49,33 @@ export default function CreateCustomer() {
     observations: '',
   });
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     post(route('customers.store'), {
       onSuccess: () => reset(),
     });
   }
+
+  useEffect(() => {
+    const pushData = async () => {
+      if (customerlast) {
+        await apios.post('insert-user', {
+          "customers": [{
+            "id": customerlast.id,
+            "nome": customerlast.name,
+            "cpf": customerlast.cpf,
+            "email": customerlast.email
+          }]
+        })
+          .then((res) => {
+            console.log(res.data.response.message);
+          }).catch((err) => {
+            console.log(err);
+          });
+      }
+    };
+    pushData();
+  }, [customerlast]);
 
   const getCep = (cep: string) => {
     const cleanCep = unMask(cep);
