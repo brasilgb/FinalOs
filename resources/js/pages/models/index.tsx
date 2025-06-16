@@ -24,7 +24,7 @@ import CreateModel from './create-model';
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Dashboard',
-    href: '/dashboard',
+    href: '/',
   },
   {
     title: 'Models',

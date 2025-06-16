@@ -12,7 +12,7 @@ import AlertSuccess from "@/components/app-alert-success";
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Dashboard',
-        href: '/dashboard',
+        href: '/',
     },
     {
         title: 'Impressões de recibos',

@@ -26,7 +26,7 @@ import CreateBrand from './create-brand';
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Dashboard',
-    href: '/dashboard',
+    href: '/',
   },
   {
     title: 'Marcas',

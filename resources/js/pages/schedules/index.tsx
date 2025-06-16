@@ -24,7 +24,7 @@ import { statusAgendaByValue } from '@/Utils/functions';
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Dashboard',
-    href: '/dashboard',
+    href: '/',
   },
   {
     title: 'Agendamentos',
@@ -58,7 +58,7 @@ export default function Schedules({ schedules }: any) {
             <Link
               href={route('schedules.create')}
             >
-              <Plus h-4 w-4 />
+              <Plus className='h-4 w-4' />
               <span>Agendamento</span>
             </Link>
           </Button>

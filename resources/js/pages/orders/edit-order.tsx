@@ -19,7 +19,7 @@ import apios from "@/Utils/connectApi";
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Dashboard',
-    href: '/dashboard',
+    href: '/',
   },
   {
     title: 'Ordens',

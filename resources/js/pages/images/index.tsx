@@ -18,7 +18,7 @@ interface ImageData {
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Dashboard',
-        href: '/dashboard',
+        href: '/',
     },
     {
         title: 'Ordens',

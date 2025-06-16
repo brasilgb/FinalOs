@@ -15,7 +15,7 @@ import { Switch } from "@/components/ui/switch";
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Dashboard',
-    href: '/dashboard',
+    href: '/',
   },
   {
     title: 'Mensagens',

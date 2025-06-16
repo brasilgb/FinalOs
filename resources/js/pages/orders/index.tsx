@@ -26,7 +26,7 @@ import { maskPhone } from '@/Utils/mask';
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Dashboard',
-    href: '/dashboard',
+    href: '/',
   },
   {
     title: 'Ordens',
@@ -60,7 +60,7 @@ export default function Orders({ orders }: any) {
             <Link
               href={route('orders.create')}
             >
-              <Plus h-4 w-4 />
+              <Plus className='h-4 w-4' />
               <span>Ordem</span>
             </Link>
           </Button>

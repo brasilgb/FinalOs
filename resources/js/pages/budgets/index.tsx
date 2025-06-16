@@ -24,7 +24,7 @@ import EditBudget from './edit-budget';
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Dashboard',
-    href: '/dashboard',
+    href: '/',
   },
   {
     title: 'Orçamentos',

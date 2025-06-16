@@ -25,7 +25,7 @@ export default function CreateEquipment() {
         post(route('register-equipments.store'), {
             onSuccess: () => reset(),
         });
-        
+
         setOpen(false);
     }
     return (

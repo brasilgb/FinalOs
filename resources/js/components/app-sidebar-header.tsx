@@ -1,4 +1,3 @@
-import { Breadcrumbs } from '@/components/breadcrumbs';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { SharedData, type BreadcrumbItem as BreadcrumbItemType } from '@/types';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from './ui/dropdown-menu';
@@ -7,7 +6,6 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { UserMenuContent } from './user-menu-content';
 import { useInitials } from '@/hooks/use-initials';
 import { usePage } from '@inertiajs/react';
-import Appearance from '@/pages/settings/appearance';
 
 export function AppSidebarHeader({ breadcrumbs = [] }: { breadcrumbs?: BreadcrumbItemType[] }) {
     const page = usePage<SharedData>();

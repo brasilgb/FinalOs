@@ -16,7 +16,7 @@ import { statusAgenda } from "@/Utils/dataSelect";
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Dashboard',
-    href: '/dashboard',
+    href: '/',
   },
   {
     title: 'Agendamentos',

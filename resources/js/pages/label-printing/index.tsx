@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Dashboard',
-        href: '/dashboard',
+        href: '/',
     },
     {
         title: 'Imprimir etiquetas',

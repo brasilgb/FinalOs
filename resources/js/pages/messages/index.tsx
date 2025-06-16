@@ -24,7 +24,7 @@ import { Badge } from '@/components/ui/badge';
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Dashboard',
-    href: '/dashboard',
+    href: '/',
   },
   {
     title: 'Mensagens',
@@ -58,7 +58,7 @@ export default function Messages({ messages }: any) {
             <Link
               href={route('messages.create')}
             >
-              <Plus h-4 w-4 />
+              <Plus className='h-4 w-4' />
               <span>Mensagem</span>
             </Link>
           </Button>

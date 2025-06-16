@@ -24,7 +24,7 @@ import EditEquipment from './edit-equipment';
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Dashboard',
-    href: '/dashboard',
+    href: '/',
   },
   {
     title: 'Equipamentos',

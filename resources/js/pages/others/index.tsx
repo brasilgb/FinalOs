@@ -16,7 +16,7 @@ import { useState } from 'react'
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Dashboard',
-        href: '/dashboard',
+        href: '/',
     },
     {
         title: 'Outras configurações',

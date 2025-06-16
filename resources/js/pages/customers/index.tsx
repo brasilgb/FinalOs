@@ -24,7 +24,7 @@ import AlertSuccess from '@/components/app-alert-success';
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Dashboard',
-    href: '/dashboard',
+    href: '/',
   },
   {
     title: 'Clientes',
@@ -58,7 +58,7 @@ export default function Customers({ customers }: any) {
             <Link
               href={route('customers.create')}
             >
-              <Plus h-4 w-4 />
+              <Plus className='h-4 w-4' />
               <span>Cliente</span>
             </Link>
           </Button>

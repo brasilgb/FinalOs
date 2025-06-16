@@ -24,7 +24,7 @@ import CreateService from './create-service';
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Dashboard',
-    href: '/dashboard',
+    href: '/',
   },
   {
     title: 'Serviços',

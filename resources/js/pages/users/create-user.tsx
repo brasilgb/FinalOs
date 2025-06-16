@@ -7,7 +7,6 @@ import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import { ArrowLeft, Eye, EyeClosed, MessageSquareMore, Save, UserCog } from "lucide-react";
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import Select from 'react-select';
 import InputError from "@/components/input-error";
 import { Switch } from "@/components/ui/switch";
@@ -18,7 +17,7 @@ import { maskPhone } from "@/Utils/mask";
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Dashboard',
-    href: '/dashboard',
+    href: '/',
   },
   {
     title: 'Usuários',

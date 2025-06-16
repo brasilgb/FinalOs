@@ -25,7 +25,7 @@ import { roleUserByValue } from '@/Utils/functions';
 const breadcrumbs: BreadcrumbItem[] = [
   {
     title: 'Dashboard',
-    href: '/dashboard',
+    href: '/',
   },
   {
     title: 'Usuários',
@@ -59,7 +59,7 @@ export default function Users({ users }: any) {
             <Link
               href={route('users.create')}
             >
-              <Plus h-4 w-4 />
+              <Plus className='h-4 w-4' />
               <span>Usuário</span>
             </Link>
           </Button>
