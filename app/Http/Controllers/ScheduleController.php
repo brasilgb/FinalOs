@@ -21,6 +21,7 @@ class ScheduleController extends Controller
         $search = $request->get('q');
         $sdate = $request->get('dt');
         $status = $request->get('st');
+        $clid = $request->get('cl');
 
         $query = Schedule::orderBy('id', 'DESC');
 
@@ -29,6 +30,9 @@ class ScheduleController extends Controller
         }
         if ($status) {
             $query->where('status', 'like', "%$status%");
+        }
+        if ($clid) {
+            $query->where('customer_id', 'like', "%$clid%");
         }
         if ($search) {
             $query = Schedule::where(function ($query) use ($search) {

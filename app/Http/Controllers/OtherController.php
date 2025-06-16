@@ -14,7 +14,7 @@ class OtherController extends Controller
     public function index()
     {
         if (Other::get()->isEmpty()) {
-            Other::create();
+            Other::create(['id' => '1']);
         }
         $query = Other::orderBy("id", "DESC")->first();
         $othersettings = Other::where("id", $query->id)->first();

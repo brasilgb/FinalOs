@@ -35,9 +35,7 @@ class MessageController extends Controller
         }
         $messages = $query->with('user')->paginate(12)->withQueryString();
         // dd($messages);
-        return Inertia::render('messages/index', [
-            'messages' => $messages
-        ]);
+        return Inertia::render('messages/index', ['messages' => $messages]);
     }
 
     /**

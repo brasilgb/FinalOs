@@ -33,6 +33,7 @@ export default function Others({ othersettings, customers, orders }: any) {
         navigation: othersettings?.navigation,
         budget: othersettings?.budget,
     });
+    
     const handleSubmit = (e: any) => {
         e.preventDefault();
         put(route('other-settings.update', othersettings?.id));

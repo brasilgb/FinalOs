@@ -97,7 +97,7 @@ class OrderController extends Controller
     {
         $data = $request->all();
         $request->validated();
-        $data['delivery_date'] = $data['service_status'] === 8 ? date(now()) : '';
+        // $data['delivery_date'] = $data['service_status'] === 8 ? date(now()) : '';
         $order->update($data);
         return redirect()->route('orders.show', ['order' => $order->id])->with('success', 'Ordem atualizada com sucesso');
     }

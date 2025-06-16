@@ -32,7 +32,7 @@ return new class extends Migration
             $table->decimal('service_cost', 10, 2)->default(0); // custo
             $table->dateTime('delivery_date')->nullable(); // data de entrega
             $table->string('responsible_technician', 50)->nullable(); // tecnico
-            $table->boolean('feedback'); // feedback com o cliente
+            $table->boolean('feedback')->nullable(); // feedback com o cliente
             $table->timestamps();
         });
     }

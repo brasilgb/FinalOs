@@ -62,6 +62,7 @@ const ImageUpload: React.FC<PageProps> = ({ savedimages, orderid, errors, succes
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         post(route('images.store'));
+        setImagePreviews([]);
     };
 
     const handleDeletaImageBanco = (id:any) => {

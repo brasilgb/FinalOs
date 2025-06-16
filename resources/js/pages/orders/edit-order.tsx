@@ -250,7 +250,7 @@ export default function EditOrder({ customers, order, technicals, equipments }: 
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="delivery_forecast">Previsão de entrada</Label>
+                <Label htmlFor="delivery_forecast">Previsão de entrega</Label>
                 <Input
                   type="date"
                   id="delivery_forecast"
