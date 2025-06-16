@@ -19,7 +19,7 @@ class ReceiptController extends Controller
     public function index(Receipt $receipt)
     {
         if (Receipt::get()->isEmpty()) {
-            Receipt::create();
+            Receipt::create(['id' => '1']);
         }
         $query = Receipt::orderBy("id", "DESC")->first();
         $receipt = Receipt::where("id", $query->id)->first();

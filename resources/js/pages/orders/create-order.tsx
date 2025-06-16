@@ -13,7 +13,7 @@ import Select from 'react-select';
 import InputError from "@/components/input-error";
 import { useEffect } from "react";
 import apios from "@/Utils/connectApi";
-import { maskMoneyDot } from "@/Utils/mask";
+import { maskMoney, maskMoneyDot } from "@/Utils/mask";
 import moment from "moment";
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -53,7 +53,7 @@ export default function CreateOrder({ customers, equipments, orderlast }: any) {
     state_conservation: '', //estado de conservação
     accessories: '',
     budget_description: '', // descrição do orçamento
-    budget_value: '0', // valor do orçamento
+    budget_value: '0.00', // valor do orçamento
     service_status: '',
     delivery_forecast: '', // previsao de entrega
     observations: '',
@@ -65,6 +65,10 @@ export default function CreateOrder({ customers, equipments, orderlast }: any) {
       onSuccess: () => reset(),
     });
   }
+  useEffect(() => {
+    setData('budget_value', maskMoneyDot(data.budget_value));
+  },[data.budget_value]);
+
   useEffect(() => {
     const pushData = async () => {
       if (orderlast) {
@@ -222,7 +226,7 @@ export default function CreateOrder({ customers, equipments, orderlast }: any) {
               </div>
 
               <div className="grid gap-2">
-                <Label htmlFor="delivery_forecast">Previsão de entrada</Label>
+                <Label htmlFor="delivery_forecast">Previsão de entrega</Label>
                 <Input
                   type="date"
                   id="delivery_forecast"
@@ -280,7 +284,7 @@ export default function CreateOrder({ customers, equipments, orderlast }: any) {
                 <Input
                   type="text"
                   id="budget_value"
-                  value={data.budget_value}
+                  value={maskMoney(data.budget_value)}
                   onChange={(e) => setData('budget_value', e.target.value)}
                 />
               </div>

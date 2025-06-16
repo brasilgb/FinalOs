@@ -16,7 +16,7 @@ class WhatsappMessageController extends Controller
     public function index(WhatsappMessage $whatsappmessage)
     {
         if (WhatsappMessage::get()->isEmpty()) {
-            WhatsappMessage::create();
+            WhatsappMessage::create(['id' => '1']);
         }
         $query = WhatsappMessage::orderBy("id", "DESC")->first();
         $whatsappmessage = WhatsappMessage::where("id", $query->id)->first();

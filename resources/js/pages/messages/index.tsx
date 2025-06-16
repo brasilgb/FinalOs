@@ -3,7 +3,7 @@ import { Icon } from '@/components/icon';
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react'
-import { Calendar, Eye, MessageSquareMore, Pencil, Plus, Users, Wrench } from 'lucide-react';
+import { Eye, MessageSquareMore, Pencil, Plus } from 'lucide-react';
 import moment from 'moment'
 import {
   Table,
@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/table"
 import { Button } from '@/components/ui/button';
 import InputSearch from '@/components/inputSearch';
-import AppPagination from '@/components/app-pagination';
+import AppPagination from '@/components/app-pagination copy';
 import ActionDelete from '@/components/action-delete';
 import AlertSuccess from '@/components/app-alert-success';
 import { Badge } from '@/components/ui/badge';

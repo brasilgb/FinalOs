@@ -17,7 +17,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('images/{image}', [ImageController::class, 'destroy'])->name('images.destroy');
     
     Route::get('other-settings', [OtherController::class, 'index'])->name('other-settings.index');
-    Route::put('other-settings', [OtherController::class, 'update'])->name('other-settings.update');
+    Route::put('other-settings/{other}', [OtherController::class, 'update'])->name('other-settings.update');
     Route::redirect('settings', 'settings/profile');
 
     Route::resource('company', CompanyController::class);

@@ -2,9 +2,12 @@ import { Button } from "@/components/ui/button"
 import { Link } from "@inertiajs/react"
 import { ArrowLeft, Printer, Square } from "lucide-react"
 import moment from "moment"
+import { useEffect } from "react";
 
 function ReceiptCopy({ order, company, type, receipt, checklist }: { order: any; company: any; type: string, receipt: any, checklist: any }) {
-    const listchec = (checklist.checklist).split(',');
+
+            const listchec = checklist && (checklist?.checklist).split(',');
+
 
     return (
         <div className="h-[50vh] p-6 border-b-2 border-dashed border-gray-400 print:border-black flex flex-col justify-between">
@@ -18,7 +21,7 @@ function ReceiptCopy({ order, company, type, receipt, checklist }: { order: any;
             <div className="flex justify-between items-start mb-1.5">
                 <div className="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center print:bg-gray-300">
                     <span className="text-xs font-bold">
-                        <img src={`/storage/logos/${company.logo ? company.logo : "default.png"}`} alt="" />
+                        <img src={`/storage/logos/${company?.logo ? company?.logo : "default.png"}`} alt="" />
                     </span>
                 </div>
                 <div className="flex-1 flex items-center justify-around gap-4 text-xs">
@@ -28,8 +31,8 @@ function ReceiptCopy({ order, company, type, receipt, checklist }: { order: any;
                             <span className="font-medium">{company?.cnpj}</span>
                         </div>
                         <div className="flex flex-1 flex-col items-center">
-                            <span className="font-medium">{company?.street}, {company.number} - {company.district}</span>
-                            <span className="font-medium">{company?.city} - {company.telephone}</span>
+                            <span className="font-medium">{company?.street}, {company?.number} - {company?.district}</span>
+                            <span className="font-medium">{company?.city} - {company?.telephone}</span>
                         </div>
                     </div>
                 </div>
@@ -83,9 +86,9 @@ function ReceiptCopy({ order, company, type, receipt, checklist }: { order: any;
                 <h2 className="text-xs font-semibold mb-1.5 border-b border-gray-100 p-1 bg-gray-50">Garantias e/ou observações</h2>
                 <div className="bg-gray-50 rounded-lg print:bg-gray-100">
                     <p className="text-[10px] mb-1.5">
-                        {type === 'oraberta' && receipt.receivingequipment}
-                        {type === 'orentrega' && receipt.equipmentdelivery}
-                        {type === 'ororcamento' && receipt.budgetissuance}
+                        {type === 'oraberta' && receipt?.receivingequipment}
+                        {type === 'orentrega' && receipt?.equipmentdelivery}
+                        {type === 'ororcamento' && receipt?.budgetissuance}
                         {type === 'orchecklist' && 'checklist'}
                     </p>
                 </div>
@@ -97,9 +100,9 @@ function ReceiptCopy({ order, company, type, receipt, checklist }: { order: any;
                     <h2 className="text-xs font-semibold mb-1.5 border-b border-gray-100 p-1 bg-gray-50">Checklist</h2>
                     <div className="rounded-lg print:bg-gray-100">
                         <ul className="flex flex-wrap items-center justify-start gap-1">
-                        {listchec.map((list: any) => (
-                            <li className="flex items-center gap-2"><Square className="h-4 w-4" /> {list}</li>
-                        ))}
+                            {listchec && listchec?.map((list: any) => (
+                                <li className="flex items-center gap-2"><Square className="h-4 w-4" /> {list}</li>
+                            ))}
                         </ul>
                     </div>
                 </div>
@@ -109,13 +112,13 @@ function ReceiptCopy({ order, company, type, receipt, checklist }: { order: any;
                 <div className="mb-1.5">
                     <h2 className="text-xs font-semibold mb-1.5 border-b border-gray-100 p-1 bg-gray-50">Orçamento gerado</h2>
                     <div className="bg-gray-50 rounded-lg print:bg-gray-100">
-                        <p className="text-xs mb-1.5">{order.budget_description}</p>
+                        <p className="text-xs mb-1.5">{order?.budget_description}</p>
                         <div className="flex items-center justify-between border-t border-gray-300">
                             <div className="flex justify-between items-center pt-2 gap-2">
                             </div>
                             <div className="flex justify-between items-center pt-2 gap-2">
                                 <span className="font-medium text-sm">Valor: </span>
-                                <span className="text-sm font-bold text-gray-600">{order.budget_value}</span>
+                                <span className="text-sm font-bold text-gray-600">{order?.budget_value}</span>
                             </div>
                         </div>
                     </div>
@@ -126,20 +129,20 @@ function ReceiptCopy({ order, company, type, receipt, checklist }: { order: any;
                 <div className="mb-1.5">
                     <h2 className="text-xs font-semibold mb-1.5 border-b border-gray-100 p-1 bg-gray-50">Serviço Prestado</h2>
                     <div className="bg-gray-50 rounded-lg print:bg-gray-100">
-                        <p className="text-xs mb-1.5">{order.services_performed}</p>
-                        {order.parts && <p className="text-xs mb-1.5"><span className="font-bold">Peças adiciondas: </span>{order.parts}</p>}
+                        <p className="text-xs mb-1.5">{order?.services_performed}</p>
+                        {order?.parts && <p className="text-xs mb-1.5"><span className="font-bold">Peças adiciondas: </span>{order?.parts}</p>}
                         <div className="flex items-center justify-between border-t border-gray-300">
                             <div className="flex justify-between items-center pt-2 gap-2">
                                 <span className="font-medium">Peças: </span>
-                                <span className="text-sm font-medium text-gray-600">{order.parts_value}</span>
+                                <span className="text-sm font-medium text-gray-600">{order?.parts_value}</span>
                             </div>
                             <div className="flex justify-between items-center pt-2 gap-2">
                                 <span className="font-medium">Serviço: </span>
-                                <span className="text-sm font-medium text-gray-600">{order.service_value}</span>
+                                <span className="text-sm font-medium text-gray-600">{order?.service_value}</span>
                             </div>
                             <div className="flex justify-between items-center pt-2 gap-2">
                                 <span className="font-medium text-sm">Total: </span>
-                                <span className="text-sm font-bold text-gray-600">{order.service_cost}</span>
+                                <span className="text-sm font-bold text-gray-600">{order?.service_cost}</span>
                             </div>
                         </div>
                     </div>
@@ -151,7 +154,7 @@ function ReceiptCopy({ order, company, type, receipt, checklist }: { order: any;
                 <div className="flex justify-between items-end">
                     <div className="text-xs">
                         <p>
-                            {company.city}, {moment().locale("br").format("LL")}
+                            {company?.city}, {moment().locale("br").format("LL")}
                         </p>
                     </div>
                     <div className="text-center">

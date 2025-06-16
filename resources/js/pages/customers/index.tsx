@@ -1,7 +1,7 @@
 import { Breadcrumbs } from '@/components/breadcrumbs'
 import { Icon } from '@/components/icon';
 import AppLayout from '@/layouts/app-layout'
-import { BreadcrumbItem } from '@/types';
+import { BreadcrumbItem, PaginatedResponse } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react'
 import { Calendar, Pencil, Plus, Users, Wrench } from 'lucide-react';
 import moment from 'moment'
@@ -16,10 +16,10 @@ import {
 } from "@/components/ui/table"
 import { Button } from '@/components/ui/button';
 import InputSearch from '@/components/inputSearch';
-import AppPagination from '@/components/app-pagination';
 import ActionDelete from '@/components/action-delete';
-import { maskCpfCnpj, maskPhone } from '@/Utils/mask';
+import { maskCnpj, maskCpfCnpj, maskPhone } from '@/Utils/mask';
 import AlertSuccess from '@/components/app-alert-success';
+import AppPagination from '@/components/app-pagination copy';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -82,17 +82,17 @@ export default function Customers({ customers }: any) {
             <TableBody>
               {customers?.data.length ?
                 customers?.data?.map((customer: any) => (
-                  <TableRow key={customer.id}>
-                    <TableCell>{customer.id}</TableCell>
-                    <TableCell className="font-medium">{customer.name}</TableCell>
-                    <TableCell>{customer.email}</TableCell>
-                    <TableCell>{maskCpfCnpj(customer.cpf)}</TableCell>
-                    <TableCell>{maskPhone(customer.phone)}</TableCell>
-                    <TableCell>{moment(customer.created_at).format("DD/MM/YYYY")}</TableCell>
+                  <TableRow key={customer?.id}>
+                    <TableCell>{customer?.id}</TableCell>
+                    <TableCell className="font-medium">{customer?.name}</TableCell>
+                    <TableCell>{customer?.email}</TableCell>
+                    <TableCell>{maskCpfCnpj(customer?.cpf)}</TableCell>
+                    <TableCell>{maskPhone(customer?.phone)}</TableCell>
+                    <TableCell>{moment(customer?.created_at).format("DD/MM/YYYY")}</TableCell>
                     <TableCell className='flex justify-end gap-2'>
 
                       <Button asChild size="icon" className="bg-emerald-500 hover:bg-emerald-600 text-white">
-                        <Link href={`/schedules?cl=${customer.id}`}>
+                        <Link href={`/schedules?cl=${customer?.id}`}>
                           <Calendar className="h-4 w-4" />
                         </Link>
                       </Button>
@@ -123,7 +123,7 @@ export default function Customers({ customers }: any) {
                 )
               }
             </TableBody>
-            {customers?.data.length > customers?.total &&
+            {/* {customers?.length > customers?.total && */}
               <TableFooter>
                 <TableRow>
                   <TableCell colSpan={7}>
@@ -131,7 +131,7 @@ export default function Customers({ customers }: any) {
                   </TableCell>
                 </TableRow>
               </TableFooter>
-            }
+            {/* // } */}
           </Table>
         </div>
       </div>
