@@ -14,7 +14,6 @@
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "laravellegends/pt-br-validator": "^12.0",
-        "lucascudo/laravel-pt-br-localization": "^3.0",
         "tightenco/ziggy": "^2.4"
     },
     "require-dev": {
@@ -22,6 +21,7 @@
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.18",
         "laravel/sail": "^1.41",
+        "lucascudo/laravel-pt-br-localization": "^3.0",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
         "pestphp/pest": "^3.8",
