@@ -32,7 +32,7 @@ export default function Dashboard({ orders, acount, datajson }: { orders: any, a
                         </TabsList>
                         <TabsContent value="va">
                             <div className='text-xs font-semibold py-1'>Visitas agendadas pelo número do agendamento</div>
-                            <div className='py-2 border-t'>
+                            <div className='py-2 border-t flex flex-wrap gap-2'>
                                 {orders?.agendados.map((age: any) => (
                                     <Button key={age.id} variant={'secondary'} asChild>
                                         <Link href={route('schedules.edit', age.id)}>
@@ -44,7 +44,7 @@ export default function Dashboard({ orders, acount, datajson }: { orders: any, a
                         </TabsContent>
                         <TabsContent value="og">
                             <div className='text-xs font-semibold py-1'>Orçamentos gerados por número de ordem</div>
-                            <div className='py-2 border-t'>
+                            <div className='py-2 border-t flex flex-wrap gap-2'>
                                 {orders?.gerados.map((ger: any) => (
                                     <Button key={ger.id} variant={'secondary'} asChild>
                                         <Link href={route('orders.edit', ger.id)}>
@@ -56,7 +56,7 @@ export default function Dashboard({ orders, acount, datajson }: { orders: any, a
                         </TabsContent>
                         <TabsContent value="oa">
                             <div className='text-xs font-semibold py-1'>Orçamentos aprovados por número de ordem</div>
-                            <div className='py-2 border-t'>
+                            <div className='py-2 border-t flex flex-wrap gap-2'>
                                 {orders?.aprovados.map((apro: any) => (
                                     <Button key={apro.id} variant={'secondary'} asChild>
                                         <Link href={route('orders.edit', apro.id)}>
@@ -68,7 +68,7 @@ export default function Dashboard({ orders, acount, datajson }: { orders: any, a
                         </TabsContent>
                         <TabsContent value="ca">
                             <div className='text-xs font-semibold py-1'>Serviços concluídos por número de ordem e clientes avisados</div>
-                            <div className='py-2 border-t'>
+                            <div className='py-2 border-t flex flex-wrap gap-2'>
                                 {orders?.concluidosca.map((conca: any) => (
                                     <Button key={conca.id} variant={'secondary'} asChild>
                                         <Link href={route('orders.edit', conca.id)}>
@@ -80,7 +80,7 @@ export default function Dashboard({ orders, acount, datajson }: { orders: any, a
                         </TabsContent>
                         <TabsContent value="cn">
                             <div className='text-xs font-semibold py-1'>Serviços concluídos por número de ordem e clientes não avisados</div>
-                            <div className='py-2 border-t'>
+                            <div className='py-2 border-t flex flex-wrap gap-2'>
                                 {orders?.concluidoscn.map((concn: any) => (
                                     <Button key={concn.id} variant={'secondary'} asChild>
                                         <Link href={route('orders.edit', concn.id)}>
@@ -92,7 +92,7 @@ export default function Dashboard({ orders, acount, datajson }: { orders: any, a
                         </TabsContent>
                         <TabsContent value="fb">
                             <div className='text-xs font-semibold py-1'>Serviços a trinta dias para provável feedback</div>
-                            <div className='py-2 border-t'>
+                            <div className='py-2 border-t flex flex-wrap gap-2'>
                                 {orders?.trintadias.map((ger: any) => (
                                     <Button key={ger.id} variant={'secondary'} asChild>
                                         <Link href={route('orders.edit', ger.id)}>
