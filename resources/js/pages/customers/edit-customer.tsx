@@ -45,7 +45,7 @@ export default function EditCustomer({ customer }: any) {
     number: customer.number,
     phone: customer.phone,
     contactname: customer.contactname,
-    whatsapp: customer.customer,
+    whatsapp: customer.whatsapp,
     contactphone: customer.contactphone,
     observations: customer.observations,
   });

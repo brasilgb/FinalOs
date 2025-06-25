@@ -7,7 +7,7 @@ import NavMainCollapsible from './nav-main-collapsible';
 import { footerNavItems, mainConfItems, mainNavItems, mainRegisterItems, mainUserItems } from '@/Utils/navLinks';
 
 export function AppSidebar() {
-    const { othersettings } = usePage().props as any;
+    const { othersetting } = usePage().props as any;
 
     return (
         <Sidebar collapsible="icon" variant="inset">
@@ -25,12 +25,12 @@ export function AppSidebar() {
             <SidebarContent>
                 <SidebarGroup>
                     <SidebarGroupLabel>Operações do sistema</SidebarGroupLabel>
-                    
+
                     <NavMain items={mainNavItems} />
 
                     <NavMainCollapsible items={mainConfItems} />
 
-                    {othersettings?.budget ?
+                    {othersetting?.budget ?
                         <NavMainCollapsible items={mainRegisterItems} /> : ''
                     }
 

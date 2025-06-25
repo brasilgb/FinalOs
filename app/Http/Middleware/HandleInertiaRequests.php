@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Message;
 use App\Models\Company;
 use App\Models\Other;
 use Illuminate\Foundation\Inspiring;
@@ -48,7 +49,8 @@ class HandleInertiaRequests extends Middleware
                 'error' => fn () => $request->session()->get('error'),
             ],
             'company' => Company::first(['shortname', 'logo']),
-            'othersetting' => Other::first(),
+            'othersetting' => Other::first(['navigation', 'budget']),
+            'notifications' => Message::where('status', '0')->count(),
             'name' => config('app.name'),
             'quote' => ['message' => trim($message), 'author' => trim($author)],
             'auth' => [

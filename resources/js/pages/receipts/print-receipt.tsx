@@ -6,11 +6,10 @@ import { useEffect } from "react";
 
 function ReceiptCopy({ order, company, type, receipt, checklist }: { order: any; company: any; type: string, receipt: any, checklist: any }) {
 
-            const listchec = checklist && (checklist?.checklist).split(',');
-
+    const listchec = checklist && (checklist?.checklist).split(',');
 
     return (
-        <div className="h-[50vh] p-6 border-b-2 border-dashed border-gray-400 print:border-black flex flex-col justify-between">
+        <div className="h-[50vh] p-6 border-b-2 border-dashed border-gray-400 print:border-black flex flex-col justify-between text-gray-700">
             {/* Cabeçalho */}
             <div className="text-xs text-center uppercase font-semibold text-gray-500 bg-gray-100 mb-1.5 py-0.5">
                 {type === 'oraberta' && 'Recibo de Entrada de Equipamento'}
@@ -64,6 +63,7 @@ function ReceiptCopy({ order, company, type, receipt, checklist }: { order: any;
                     </div>
                 </div>
             </div>
+
             {/* Dados da Empresa */}
             <div className="mb-1.5">
                 <h2 className="text-xs font-semibold mb-1.5 border-b border-gray-100 p-1 bg-gray-50">Informações do equipamento</h2>

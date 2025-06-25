@@ -104,9 +104,9 @@ export default function Dashboard({ orders, acount, datajson }: { orders: any, a
                         </TabsContent>
                     </Tabs>
                 </div>
-                <div className='mt-4'>
+                {/* <div className='mt-4'>
                     <ChartAreaDashboard data={datajson} />
-                </div>
+                </div> */}
             </div>
         </AppLayout>
     );
