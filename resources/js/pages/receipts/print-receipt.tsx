@@ -151,12 +151,16 @@ function ReceiptCopy({ order, company, type, receipt, checklist }: { order: any;
 
             {/* Rodapé */}
             <div className="mt-auto">
-                <div className="flex justify-between items-end">
+                <div className="flex justify-between items-center">
                     <div className="text-xs">
-                        <p>
-                            {company?.city}, {moment().locale("br").format("LL")}
-                        </p>
+                        {company?.city}, {moment().locale("br").format("LL")}
                     </div>
+                    {type === 'oraberta' &&
+                        <div className="flex items-center justify-center text-[10px] gap-2">
+                            <span>Acompanhe o status de  sua ordem de serviço em  https://eplusteutonia.com.br/painel ou (área do cliente), Usuário: CPF/CNPJ - senha: 12345678 <span className="text-red-500">Após logar altere sua senha.</span></span>
+                            <img className="w-24" src="/qrcode.jpeg" alt="QRCode Eplus" />
+                        </div>
+                    }
                     <div className="text-center">
                         <div className="border-t border-black w-48 mb-1"></div>
                         <p className="text-xs">Assinatura do Cliente</p>

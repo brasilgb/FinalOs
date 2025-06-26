@@ -88,6 +88,16 @@ class MessageController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     */
+    public function read(MessageRequest $request, Message $message): RedirectResponse
+    {
+        $data = $request->all();
+        $message->update($data);
+        return redirect()->route('messages.index')->with('success', 'Mensagem marcada como lida');
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(Message $message)

@@ -15,7 +15,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import InputSearch from '@/components/inputSearch';
-import AppPagination from '@/components/app-pagination copy';
+import AppPagination from '@/components/app-pagination';
 import ActionDelete from '@/components/action-delete';
 import AlertSuccess from '@/components/app-alert-success';
 import CreateEquipment from './create-equipment';

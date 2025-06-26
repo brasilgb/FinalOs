@@ -27,11 +27,14 @@ export function AppSidebar() {
                     <SidebarGroupLabel>Operações do sistema</SidebarGroupLabel>
 
                     <NavMain items={mainNavItems} />
-
-                    <NavMainCollapsible items={mainConfItems} />
+                    <div className='my-1'>
+                        <NavMainCollapsible items={mainConfItems} />
+                    </div>
 
                     {othersetting?.budget ?
-                        <NavMainCollapsible items={mainRegisterItems} /> : ''
+                        <div className='my-1'>
+                            <NavMainCollapsible items={mainRegisterItems} />
+                        </div> : ''
                     }
 
                     <NavMain items={mainUserItems} />

@@ -19,7 +19,7 @@ import InputSearch from '@/components/inputSearch';
 import ActionDelete from '@/components/action-delete';
 import { maskCnpj, maskCpfCnpj, maskPhone } from '@/Utils/mask';
 import AlertSuccess from '@/components/app-alert-success';
-import AppPagination from '@/components/app-pagination copy';
+import AppPagination from '@/components/app-pagination';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {

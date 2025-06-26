@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/table"
 import { Button } from '@/components/ui/button';
 import InputSearch from '@/components/inputSearch';
-import AppPagination from '@/components/app-pagination copy';
+import AppPagination from '@/components/app-pagination';
 import ActionDelete from '@/components/action-delete';
 import AlertSuccess from '@/components/app-alert-success';
 import { Badge } from '@/components/ui/badge';
@@ -35,7 +35,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function Messages({ messages }: any) {
   const { flash, auth } = usePage().props as any;
-
+  console.log(auth?.user?.id);
+  console.log('message', messages.data[0].user_id);
   return (
     <AppLayout>
       {flash.message && <AlertSuccess message={flash.message} />}
@@ -92,13 +93,13 @@ export default function Messages({ messages }: any) {
                     <TableCell>{moment(message.created_at).format("DD/MM/YYYY")}</TableCell>
                     <TableCell className='flex justify-end gap-2'>
 
-                      <AppLoadMessage message={message} />
-
-                      <Button asChild size="icon" className="bg-orange-500 hover:bg-orange-600 text-white">
-                        <Link href={route("messages.edit", message.id)}>
-                          {message.user_id === auth.user.id ? <Pencil className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                        </Link>
-                      </Button>
+                      {message.user_id !== auth.user.id
+                        ? <AppLoadMessage message={message} />
+                        : <Button asChild size="icon" className="bg-orange-500 hover:bg-orange-600 text-white">
+                          <Link href={route("messages.edit", message.id)}>
+                            {message.user_id === auth.user.id ? <Pencil className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                          </Link>
+                        </Button>}
 
                       <ActionDelete title={'esta mensagem'} url={'messages.destroy'} param={message.id} />
                     </TableCell>

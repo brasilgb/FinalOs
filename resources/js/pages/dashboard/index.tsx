@@ -5,6 +5,7 @@ import { Calendar, MessageSquareMore, User, Users, Wrench } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from '@/components/ui/button';
 import { ChartAreaDashboard } from '@/components/chart-area-dashboard';
+import { Badge } from '@/components/ui/badge';
 
 export default function Dashboard({ orders, acount, datajson }: { orders: any, acount: any, datajson: any }) {
 
@@ -13,22 +14,22 @@ export default function Dashboard({ orders, acount, datajson }: { orders: any, a
             <Head title="Dashboard" />
             <div className='p-4'>
                 <div className="grid md:grid-cols-5 gap-4 rounded-xl">
-                    <KpiDashboard title="Usuários" value={acount?.numuser} icon={<User className='h-10 w-10' />} description="Usários do sistema" />
-                    <KpiDashboard title="Clientes" value={acount?.numcust} icon={<Users className='h-10 w-10' />} description="Todos os clientes cadastrados" />
-                    <KpiDashboard title="Ordens" value={acount?.numorde} icon={<Wrench className='h-10 w-10' />} description="Todas as ordens emitidas" />
-                    <KpiDashboard title="Agendamentos" value={acount?.numshed} icon={<Calendar className='h-10 w-10' />} description="Todos os agendamentos efetuados" />
-                    <KpiDashboard title="Mensagens" value={acount?.nummess} icon={<MessageSquareMore className='h-10 w-10' />} description="Mensagens enviadas e recebidas" />
+                    <KpiDashboard link={route('users.index')} title="Usuários" value={acount?.numuser} icon={<User className='h-10 w-10' />} description="Usários do sistema" />
+                    <KpiDashboard link={route('customers.index')} title="Clientes" value={acount?.numcust} icon={<Users className='h-10 w-10' />} description="Todos os clientes cadastrados" />
+                    <KpiDashboard link={route('orders.index')} title="Ordens" value={acount?.numorde} icon={<Wrench className='h-10 w-10' />} description="Todas as ordens emitidas" />
+                    <KpiDashboard link={route('schedules.index')} title="Agendamentos" value={acount?.numshed} icon={<Calendar className='h-10 w-10' />} description="Todos os agendamentos efetuados" />
+                    <KpiDashboard link={route('messages.index')} title="Mensagens" value={acount?.nummess} icon={<MessageSquareMore className='h-10 w-10' />} description="Mensagens enviadas e recebidas" />
                 </div>
 
                 <div className='mt-4'>
                     <Tabs defaultValue="va">
                         <TabsList className='w-full'>
-                            <TabsTrigger className='px-6' value="va">Visitas agendadas</TabsTrigger>
-                            <TabsTrigger className='px-6' value="og">Orçamentos gerados</TabsTrigger>
-                            <TabsTrigger className='px-6' value="oa">Orçamentos aprovados</TabsTrigger>
-                            <TabsTrigger className='px-6' value="ca">Serviços concluídos (CA)</TabsTrigger>
-                            <TabsTrigger className='px-6' value="cn">Serviços concluídos (CN)</TabsTrigger>
-                            <TabsTrigger className='px-6' value="fb">Equipamento Entregue há 30 dias</TabsTrigger>
+                            <TabsTrigger className='px-6' value="va">Visitas agendadas <Badge className='text-xs'>{orders?.agendados.length}</Badge></TabsTrigger>
+                            <TabsTrigger className='px-6' value="og">Orçamentos gerados <Badge className='text-xs'>{orders?.gerados.length}</Badge></TabsTrigger>
+                            <TabsTrigger className='px-6' value="oa">Orçamentos aprovados <Badge className='text-xs'>{orders?.aprovados.length}</Badge></TabsTrigger>
+                            <TabsTrigger className='px-6' value="ca">Serviços concluídos (CA) <Badge className='text-xs'>{orders?.concluidosca.length}</Badge></TabsTrigger>
+                            <TabsTrigger className='px-6' value="cn">Serviços concluídos (CN) <Badge className='text-xs'>{orders?.concluidoscn.length}</Badge></TabsTrigger>
+                            <TabsTrigger className='px-6' value="fb">Equipamento Entregue há 30 dias <Badge className='text-xs'>{orders?.trintadias.length}</Badge></TabsTrigger>
                         </TabsList>
                         <TabsContent value="va">
                             <div className='text-xs font-semibold py-1'>Visitas agendadas pelo número do agendamento</div>

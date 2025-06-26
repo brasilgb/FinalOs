@@ -37,7 +37,7 @@ interface AppHeaderProps {
 
 export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
     const page = usePage<SharedData>();
-    const { auth, othersettings } = page.props;
+    const { auth, othersetting } = page.props;
     // const { othersettings } = usePage().props as any;
     const getInitials = useInitials();
 
@@ -162,7 +162,7 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                                 </NavigationMenuItem>
                             </NavigationMenuList>
 
-                            {othersettings?.budget ?
+                            {othersetting?.budget ?
                                 <NavigationMenuList className="flex h-full items-stretch space-x-2">
                                     <NavigationMenuItem className="relative flex h-full items-center z-50">
                                         {mainRegisterItems.map((item, index) => (

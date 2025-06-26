@@ -19,26 +19,26 @@ export default function ModalReceipt({ orderid }: { orderid: number }) {
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
-                    <DialogTitle>Selecione o Relatório</DialogTitle>
+                    <DialogTitle>Selecione o Recibo Desejado</DialogTitle>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                     <div className="flex flex-col gap-3">
-                        <Button
+                        <Button variant="secondary"
                             onClick={(e) => handlePrintReceipt(e, 'oraberta')}
                         >
                             Entrada de equipamento
                         </Button>
-                        <Button
+                        <Button variant="secondary"
                             onClick={(e) => handlePrintReceipt(e, 'orentrega')}
                         >
                             Entrega de equipamento
                         </Button>
-                        <Button
+                        <Button variant="secondary"
                             onClick={(e) => handlePrintReceipt(e, 'ororcamento')}
                         >
                             Orçamento de equipamento
                         </Button>
-                        <Button
+                        <Button variant="secondary"
                             onClick={(e) => handlePrintReceipt(e, 'orchecklist')}
                         >
                             Checklist de equipamento

@@ -93,7 +93,7 @@ const ImageUpload: React.FC<PageProps> = ({ savedimages, orderid, errors, succes
                             <div className='pb-4'>
                                 <HeadingSmall
                                     title="Imagens para ordens de serviço"
-                                    description="Cadastre imagens de equipamento."
+                                    description="Cadastre imagens de equipamentos."
                                 />
                             </div>
                             <div>
