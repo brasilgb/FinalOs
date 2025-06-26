@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use App\Models\Message;
 use App\Models\Company;
 use App\Models\Other;
@@ -54,6 +55,7 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'quote' => ['message' => trim($message), 'author' => trim($author)],
             'auth' => [
+                'userexists' => User::where('roles', 1)->count() > 0,
                 'user' => $request->user(),
             ],
             'ziggy' => fn (): array => [
