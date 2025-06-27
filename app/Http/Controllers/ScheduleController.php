@@ -47,6 +47,7 @@ class ScheduleController extends Controller
                 });
         } 
         $schedules = $query->with('user')->with('customer')->paginate(12);
+        
         return Inertia::render('schedules/index', [
             'schedules' => $schedules,
         ]);

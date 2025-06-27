@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\Equipment;
 use App\Models\Order;
 use App\Models\User;
+use App\Models\WhatsappMessage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -44,8 +45,10 @@ class OrderController extends Controller
                 });
         }
         $orders = $query->with('equipment')->with('customer')->paginate(12)->withQueryString();
+        $whats = WhatsappMessage::first();
         return Inertia::render('orders/index', [
             'orders' => $orders,
+            'whats' => $whats,
         ]);
     }
 

@@ -35,16 +35,16 @@ export default function AuthSimpleLayout({ children, title, description }: Props
                 <div className="absolute inset-0  bg-[url(/auth-images.png)] bg-cover bg-center bg-no-repeat" />
                 <div className="absolute inset-0 flex flex-col items-center justify-between">
                     <div className="text-center space-y-4 bg-background/50 w-full p-8">
-                        <h2 className="text-3xl font-bold text-white drop-shadow-lg">Gestão de ordens de serviço</h2>
+                        <h2 className="text-3xl font-bold text-white drop-shadow-lg">Gestão de ordens de serviço, clientes e agendamentos</h2>
                         <p className="text-white/90 drop-shadow text-lg">
-                            Gerencie suas ordens de serviço e agendamentos de forma eficiente e organizada, com emissão de orçamentos e controle de status.
+                            Gerencie suas ordens de serviço, clientes e agendamentos de forma eficiente e organizada, com emissão de orçamentos e controle de status e emissão de recibos.
                         </p>
                     </div>
                     <div className="text-center space-y-4 bg-background/50 w-full p-8">
-                        <h2 className="text-3xl font-bold text-white drop-shadow-lg">Cadastro de clientes e agendamentos de visitas</h2>
+                        <h2 className="text-3xl font-bold text-white drop-shadow-lg">Aplicativos para registro de imagens e auto atendimento</h2>
                         <p className="text-white/90 drop-shadow text-lg">
-                                Monitore o o andamento de suas ordens por clientes e agendamentos de visitas
-                            </p>
+                            Registre as imagens de equipamentos para uso posterior e faça auto atendimento para seus clientes com nossos aplicativos.
+                        </p>
                     </div>
                 </div>
             </div>
