@@ -22,8 +22,7 @@ class MessageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sender' => 'required',
-            'recipient' => 'required',
+            'recipient_id' => 'required',
             'title' => 'required',
             'message' => 'required',
             'status' => 'required',
@@ -33,8 +32,7 @@ class MessageRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'sender' => 'remetente',
-            'recipient' => 'destinatário',
+            'recipient_id' => 'destinatário',
             'title' => 'título',
             'message' => 'mensagem',
             'status' => 'status',

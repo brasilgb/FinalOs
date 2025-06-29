@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('order_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('filename');
-            $table->string('path');
             $table->timestamps();
         });
     }

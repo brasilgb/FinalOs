@@ -32,14 +32,13 @@ export default function EditMessage({ users, message }: any) {
   const { flash, auth } = usePage().props as any;
 
   const optionsUser = users.map((user: any) => ({
-    value: user.name,
+    value: user.id,
     label: user.name,
   }));
 
   const { data, setData, patch, progress, processing, reset, errors } = useForm({
-    'user_id': auth.user.id,
-    'sender': auth.user.name,
-    'recipient': message.recipient,
+    'sender_id': auth.user.id,
+    'recipient_id': message.recipient_id,
     'title': message.title,
     'message': message.message,
     'status': message.status,
@@ -51,10 +50,10 @@ export default function EditMessage({ users, message }: any) {
   }
 
   const changeMessageRecept = (selected: any) => {
-    setData('recipient', selected?.value);
+    setData('recipient_id', selected?.value);
   };
 
-  const defaultUser = optionsUser?.filter((o: any) => o.value == message?.recipient).map((opt: any) => ({ value: opt.label, label: opt.label }));
+  const defaultUser = optionsUser?.filter((o: any) => o.value == message?.recipient_id).map((opt: any) => ({ value: opt.label, label: opt.label }));
   return (
     <AppLayout>
       <Head title="Mensagens" />
@@ -96,12 +95,12 @@ export default function EditMessage({ users, message }: any) {
                   readOnly
                   type="text"
                   id="sender"
-                  onChange={(e) => setData('sender', e.target.value)}
+                  onChange={(e) => setData('sender_id', e.target.value)}
                 />
               </div>
 
               <div className=" grid gap-2">
-                <Label htmlFor="recipient">Para</Label>
+                <Label htmlFor="recipient_id">Para</Label>
                 <Select
                   isDisabled={message.user_id === auth.user.id ? false : true}
                   menuPosition='fixed'
@@ -129,7 +128,7 @@ export default function EditMessage({ users, message }: any) {
                     }),
                   }}
                 />
-                <InputError className="mt-2" message={errors.recipient} />
+                <InputError className="mt-2" message={errors.recipient_id} />
               </div>
 
             </div>

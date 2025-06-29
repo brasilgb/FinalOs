@@ -8,13 +8,11 @@ import { ArrowLeft, Save, Wrench } from "lucide-react";
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { equipamento, statusOrcamento } from "@/Utils/dataSelect";
+import { statusOrcamento } from "@/Utils/dataSelect";
 import Select from 'react-select';
 import InputError from "@/components/input-error";
 import { useEffect } from "react";
-import apios from "@/Utils/connectApi";
 import { maskMoney, maskMoneyDot } from "@/Utils/mask";
-import moment from "moment";
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -54,7 +52,7 @@ export default function CreateOrder({ customers, equipments, orderlast }: any) {
     accessories: '',
     budget_description: '', // descrição do orçamento
     budget_value: '0.00', // valor do orçamento
-    service_status: '',
+    service_status: '1',
     delivery_forecast: '', // previsao de entrega
     observations: '',
   });
@@ -68,35 +66,6 @@ export default function CreateOrder({ customers, equipments, orderlast }: any) {
   useEffect(() => {
     setData('budget_value', maskMoneyDot(data.budget_value));
   },[data.budget_value]);
-
-  useEffect(() => {
-    const pushData = async () => {
-      if (orderlast) {
-        await apios.post('insert-user', {
-          "orders": [{
-                "id": orderlast.id,
-                "cliente_id": orderlast.customer_id,
-                "detalhes": "",
-                "defeito": orderlast.defect,
-                "descorcamento": orderlast.budget_description,
-                "valorcamento": maskMoneyDot(orderlast.budget_value.toString()),
-                "custo": '0',
-                "valservico": '0',
-                "valpecas": '0',
-                "created_at": moment().format("YYYY-MM-DD H:mm:ss"),
-                "dtentrega": null,
-                "status": 1
-            }]
-        })
-          .then((res) => {
-            console.log(res.data.response.message);
-          }).catch((err) => {
-            console.log(err);
-          });
-      }
-    };
-    pushData();
-  }, [orderlast]);
 
   const changeCustomer = (selected: any) => {
     setData('customer_id', selected?.value || '');
@@ -179,7 +148,7 @@ export default function CreateOrder({ customers, equipments, orderlast }: any) {
                   menuPosition='fixed'
                   options={optionsEquipment}
                   onChange={changeEquipment}
-                  placeholder="Selecione o status"
+                  placeholder="Selecione o equipamento"
                   className="shadow-xs p-0 border text-gray-700 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-9"
                   styles={{
                     control: (baseStyles, state) => ({

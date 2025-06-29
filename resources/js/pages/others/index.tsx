@@ -11,7 +11,7 @@ import { BreadcrumbItem } from '@/types'
 import apios from '@/Utils/connectApi'
 import { Head, useForm, usePage } from '@inertiajs/react'
 import { HardDriveUpload, Save, Wrench } from 'lucide-react';
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -27,6 +27,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function Others({ othersettings, customers, orders }: any) {
     const [loading, setLoading] = useState<boolean>(false);
     const [loading1, setLoading1] = useState<boolean>(false);
+    const [uploading, setUploading] = useState<string>('');
 
     const { flash } = usePage().props as any;
     const { data, setData, put, processing } = useForm({
@@ -46,7 +47,7 @@ export default function Others({ othersettings, customers, orders }: any) {
             orders: orders
         })
             .then((res) => {
-                console.log(res.data.response.message);
+                setUploading(res.data.response.message);
             })
             .catch((err) => {
                 console.log(err.message);
@@ -59,14 +60,21 @@ export default function Others({ othersettings, customers, orders }: any) {
             customers: customers
         })
             .then((res) => {
-                console.log(res.data.response.message);
+                setUploading(res.data.response.message);
             })
             .catch((err) => {
                 console.log(err.message);
             }).finally(() => setLoading1(false));
     }
 
-
+    useEffect(() => {
+        if (uploading) {
+            setTimeout(() => {
+                setUploading('');
+            }, 3000);
+        }
+    }, [uploading]);
+    
     return (
         <AppLayout>
             {flash.message && <AlertSuccess message={flash.message} />}
@@ -93,15 +101,16 @@ export default function Others({ othersettings, customers, orders }: any) {
                             onClick={() => pushUsers()}
                         >
                             <HardDriveUpload />
-                            Insere clientes
+                            {loading1 ? 'Inserindo clientes...' : 'Insere clientes'}
                         </Button>
                         <Button
                             onClick={() => pushOrders()}
                         >
                             <HardDriveUpload />
-                            Insere ordens
+                            {loading ? 'Inserindo ordens...' : 'Insere ordens'}
                         </Button>
                     </div>
+                {uploading && <AlertSuccess message={uploading} className='!p-0'/>}
                 </div>
                 <form onSubmit={handleSubmit} className="space-y-8">
                     <div className="space-y-6 mt-6">

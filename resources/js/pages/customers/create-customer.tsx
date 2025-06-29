@@ -56,27 +56,6 @@ export default function CreateCustomer({ customerlast }: any) {
     });
   }
 
-  useEffect(() => {
-    const pushData = async () => {
-      if (customerlast) {
-        await apios.post('insert-user', {
-          "customers": [{
-            "id": customerlast.id,
-            "nome": customerlast.name,
-            "cpf": customerlast.cpf,
-            "email": customerlast.email
-          }]
-        })
-          .then((res) => {
-            console.log(res.data.response.message);
-          }).catch((err) => {
-            console.log(err);
-          });
-      }
-    };
-    pushData();
-  }, [customerlast]);
-
   const getCep = (cep: string) => {
     const cleanCep = unMask(cep);
     fetch(`https://viacep.com.br/ws/${cleanCep}/json/`)
