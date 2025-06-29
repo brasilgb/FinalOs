@@ -9,6 +9,7 @@ import { Switch } from '@/components/ui/switch'
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types'
 import apios from '@/Utils/connectApi'
+import { maskCpfCnpj } from '@/Utils/mask'
 import { Head, useForm, usePage } from '@inertiajs/react'
 import { HardDriveUpload, Save, Wrench } from 'lucide-react';
 import { useEffect, useState } from 'react'
@@ -24,7 +25,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Others({ othersettings, customers, orders }: any) {
+export default function Others({ othersettings, customers, orders, company }: any) {
     const [loading, setLoading] = useState<boolean>(false);
     const [loading1, setLoading1] = useState<boolean>(false);
     const [uploading, setUploading] = useState<string>('');
@@ -34,7 +35,7 @@ export default function Others({ othersettings, customers, orders }: any) {
         navigation: othersettings?.navigation,
         budget: othersettings?.budget,
     });
-    
+
     const handleSubmit = (e: any) => {
         e.preventDefault();
         put(route('other-settings.update', othersettings?.id));
@@ -74,11 +75,12 @@ export default function Others({ othersettings, customers, orders }: any) {
             }, 3000);
         }
     }, [uploading]);
-    
+
     return (
         <AppLayout>
             {flash.message && <AlertSuccess message={flash.message} />}
             <Head title="Outras configurações" />
+
             <div className='flex items-center justify-between h-16 px-4'>
                 <div className='flex items-center gap-2'>
                     <Icon iconNode={Wrench} className='w-8 h-8' />
@@ -90,6 +92,14 @@ export default function Others({ othersettings, customers, orders }: any) {
             </div>
 
             <div className='p-4'>
+                <div className="space-y-6 mb-6">
+                    <HeadingSmall 
+                    title="Licença de uso" 
+                    description={`Este software é licenciado para a empresa ${company?.companyname}, CNPJ: ${maskCpfCnpj(company?.cnpj)}. Localizada na ${company?.street}, ${company?.number}, ${company?.district}, ${company?.city} - ${company?.state}.`} 
+                    />
+
+                </div>
+
                 <div className="space-y-6">
                     <HeadingSmall title="Configurações de aparência" description="Altere a aparencia do sistema entre temas claro ou escuro." />
                     <AppearanceTabs />
@@ -110,7 +120,7 @@ export default function Others({ othersettings, customers, orders }: any) {
                             {loading ? 'Inserindo ordens...' : 'Insere ordens'}
                         </Button>
                     </div>
-                {uploading && <AlertSuccess message={uploading} className='!p-0'/>}
+                    {uploading && <AlertSuccess message={uploading} className='!p-0' />}
                 </div>
                 <form onSubmit={handleSubmit} className="space-y-8">
                     <div className="space-y-6 mt-6">
