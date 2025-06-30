@@ -46,6 +46,7 @@ export interface User {
 export interface Customer {
     id: number;
     name: string;
+    cpf: string;
     birth: string;
     email: string;
     cep: string;
@@ -70,22 +71,38 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     success?: string; // Optional success message from Laravel
     error?: string; // Optional error message from Laravel
 };
-export interface PaginatedResponse<T> {
- current_page: number;
- data: T[];
- first_page_url: string;
- from: number;
- last_page: number;
- last_page_url: string;
- links: {
-  url: string | null;
-  label: string;
-  active: boolean;
- }[];
- next_page_url: string | null;
- path: string;
- per_page: number;
- prev_page_url: string | null;
- to: number;
- total: number;
+export interface Order {
+    id: number;
+    customer_id: number;
+    equipment_id: number;
+    model: string;
+    service_status: number;
+    created_at: string;
+    updated_at: string;
+    customer: Customer;
+    equipment: Equipment;
+    delivery_date: string;
+}
+
+export interface Scheduler {
+    id: number;
+    customer_id: number;
+    service: string;
+    status: number;
+    schedules: string;
+    created_at: string;
+    updated_at: string;
+    customer: Customer;
+    user: User;
+}
+
+export interface Message {
+    id: number;
+    sender_id: number;
+    recipient_id: number;
+    title: string;
+    message: string;
+    status: number;
+    sender: User;
+    recipient: User;
 }

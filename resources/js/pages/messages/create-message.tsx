@@ -31,14 +31,13 @@ export default function CreateMessage({ users }: any) {
   const { flash, auth } = usePage().props as any;
 
   const optionsUser = users.map((user: any) => ({
-    value: user.name,
+    value: user.id,
     label: user.name,
   }));
 
   const { data, setData, post, progress, processing, reset, errors } = useForm({
-    'user_id': auth.user.id,
-    'sender': auth.user.name,
-    'recipient': '',
+    'sender_id': auth.user.id,
+    'recipient_id': '',
     'title': '',
     'message': '',
     'status': false,
@@ -52,7 +51,7 @@ export default function CreateMessage({ users }: any) {
   }
 
   const changeMessageRecept = (selected: any) => {
-    setData('recipient', selected?.value);
+    setData('recipient_id', selected?.value);
   };
 
   return (
@@ -89,18 +88,18 @@ export default function CreateMessage({ users }: any) {
           <form onSubmit={handleSubmit} className="space-y-8">
             <div className="grid grid-cols-2 gap-4 mt-4">
               <div className="grid gap-2">
-                <Label htmlFor="send_id">Remetente</Label>
+                <Label htmlFor="sender_id">Remetente</Label>
                 <Input
                   value={auth.user.name}
                   readOnly
                   type="text"
                   id="sender"
-                  onChange={(e) => setData('sender', e.target.value)}
+                  onChange={(e) => setData('sender_id', e.target.value)}
                 />
               </div>
 
               <div className=" grid gap-2">
-                <Label htmlFor="recipient">Para</Label>
+                <Label htmlFor="recipient_id">Para</Label>
                 <Select
                   options={optionsUser}
                   onChange={changeMessageRecept}
@@ -125,7 +124,7 @@ export default function CreateMessage({ users }: any) {
                     }),
                   }}
                 />
-                <InputError className="mt-2" message={errors.recipient} />
+                <InputError className="mt-2" message={errors.recipient_id} />
               </div>
 
             </div>

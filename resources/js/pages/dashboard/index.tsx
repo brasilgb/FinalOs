@@ -24,12 +24,12 @@ export default function Dashboard({ orders, acount, datajson }: { orders: any, a
                 <div className='mt-4'>
                     <Tabs defaultValue="va">
                         <TabsList className='w-full'>
-                            <TabsTrigger className='px-6' value="va">Visitas agendadas <Badge className='text-xs'>{orders?.agendados.length}</Badge></TabsTrigger>
-                            <TabsTrigger className='px-6' value="og">Orçamentos gerados <Badge className='text-xs'>{orders?.gerados.length}</Badge></TabsTrigger>
-                            <TabsTrigger className='px-6' value="oa">Orçamentos aprovados <Badge className='text-xs'>{orders?.aprovados.length}</Badge></TabsTrigger>
-                            <TabsTrigger className='px-6' value="ca">Serviços concluídos (CA) <Badge className='text-xs'>{orders?.concluidosca.length}</Badge></TabsTrigger>
-                            <TabsTrigger className='px-6' value="cn">Serviços concluídos (CN) <Badge className='text-xs'>{orders?.concluidoscn.length}</Badge></TabsTrigger>
-                            <TabsTrigger className='px-6' value="fb">Equipamento Entregue há 30 dias <Badge className='text-xs'>{orders?.trintadias.length}</Badge></TabsTrigger>
+                            <TabsTrigger className='px-2' value="va">Agendamentos <Badge className='text-xs'>{orders?.agendados.length}</Badge></TabsTrigger>
+                            <TabsTrigger className='px-2' value="og">Orçam. gerados <Badge className='text-xs'>{orders?.gerados.length}</Badge></TabsTrigger>
+                            <TabsTrigger className='px-2' value="oa">Orçam. aprovados <Badge className='text-xs'>{orders?.aprovados.length}</Badge></TabsTrigger>
+                            <TabsTrigger className='px-2' value="ca">Serv. concluídos (CA) <Badge className='text-xs'>{orders?.concluidosca.length}</Badge></TabsTrigger>
+                            <TabsTrigger className='px-2' value="cn">Serv. concluídos (CN) <Badge className='text-xs'>{orders?.concluidoscn.length}</Badge></TabsTrigger>
+                            <TabsTrigger className='px-2' value="fb">Equip. Entregue há 30 dias <Badge className='text-xs'>{orders?.trintadias.length}</Badge></TabsTrigger>
                         </TabsList>
                         <TabsContent value="va">
                             <div className='text-xs font-semibold py-1'>Visitas agendadas pelo número do agendamento</div>

@@ -10,9 +10,9 @@ const statusServico = [
 ];
 
 const rolesUser = [
-    { value: 1, label: "Administrador" },
-    { value: 2, label: "Usuário" },
-    { value: 3, label: "Técnico" },
+    { value: '1', label: "Administrador" },
+    { value: '2', label: "Usuário" },
+    { value: '3', label: "Técnico" },
 ];
 
 const statusUser = [
@@ -52,14 +52,14 @@ const statusMessage = [
 ];
 
 const statusOrcamento = [
-    { value: 1, label: "Ordem Aberta" },
-    { value: 3, label: "Orçamento Gerado" },
-    { value: 4, label: "Orçamento Aprovado" },
+    { value: '1', label: "Ordem Aberta" },
+    { value: '3', label: "Orçamento Gerado" },
+    { value: '4', label: "Orçamento Aprovado" },
 ];
 
 const equipamento = [
-    { value: 1, label: "PC" },
-    { value: 2, label: "Mobile" },
+    { value: '1', label: "PC" },
+    { value: '2', label: "Mobile" },
 ];
 
 export {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Other;
@@ -20,7 +21,8 @@ class OtherController extends Controller
         $othersettings = Other::where("id", $query->id)->first();
         $customers = Customer::get(["id", "name", "cpf", "email"]);
         $orders = Order::get();
-        return Inertia::render('others/index', ['othersettings' => $othersettings, 'customers' => $customers, 'orders' => $orders]);
+        $company = Company::first();
+        return Inertia::render('others/index', ['othersettings' => $othersettings, 'customers' => $customers, 'orders' => $orders, 'company' => $company]);
     }
 
     /**

@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button"
 import { useForm } from "@inertiajs/react";
 import { Trash2 } from "lucide-react"
 
-export default function ActionDelete({ title, url, param }: { title: string, url: string, param: string }) {
+export default function ActionDelete({ title, url, param }: { title: string, url: string, param: number }) {
     const { delete: destroy } = useForm();
     const handleDelete = () => {
         destroy(route(url, param));

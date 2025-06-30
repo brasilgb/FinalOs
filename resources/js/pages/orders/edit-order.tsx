@@ -14,7 +14,6 @@ import InputError from "@/components/input-error";
 import AlertSuccess from "@/components/app-alert-success";
 import { useEffect } from "react";
 import { maskMoney, maskMoneyDot } from "@/Utils/mask";
-import apios from "@/Utils/connectApi";
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -76,28 +75,6 @@ export default function EditOrder({ customers, order, technicals, equipments }: 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     patch(route('orders.update', order.id));
-
-    await apios.post('insert-order', {
-      "orders": [{
-        "id": order.id,
-        "cliente_id": order.customer_id,
-        "detalhes": data.services_performed,
-        "defeito": data.defect,
-        "descorcamento": data.budget_description,
-        "valorcamento": maskMoneyDot(data.budget_value.toString()),
-        "valservico": maskMoneyDot(data.service_value.toString()),
-        "custo": maskMoneyDot(data.service_cost.toString()),
-        "valpecas": maskMoneyDot(data.parts_value.toString()),
-        "created_at": order.created_at,
-        "dtentrega": order.dtentrega,
-        "status": data.service_status
-      }]
-    })
-      .then((res) => {
-        console.log(res.data.response.message);
-      }).catch((err) => {
-        console.log(err);
-      });
   }
 
   useEffect(() => {

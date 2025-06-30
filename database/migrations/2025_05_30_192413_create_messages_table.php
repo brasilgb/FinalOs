@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->unsignedBigInteger('id')->primary()->index();
-            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
-            $table->string('sender');
-            $table->string('recipient');
+            $table->bigInteger('sender_id')->nullable()->references('id')->on('users')->onDelete('cascade');
+            $table->bigInteger('recipient_id')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->text('title');
             $table->text('message');
             $table->boolean('status');

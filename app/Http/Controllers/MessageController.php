@@ -33,8 +33,8 @@ class MessageController extends Controller
                 $query->where('name', 'like', "%$search%");
             });
         }
-        $messages = $query->with('user')->paginate(12)->withQueryString();
-        // dd($messages);
+        $messages = $query->with('sender')->with('recipient')->get();
+
         return Inertia::render('messages/index', ['messages' => $messages]);
     }
 
