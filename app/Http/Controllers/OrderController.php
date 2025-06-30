@@ -15,6 +15,34 @@ use Inertia\Inertia;
 
 class OrderController extends Controller
 {
+
+        // Display and linting order for id
+        public function allOrder()
+        {
+            $dashData = [
+                'numorder' => count(Ordem::get()),
+                'numabertas' => count(Ordem::where('status', 1)->get()), // aberta
+                'numgerados' => count(Ordem::where('status', 3)->get()), // orc. gerado
+                'numaprovados' => count(Ordem::where('status', 4)->get()), // orc. aprovado
+                'numconcluidosca' => count(Ordem::where('status', 6)->get()), // concluido cli nao avisado
+                'numconcluidoscn' => count(Ordem::where('status', 7)->get()), // concluido cli avisado
+            ];
+            return [
+                'success' => true,
+                'result' => $dashData
+            ];
+        }
+    
+        // Display and linting order for id
+        public function getOrder($order)
+        {
+            $query = Ordem::where('id', $order)->with('cliente')->get();
+            return [
+                'success' => true,
+                'result' => $query
+            ];
+        }
+    
     /**
      * Display a listing of the resource.
      */

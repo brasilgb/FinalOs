@@ -13,6 +13,17 @@ use Inertia\Inertia;
 
 class CustomerController extends Controller
 {
+    
+    public function getClientes()
+    {
+        $clientes = Cliente::get();
+        return [
+            "success" => true,
+            "result" => $clientes
+        ];
+    }
+    
+    
     /**
      * Display a listing of the resource.
      */
