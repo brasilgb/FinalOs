@@ -14,6 +14,35 @@ use Inertia\Inertia;
 
 class BudgetController extends Controller
 {
+
+    public function getOrcamentos(Request $request)
+    {
+        if (!$request->marca && !$request->modelo) {
+            $orcamento = Orcamento::where('servico', $request->servico)->first();
+            $marcas = [];
+            $modelos = [];
+        } else {
+            $orcamento = Orcamento::where('servico', $request->servico)->where('marca', $request->marca)->where('modelo', $request->modelo)->first();
+            $marcas    = Marca::where('id', $request->marca)->first();
+            $modelos   = Modelo::where('id', $request->modelo)->first();
+        }
+
+        $servicos  = Servico::where('id', $request->servico)->first();
+
+        return response()->json([
+            'status' => true,
+            'data' => [
+                "id" =>  $orcamento->id,
+                "servico" =>  $servicos->servico,
+                "marca" =>  $marcas ? $marcas->marca : null,
+                "modelo" =>  $modelos ? $modelos->modelo : null,
+                "descricao" =>  $orcamento->descricao,
+                "valor" =>  $orcamento->valor,
+                "created_at" =>  $orcamento->created_at,
+            ],
+        ], 200);
+    }
+    
     /**
      * Display a listing of the resource.
      */

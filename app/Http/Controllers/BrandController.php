@@ -11,6 +11,16 @@ use Inertia\Inertia;
 
 class BrandController extends Controller
 {
+    
+    public function getMarcas()
+    {
+        $marcas = Marca::get();
+        return response()->json([
+            "success" => true,
+            "data" => $marcas
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      */

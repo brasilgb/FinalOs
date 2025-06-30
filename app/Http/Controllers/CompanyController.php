@@ -11,6 +11,16 @@ use Inertia\Inertia;
 
 class CompanyController extends Controller
 {
+    
+    public function getEmpresaInfo()
+    {
+        $empresa = Empresa::first();
+        return response()->json([
+            "success" => true,
+            "data" => $empresa
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      */

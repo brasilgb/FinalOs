@@ -62,4 +62,51 @@ class ImageController extends Controller
         $image->delete();
         return redirect()->back()->with('success', 'Imagem excluida com sucesso!');
     }
+    
+    // Delete image for id
+    public function deleteImageOrder(Imagem $imagem, $image)
+    {
+        $imgorder = Imagem::where('id', $image)->first();
+        
+        $storePath = public_path('storage'. DIRECTORY_SEPARATOR .'ordens' . DIRECTORY_SEPARATOR . $imgorder->ordem_id);
+        if (file_exists($storePath . DIRECTORY_SEPARATOR . $imgorder->imagem)) {
+            unlink($storePath . DIRECTORY_SEPARATOR . $imgorder->imagem);
+        }
+        $imagem->where('id', $imgorder->id)->delete();
+        return [
+            'success' => true,
+            'message' => 'Imagem deletada com sucesso!'
+        ];
+    }
+
+    public function upload(Request $request)
+    {
+        $image = base64_decode($request->imagem);
+        //  dd($image);   
+        // $image = $request->file('imagem');
+        $storePath = public_path('storage/ordens/' . $request->ordem_id);
+        if (!file_exists($storePath)) {
+            mkdir($storePath, 0777, true);
+        };
+        $filename = time() . rand(1, 50) . '.' . 'png';
+        File::put('storage/ordens/' . $request->ordem_id . '/' . $filename,  $image);
+        Imagem::create([
+            'ordem_id' => $request->ordem_id,
+            'imagem' => $filename
+        ]);
+        return [
+            "success" => true,
+            "message" => "Imagem salva com sucesso"
+        ];
+    }
+
+    public function getImages(Request $request)
+    {
+        $images = Imagem::where("ordem_id", $request->order)->get();
+        return [
+            "success" => true,
+            "result" => $images
+        ];
+    }
+    
 }

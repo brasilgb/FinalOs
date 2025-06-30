@@ -12,6 +12,16 @@ use Inertia\Inertia;
 
 class ServiceController extends Controller
 {
+
+    public function getServicos(Request $request)
+    {
+        $servicos = Servico::where('equipamento', $request->equipamento)->get();
+        return response()->json([
+            "success" => true,
+            "data" => $servicos
+        ]);
+    }
+    
     /**
      * Display a listing of the resource.
      */

@@ -43,6 +43,16 @@ class OrderController extends Controller
             ];
         }
     
+    // Display and listing customers for id order
+    public function getOrderCli($customer)
+    {
+        $query = Ordem::where('cliente_id', $customer)->with('cliente')->get();
+        return [
+            'success' => true,
+            'result' => $query
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */

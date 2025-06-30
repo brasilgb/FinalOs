@@ -12,6 +12,16 @@ use Inertia\Inertia;
 
 class EQModelController extends Controller
 {
+
+    public function getModelos(Request $request)
+    {
+        $modelos = Modelo::where('marca_id', $request->marca)->get();
+        return response()->json([
+            "success" => true,
+            "data" => $modelos
+        ]);
+    }
+    
     /**
      * Display a listing of the resource.
      */
