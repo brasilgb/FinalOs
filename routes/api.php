@@ -1,14 +1,14 @@
 <?php
 
-use App\Http\Controllers\ClienteController;
-use App\Http\Controllers\EmpresaController;
-use App\Http\Controllers\GeralController;
-use App\Http\Controllers\ImagemController;
-use App\Http\Controllers\MarcaController;
-use App\Http\Controllers\ModeloController;
-use App\Http\Controllers\OrcamentoController;
-use App\Http\Controllers\OrdemController;
-use App\Http\Controllers\ServicoController;
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\BudgetController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\EQModelController;
+use App\Http\Controllers\ImageController;
+use App\Http\Controllers\ModelController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,25 +24,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/ordercli/{customer}', [OrdemController::class, 'getOrderCli'])->name('ordercli');
-Route::get('/allorder', [OrdemController::class, 'allOrder'])->name('allrder');
-Route::get('/order/{order}', [OrdemController::class, 'getOrder'])->name('order');
+Route::get('/ordercli/{customer}', [OrderController::class, 'getOrderCli'])->name('ordercli');
+Route::get('/allorder', [OrderController::class, 'allOrder'])->name('allrder');
+Route::get('/order/{order}', [OrderController::class, 'getOrder'])->name('order');
 
-Route::get('/clientes', [ClienteController::class, 'getClientes']);
+Route::get('/clientes', [CustomerController::class, 'getClientes']);
 
-Route::post('/orcamentos', [OrcamentoController::class, 'getOrcamentos']);
+Route::post('/orcamentos', [BudgetController::class, 'getOrcamentos']);
 
-Route::post('/servicos', [ServicoController::class, 'getServicos']);
+Route::post('/servicos', [ServiceController::class, 'getServicos']);
 
-Route::get('/marcas', [MarcaController::class, 'getMarcas']);
+Route::get('/marcas', [BrandController::class, 'getMarcas']);
 
-Route::post('/modelos', [ModeloController::class, 'getModelos']);
+Route::post('/modelos', [EQModelController::class, 'getModelos']);
 
-Route::get('/empresa', [EmpresaController::class, 'getEmpresaInfo']);
+Route::get('/empresa', [CompanyController::class, 'getEmpresaInfo']);
 
-Route::delete('/deleteimage/{image}', [ImagemController::class, 'deleteImageOrder'])->name('deleteimage');
-Route::get('/images/{order}', [ImagemController::class, 'getImages'])->name('images');
-Route::post('/upload', [ImagemController::class, 'upload'])->name('upload');
+Route::delete('/deleteimage/{aimage}', [ImageController::class, 'deleteImageOrder'])->name('deleteimage');
+Route::get('/images/{order}', [ImageController::class, 'getImages'])->name('images');
+Route::post('/upload', [ImageController::class, 'upload'])->name('upload');
 
 Route::post('/loginuser', [UserController::class, 'loginuser'])->name('loginuser');
 Route::get('/logoutuser', [UserController::class, 'logoutuser'])->name('logoutuser');

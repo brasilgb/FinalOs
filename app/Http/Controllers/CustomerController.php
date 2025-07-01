@@ -13,10 +13,10 @@ use Inertia\Inertia;
 
 class CustomerController extends Controller
 {
-    
+
     public function getClientes()
     {
-        $clientes = Cliente::get();
+        $clientes = Customer::get();
         return [
             "success" => true,
             "result" => $clientes

@@ -18,16 +18,16 @@ class BudgetController extends Controller
     public function getOrcamentos(Request $request)
     {
         if (!$request->marca && !$request->modelo) {
-            $orcamento = Orcamento::where('servico', $request->servico)->first();
+            $orcamento = Budget::where('servico', $request->servico)->first();
             $marcas = [];
             $modelos = [];
         } else {
-            $orcamento = Orcamento::where('servico', $request->servico)->where('marca', $request->marca)->where('modelo', $request->modelo)->first();
-            $marcas    = Marca::where('id', $request->marca)->first();
-            $modelos   = Modelo::where('id', $request->modelo)->first();
+            $orcamento = Budget::where('servico', $request->servico)->where('brand', $request->brand)->where('eqmodel', $request->eqmodel)->first();
+            $marcas    = Brand::where('id', $request->brand)->first();
+            $modelos   = EQModel::where('id', $request->eqmodel)->first();
         }
 
-        $servicos  = Servico::where('id', $request->servico)->first();
+        $servicos  = Service::where('id', $request->servico)->first();
 
         return response()->json([
             'status' => true,

@@ -14,7 +14,7 @@ class CompanyController extends Controller
     
     public function getEmpresaInfo()
     {
-        $empresa = Empresa::first();
+        $empresa = Company::first();
         return response()->json([
             "success" => true,
             "data" => $empresa

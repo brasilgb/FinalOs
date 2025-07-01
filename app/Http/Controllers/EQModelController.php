@@ -15,7 +15,7 @@ class EQModelController extends Controller
 
     public function getModelos(Request $request)
     {
-        $modelos = Modelo::where('marca_id', $request->marca)->get();
+        $modelos = EQModel::where('brand_id', $request->brand)->get();
         return response()->json([
             "success" => true,
             "data" => $modelos

@@ -8,6 +8,7 @@ use App\Models\Image; // Assuming you have an Image model
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class ImageController extends Controller
 {
@@ -64,15 +65,15 @@ class ImageController extends Controller
     }
     
     // Delete image for id
-    public function deleteImageOrder(Imagem $imagem, $image)
+    public function deleteImageOrder(Image $image, $aimage)
     {
-        $imgorder = Imagem::where('id', $image)->first();
+        $imgorder = Image::where('id', $aimage)->first();
         
         $storePath = public_path('storage'. DIRECTORY_SEPARATOR .'ordens' . DIRECTORY_SEPARATOR . $imgorder->ordem_id);
         if (file_exists($storePath . DIRECTORY_SEPARATOR . $imgorder->imagem)) {
             unlink($storePath . DIRECTORY_SEPARATOR . $imgorder->imagem);
         }
-        $imagem->where('id', $imgorder->id)->delete();
+        $image->where('id', $imgorder->id)->delete();
         return [
             'success' => true,
             'message' => 'Imagem deletada com sucesso!'
@@ -89,10 +90,10 @@ class ImageController extends Controller
             mkdir($storePath, 0777, true);
         };
         $filename = time() . rand(1, 50) . '.' . 'png';
-        File::put('storage/ordens/' . $request->ordem_id . '/' . $filename,  $image);
-        Imagem::create([
-            'ordem_id' => $request->ordem_id,
-            'imagem' => $filename
+        File::put('storage/orders/' . $request->order_id . '/' . $filename,  $image);
+        Image::create([
+            'order_id' => $request->order_id,
+            'filename' => $filename
         ]);
         return [
             "success" => true,

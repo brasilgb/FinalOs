@@ -14,7 +14,7 @@ class BrandController extends Controller
     
     public function getMarcas()
     {
-        $marcas = Marca::get();
+        $marcas = Brand::get();
         return response()->json([
             "success" => true,
             "data" => $marcas

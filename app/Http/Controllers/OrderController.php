@@ -20,12 +20,12 @@ class OrderController extends Controller
         public function allOrder()
         {
             $dashData = [
-                'numorder' => count(Ordem::get()),
-                'numabertas' => count(Ordem::where('status', 1)->get()), // aberta
-                'numgerados' => count(Ordem::where('status', 3)->get()), // orc. gerado
-                'numaprovados' => count(Ordem::where('status', 4)->get()), // orc. aprovado
-                'numconcluidosca' => count(Ordem::where('status', 6)->get()), // concluido cli nao avisado
-                'numconcluidoscn' => count(Ordem::where('status', 7)->get()), // concluido cli avisado
+                'numorder' => count(Order::get()),
+                'numabertas' => count(Order::where('status', 1)->get()), // aberta
+                'numgerados' => count(Order::where('status', 3)->get()), // orc. gerado
+                'numaprovados' => count(Order::where('status', 4)->get()), // orc. aprovado
+                'numconcluidosca' => count(Order::where('status', 6)->get()), // concluido cli nao avisado
+                'numconcluidoscn' => count(Order::where('status', 7)->get()), // concluido cli avisado
             ];
             return [
                 'success' => true,
@@ -36,7 +36,7 @@ class OrderController extends Controller
         // Display and linting order for id
         public function getOrder($order)
         {
-            $query = Ordem::where('id', $order)->with('cliente')->get();
+            $query = Order::where('id', $order)->with('customer')->with('equipment')->get();
             return [
                 'success' => true,
                 'result' => $query
@@ -46,7 +46,7 @@ class OrderController extends Controller
     // Display and listing customers for id order
     public function getOrderCli($customer)
     {
-        $query = Ordem::where('cliente_id', $customer)->with('cliente')->get();
+        $query = Order::where('customer_id', $customer)->with('customer')->with('equipment')->get();
         return [
             'success' => true,
             'result' => $query
