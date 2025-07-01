@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/ordercli/{customer}', [OrderController::class, 'getOrderCli'])->name('ordercli');
-Route::get('/allorder', [OrderController::class, 'allOrder'])->name('allrder');
+Route::get('/allorder', [OrderController::class, 'allOrder'])->name('allorder');
 Route::get('/order/{order}', [OrderController::class, 'getOrder'])->name('order');
 
 Route::get('/clientes', [CustomerController::class, 'getClientes']);

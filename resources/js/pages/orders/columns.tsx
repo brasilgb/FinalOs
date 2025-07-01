@@ -1,14 +1,14 @@
 import { Button, buttonVariants } from "@/components/ui/button"
 import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown, Calendar, Edit, ImageUp, Wrench } from "lucide-react"
+import { ArrowUpDown, Edit, ImageUp, Wrench } from "lucide-react"
 import moment from "moment"
 import { Badge } from "@/components/ui/badge"
-import { maskCnpj, maskCpfCnpj, maskPhone } from "@/Utils/mask"
 import { Link, usePage } from "@inertiajs/react"
 import ActionDelete from "@/components/action-delete"
-import { Customer, Order } from "@/types"
+import { Order } from "@/types"
 import ModalReceipt from "../receipts/modal-receipt"
 import { statusOrdemByValue } from "@/Utils/functions"
+import { maskPhone } from "@/Utils/mask"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -30,6 +30,15 @@ export const columns: ColumnDef<Order>[] = [
           Cliente
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
+      )
+    },
+    cell: ({ row }) => {
+      const customer = row.original?.customer;
+      return (
+          <Link className="flex items-center gap-2" href={`/orders?cl=${row.original?.id}`} title={`Ordens do cliente ${customer?.name}`}>
+            <Wrench className="w-4 h-4" />
+            <span>{customer?.name}</span>
+          </Link>
       )
     },
   },

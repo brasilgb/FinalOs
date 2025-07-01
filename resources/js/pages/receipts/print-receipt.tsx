@@ -1,12 +1,17 @@
 import { Button } from "@/components/ui/button"
 import { Link } from "@inertiajs/react"
 import { ArrowLeft, Printer, Square } from "lucide-react"
-import moment from "moment"
-import { useEffect } from "react";
 
-function ReceiptCopy({ order, company, type, receipt, checklist }: { order: any; company: any; type: string, receipt: any, checklist: any }) {
+function ReceiptCopy({ order, company, type, receipt, checklist, qrcode }: { order: any; company: any; type: string, receipt: any, checklist: any, qrcode: boolean }) {
 
     const listchec = checklist && (checklist?.checklist).split(',');
+
+    const option = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    } as const;
+    const locale = 'pt-BR';
 
     return (
         <div className="h-[50vh] p-6 border-b-2 border-dashed border-gray-400 print:border-black flex flex-col justify-between text-gray-700">
@@ -64,11 +69,10 @@ function ReceiptCopy({ order, company, type, receipt, checklist }: { order: any;
                 </div>
             </div>
 
-            {/* Dados da Empresa */}
+            {/* Dados do equipamento */}
             <div className="mb-1.5">
                 <h2 className="text-xs font-semibold mb-1.5 border-b border-gray-100 p-1 bg-gray-50">Informações do equipamento</h2>
                 <div className="grid grid-cols-3 text-xs">
-
                     <p>
                         <span className="font-medium">Equipamento:</span> {order?.equipment?.equipment}
                     </p>
@@ -79,6 +83,10 @@ function ReceiptCopy({ order, company, type, receipt, checklist }: { order: any;
                         <span className="font-medium">Defeito:</span> {order?.defect}
                     </p>
                 </div>
+                <p className="text-xs flex items-center justify-between py-1 gap-2">
+                    <span className="font-medium">Pré-orçamento: {order?.budget_description}</span>
+                    <span className="font-medium">Valor: R$ {order?.budget_value}</span>
+                </p>
             </div>
 
             {/* GArantias e observações */}
@@ -94,7 +102,7 @@ function ReceiptCopy({ order, company, type, receipt, checklist }: { order: any;
                 </div>
             </div>
 
-            {/* Orçamento gerado */}
+            {/* Geraçaõ de checklist */}
             {type === 'orchecklist' &&
                 <div className="mb-1.5">
                     <h2 className="text-xs font-semibold mb-1.5 border-b border-gray-100 p-1 bg-gray-50">Checklist</h2>
@@ -107,6 +115,7 @@ function ReceiptCopy({ order, company, type, receipt, checklist }: { order: any;
                     </div>
                 </div>
             }
+
             {/* Orçamento gerado */}
             {type === 'ororcamento' &&
                 <div className="mb-1.5">
@@ -152,10 +161,10 @@ function ReceiptCopy({ order, company, type, receipt, checklist }: { order: any;
             {/* Rodapé */}
             <div className="mt-auto">
                 <div className="flex justify-between items-center">
-                    <div className="text-xs">
-                        {company?.city}, {moment().locale("br").format("LL")}
+                    <div className="text-xs text-center w-96">
+                        {company?.city}, {new Date().toLocaleDateString(locale, option)}
                     </div>
-                    {type === 'oraberta' &&
+                    {qrcode && type === 'oraberta' &&
                         <div className="flex items-center justify-center text-[10px] gap-2">
                             <span>Acompanhe o status de  sua ordem de serviço em  https://eplusteutonia.com.br/painel ou (área do cliente), Usuário: CPF/CNPJ - senha: 12345678 <span className="text-red-500">Após logar altere sua senha.</span></span>
                             <img className="w-24" src="/qrcode.jpeg" alt="QRCode Eplus" />
@@ -175,7 +184,6 @@ export default function Receipt({ order, company, type, receipt, checklist }: { 
     const handlePrint = () => {
         window.print()
     }
-
     return (
         <div className="max-w-4xl mx-auto relative">
             {/* Botão de Impressão - oculto na impressão */}
@@ -193,10 +201,10 @@ export default function Receipt({ order, company, type, receipt, checklist }: { 
             {/* Recibo para Impressão */}
             <div className="bg-white shadow-lg print:shadow-none print:h-screen">
                 {/* Primeira Via */}
-                <ReceiptCopy order={order} company={company} type={type} receipt={receipt} checklist={checklist} />
+                <ReceiptCopy order={order} company={company} type={type} receipt={receipt} checklist={checklist} qrcode={true} />
 
                 {/* Segunda Via */}
-                <ReceiptCopy order={order} company={company} type={type} receipt={receipt} checklist={checklist} />
+                <ReceiptCopy order={order} company={company} type={type} receipt={receipt} checklist={checklist} qrcode={false} />
             </div>
         </div>
     )

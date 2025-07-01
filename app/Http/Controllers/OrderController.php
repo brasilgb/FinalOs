@@ -21,11 +21,11 @@ class OrderController extends Controller
         {
             $dashData = [
                 'numorder' => count(Order::get()),
-                'numabertas' => count(Order::where('status', 1)->get()), // aberta
-                'numgerados' => count(Order::where('status', 3)->get()), // orc. gerado
-                'numaprovados' => count(Order::where('status', 4)->get()), // orc. aprovado
-                'numconcluidosca' => count(Order::where('status', 6)->get()), // concluido cli nao avisado
-                'numconcluidoscn' => count(Order::where('status', 7)->get()), // concluido cli avisado
+                'numabertas' => count(Order::where('service_status', 1)->get()), // aberta
+                'numgerados' => count(Order::where('service_status', 3)->get()), // orc. gerado
+                'numaprovados' => count(Order::where('service_status', 4)->get()), // orc. aprovado
+                'numconcluidosca' => count(Order::where('service_status', 6)->get()), // concluido cli nao avisado
+                'numconcluidoscn' => count(Order::where('service_status', 7)->get()), // concluido cli avisado
             ];
             return [
                 'success' => true,

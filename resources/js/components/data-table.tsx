@@ -22,6 +22,8 @@ import {
 import React from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react"
+import { PaginationItem, PaginationLink } from "./ui/pagination"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -46,6 +48,7 @@ export function DataTable<TData, TValue>({
     const [columnVisibility, setColumnVisibility] =
         React.useState<VisibilityState>({})
     const [rowSelection, setRowSelection] = React.useState({})
+    const [currentPage, setCurrentPage] = React.useState(0)
 
     const table = useReactTable({
         data,
@@ -66,7 +69,7 @@ export function DataTable<TData, TValue>({
         },
         initialState: { //This line
             pagination: {
-                pageSize: 11,
+                pageSize: 1,
             },
 
         }
@@ -140,31 +143,61 @@ export function DataTable<TData, TValue>({
                     </TableBody>
                 </Table>
             </div>
-            <div className="flex items-center justify-end space-x-2 py-4">
-                <div className="flex-1 text-sm text-muted-foreground">
-                    Página {table.getState().pagination.pageIndex + 1} de{" "}
-                    {table.getPageCount()}
-                    <span> - </span>
-                    {table.getFilteredRowModel().rows.length} registros encontrados.
-                </div>
-                <div className="space-x-2">
+            <div className="flex items-center justify-end mt-4 space-x-2">
+                <Button
+                    variant="outline"
+                    size="icon"
+                    className="hidden size-8 lg:flex"
+                    onClick={() => table.setPageIndex(0)}
+                    disabled={!table.getCanPreviousPage()}
+                >
+                    <span className="sr-only">Go to first page</span>
+                    <ChevronsLeft />
+                </Button>
+                <Button
+                    variant="outline"
+                    size="icon"
+                    className="size-8"
+                    onClick={() => table.previousPage()}
+                    disabled={!table.getCanPreviousPage()}
+                >
+                    <span className="sr-only">Go to previous page</span>
+                    <ChevronLeft />
+                </Button>
+
+                {table.getPageOptions().map((item, index) => (
                     <Button
                         variant="outline"
-                        size="sm"
-                        onClick={() => table.previousPage()}
-                        disabled={!table.getCanPreviousPage()}
+                        size="icon"
+                        className="size-8"
+                        onClick={() => table.setPageIndex(item)}
+                        disabled={table.getState().pagination.pageIndex == item}
                     >
-                        Anterior
+                        <span className="sr-only">Go to previous page</span>
+                        {item + 1}
                     </Button>
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => table.nextPage()}
-                        disabled={!table.getCanNextPage()}
-                    >
-                        Próximo
-                    </Button>
-                </div>
+                ))}
+
+                <Button
+                    variant="outline"
+                    size="icon"
+                    className="size-8"
+                    onClick={() => table.nextPage()}
+                    disabled={!table.getCanNextPage()}
+                >
+                    <span className="sr-only">Go to next page</span>
+                    <ChevronRight />
+                </Button>
+                <Button
+                    variant="outline"
+                    size="icon"
+                    className="hidden size-8 lg:flex"
+                    onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+                    disabled={!table.getCanNextPage()}
+                >
+                    <span className="sr-only">Go to last page</span>
+                    <ChevronsRight />
+                </Button>
             </div>
         </div>
     )

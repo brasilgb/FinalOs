@@ -69,9 +69,9 @@ class ImageController extends Controller
     {
         $imgorder = Image::where('id', $aimage)->first();
         
-        $storePath = public_path('storage'. DIRECTORY_SEPARATOR .'ordens' . DIRECTORY_SEPARATOR . $imgorder->ordem_id);
-        if (file_exists($storePath . DIRECTORY_SEPARATOR . $imgorder->imagem)) {
-            unlink($storePath . DIRECTORY_SEPARATOR . $imgorder->imagem);
+        $storePath = public_path('storage'. DIRECTORY_SEPARATOR .'orders' . DIRECTORY_SEPARATOR . $imgorder->order_id);
+        if (file_exists($storePath . DIRECTORY_SEPARATOR . $imgorder->filename)) {
+            unlink($storePath . DIRECTORY_SEPARATOR . $imgorder->filename);
         }
         $image->where('id', $imgorder->id)->delete();
         return [
@@ -82,10 +82,10 @@ class ImageController extends Controller
 
     public function upload(Request $request)
     {
-        $image = base64_decode($request->imagem);
+        $image = base64_decode($request->filename);
         //  dd($image);   
         // $image = $request->file('imagem');
-        $storePath = public_path('storage/ordens/' . $request->ordem_id);
+        $storePath = public_path('storage/orders/' . $request->order_id);
         if (!file_exists($storePath)) {
             mkdir($storePath, 0777, true);
         };
@@ -103,7 +103,7 @@ class ImageController extends Controller
 
     public function getImages(Request $request)
     {
-        $images = Imagem::where("ordem_id", $request->order)->get();
+        $images = Image::where("order_id", $request->order)->get();
         return [
             "success" => true,
             "result" => $images

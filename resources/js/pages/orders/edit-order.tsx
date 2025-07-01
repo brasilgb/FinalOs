@@ -14,6 +14,7 @@ import InputError from "@/components/input-error";
 import AlertSuccess from "@/components/app-alert-success";
 import { useEffect } from "react";
 import { maskMoney, maskMoneyDot } from "@/Utils/mask";
+import moment from "moment";
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -83,8 +84,11 @@ export default function EditOrder({ customers, order, technicals, equipments }: 
     setData((data: any) => ({ ...data, service_value: maskMoneyDot(data?.service_value) }));
     const serviceCost = parseFloat(data?.parts_value) + parseFloat(data?.service_value);
     setData((data: any) => ({ ...data, service_cost: serviceCost.toFixed(2) }));
-    // setData((data: any) => ({ ...data, service_cost: maskMoneyDot(data?.service_cost) }));
-  }, [data.parts_value, data.service_value, data.budget_value]);
+    if (data.service_status == 8) {
+      setData((data: any) => ({ ...data, delivery_date: moment().format('YYYY-MM-DD HH:mm:ss') }));
+    }
+
+  }, [data.parts_value, data.service_value, data.budget_value, data.delivery_date, data.service_status]);
 
   const changeCustomer = (selected: any) => {
     setData('customer_id', selected?.value || '');
@@ -124,12 +128,14 @@ export default function EditOrder({ customers, order, technicals, equipments }: 
       <div className='flex items-center justify-between p-4'>
         <div>
           <Button variant={'default'} asChild>
-            <Link
-              href={route('orders.index')}
+            <a
+              // href={route('orders.index')}
+              href="#"
+              onClick={() => window.history.back()}
             >
               <ArrowLeft h-4 w-4 />
               <span>Voltar</span>
-            </Link>
+            </a>
           </Button>
         </div>
         <div>
