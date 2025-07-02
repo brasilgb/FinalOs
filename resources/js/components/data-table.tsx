@@ -69,7 +69,7 @@ export function DataTable<TData, TValue>({
         },
         initialState: { //This line
             pagination: {
-                pageSize: 1,
+                pageSize: 11,
             },
 
         }
@@ -144,6 +144,10 @@ export function DataTable<TData, TValue>({
                 </Table>
             </div>
             <div className="flex items-center justify-end mt-4 space-x-2">
+            <div className="text-muted-foreground flex-1 text-sm">
+                    Página {table.getState().pagination.pageIndex + 1} de{" "}
+                    {table.getPageCount()}
+                </div>
                 <Button
                     variant="outline"
                     size="icon"
@@ -165,7 +169,7 @@ export function DataTable<TData, TValue>({
                     <ChevronLeft />
                 </Button>
 
-                {table.getPageOptions().map((item, index) => (
+                {/* {table.getPageOptions().map((item, index) => (
                     <Button
                         variant="outline"
                         size="icon"
@@ -176,7 +180,7 @@ export function DataTable<TData, TValue>({
                         <span className="sr-only">Go to previous page</span>
                         {item + 1}
                     </Button>
-                ))}
+                ))} */}
 
                 <Button
                     variant="outline"
