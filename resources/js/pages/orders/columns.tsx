@@ -9,7 +9,7 @@ import { Order } from "@/types"
 import ModalReceipt from "../receipts/modal-receipt"
 import { statusOrdemByValue } from "@/Utils/functions"
 import { maskPhone } from "@/Utils/mask"
-import { EditOrder } from "./edit-order"
+import EditOrder from "./edit-order"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -23,6 +23,7 @@ export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: "customer.name",
     header: ({ column }) => {
+
       return (
         <Button
           variant="ghost"
@@ -117,7 +118,7 @@ export const columns: ColumnDef<Order>[] = [
     accessorKey: " ",
     cell: ({ row }) => {
       const order = row.original;
-      const whats = usePage().props.whatsapp as any;
+      const {whats, customers, technicals, equipments} = usePage().props as any;
 
       return (
         <div className="flex items-center justify-end gap-2">
@@ -137,7 +138,7 @@ export const columns: ColumnDef<Order>[] = [
             </Link>
           </Button>
 
-          <EditOrder order={order} />
+          
 
           <ActionDelete title={'esta ordem'} url={'orders.destroy'} param={order.id} />
         </div>

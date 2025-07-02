@@ -85,22 +85,20 @@ export default function Models({ models, brands }: any) {
                 ))
                 : (
                   <TableRow>
-                    <TableCell colSpan={7} className='h-16 w-full flex items-center justify-center'>
+                    <TableCell colSpan={5} className='h-16 w-full flex items-center justify-center'>
                       Não há dados a serem mostrados no momento.
                     </TableCell>
                   </TableRow>
                 )
               }
             </TableBody>
-            {models?.data.length > models?.total &&
               <TableFooter>
                 <TableRow>
-                  <TableCell colSpan={7}>
+                  <TableCell colSpan={5}>
                     <AppPagination data={models} />
                   </TableCell>
                 </TableRow>
               </TableFooter>
-            }
           </Table>
         </div>
       </div>

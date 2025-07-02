@@ -32,7 +32,7 @@ class ServiceController extends Controller
         if ($search) {
             $query->where('service', 'like', '%' . $search . '%');
         }
-        $services = $query->paginate(12)->withQueryString();
+        $services = $query->paginate(12);
         $equipments = Equipment::get();
         return Inertia::render('services/index', ['services' => $services, 'equipments' => $equipments]);
     }

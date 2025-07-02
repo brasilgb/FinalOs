@@ -32,7 +32,7 @@ class EQModelController extends Controller
         if ($search) {
             $query->where('model', 'like', '%' . $search . '%');
         }
-        $models = $query->paginate(12)->withQueryString();
+        $models = $query->paginate(12);
         $brands = Brand::get();
         return Inertia::render('models/index', ['models' => $models, 'brands' => $brands]);
     }

@@ -86,22 +86,20 @@ export default function CheckList({ equipments, checklists }: any) {
                 ))
                 : (
                   <TableRow>
-                    <TableCell colSpan={7} className='h-16 w-full flex items-center justify-center'>
+                    <TableCell colSpan={5} className='h-16 w-full flex items-center justify-center'>
                       Não há dados a serem mostrados no momento.
                     </TableCell>
                   </TableRow>
                 )
               }
             </TableBody>
-            {checklists?.data.length > checklists?.total &&
-              <TableFooter>
-                <TableRow>
-                  <TableCell colSpan={7}>
-                    <AppPagination data={checklists} />
-                  </TableCell>
-                </TableRow>
-              </TableFooter>
-            }
+            <TableFooter>
+              <TableRow>
+                <TableCell colSpan={5}>
+                  <AppPagination data={checklists} />
+                </TableCell>
+              </TableRow>
+            </TableFooter>
           </Table>
         </div>
       </div>

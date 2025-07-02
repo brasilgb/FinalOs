@@ -46,7 +46,7 @@ class ScheduleController extends Controller
                     $query->where('name', 'like', "%$search%");
                 });
         } 
-        $schedules = $query->with('user')->with('customer')->get();
+        $schedules = $query->with('user')->with('customer')->paginate(12);
         
         return Inertia::render('schedules/index', [
             'schedules' => $schedules,

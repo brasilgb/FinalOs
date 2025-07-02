@@ -87,22 +87,20 @@ export default function CheckList({ budgets, brands, models, services }: any) {
                 ))
                 : (
                   <TableRow>
-                    <TableCell colSpan={7} className='h-16 w-full flex items-center justify-center'>
+                    <TableCell colSpan={6} className='h-16 w-full flex items-center justify-center'>
                       Não há dados a serem mostrados no momento.
                     </TableCell>
                   </TableRow>
                 )
               }
             </TableBody>
-            {budgets?.data.length > budgets?.total &&
               <TableFooter>
                 <TableRow>
-                  <TableCell colSpan={7}>
+                  <TableCell colSpan={6}>
                     <AppPagination data={budgets} />
                   </TableCell>
                 </TableRow>
               </TableFooter>
-            }
           </Table>
         </div>
       </div>

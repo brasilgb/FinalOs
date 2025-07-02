@@ -58,18 +58,11 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->get('search');
-        $sdate = $request->get('dt');
-        $status = $request->get('st');
-        $customer = $request->get('cl');
+        $search = $request->get('q');
+        $customer = $request->get('oc');
 
         $query = Order::orderBy('id', 'DESC');
-        if ($sdate) {
-            $query->whereDate('schedules', $sdate);
-        }
-        if ($status) {
-            $query->where('service_status', 'like', "%$status%");
-        }
+
         if ($customer) {
             $query->where('customer_id', $customer);
         }
@@ -82,8 +75,9 @@ class OrderController extends Controller
                         ->orWhere('cpf', 'like', '%' . $search . '%');
                 });
         }
-        $orders = $query->with('equipment')->with('customer')->get();
+        $orders = $query->with('equipment')->with('customer')->paginate(12);
         $whats = WhatsappMessage::first();
+
         return Inertia::render('orders/index', [
             'orders' => $orders,
             'whats' => $whats,

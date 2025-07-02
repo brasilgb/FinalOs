@@ -22,7 +22,7 @@ class ChecklistController extends Controller
         if ($search) {
             $query->where('checklist', 'like', '%' . $search . '%');
         }
-        $checklists = $query->paginate(12)->withQueryString();
+        $checklists = $query->paginate(12);
         $equipments = Equipment::get();
         return Inertia::render('checklists/index', ['checklists' => $checklists, 'equipments' => $equipments]);
     }

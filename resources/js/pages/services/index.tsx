@@ -86,22 +86,20 @@ export default function Services({ equipments, services }: any) {
                 ))
                 : (
                   <TableRow>
-                    <TableCell colSpan={7} className='h-16 w-full flex items-center justify-center'>
+                    <TableCell colSpan={5} className='h-16 w-full flex items-center justify-center'>
                       Não há dados a serem mostrados no momento.
                     </TableCell>
                   </TableRow>
                 )
               }
             </TableBody>
-            {services?.data.length > services?.total &&
               <TableFooter>
                 <TableRow>
-                  <TableCell colSpan={7}>
+                  <TableCell colSpan={5}>
                     <AppPagination data={services} />
                   </TableCell>
                 </TableRow>
               </TableFooter>
-            }
           </Table>
         </div>
       </div>
