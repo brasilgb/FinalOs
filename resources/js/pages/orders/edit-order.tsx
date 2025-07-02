@@ -128,14 +128,12 @@ export default function EditOrder({ customers, order, technicals, equipments }: 
       <div className='flex items-center justify-between p-4'>
         <div>
           <Button variant={'default'} asChild>
-            <a
-              // href={route('orders.index')}
-              href="#"
-              onClick={() => window.history.back()}
+            <Link
+              href={route('orders.index')}
             >
               <ArrowLeft h-4 w-4 />
               <span>Voltar</span>
-            </a>
+            </Link>
           </Button>
         </div>
         <div>
