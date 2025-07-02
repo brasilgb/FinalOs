@@ -17,11 +17,30 @@ import { useState } from "react"
 export function EditOrder({ order }: { order: any }) {
   const [open, setOpen] = useState(false)
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <form>
-        <DialogTrigger asChild>
-        <Button className={`${buttonVariants({ variant: "destructive" })} bg-orange-500 hover:bg-orange-500/90 dark:bg-orange-500 dark:hover:bg-orange-500/90`} size="icon" asChild title="Editar organização">
-            <Edit />
+    <AppLayout>
+      {flash.message && <AlertSuccess message={flash.message} />}
+      <Head title="Ordens" />
+      <div className='flex items-center justify-between h-16 px-4'>
+        <div className='flex items-center gap-2'>
+          <Icon iconNode={Wrench} className='w-8 h-8' />
+          <h2 className="text-xl font-semibold tracking-tight">Ordens</h2>
+        </div>
+        <div>
+          <Breadcrumbs breadcrumbs={breadcrumbs} />
+        </div>
+      </div>
+
+      <div className='flex items-center justify-between p-4'>
+        <div>
+          <Button variant={'default'} asChild>
+            <a
+              // href={route('orders.index')}
+              href="#"
+              onClick={() => window.history.back()}
+            >
+              <ArrowLeft h-4 w-4 />
+              <span>Voltar</span>
+            </a>
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
