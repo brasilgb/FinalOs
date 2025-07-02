@@ -9,6 +9,7 @@ import { Order } from "@/types"
 import ModalReceipt from "../receipts/modal-receipt"
 import { statusOrdemByValue } from "@/Utils/functions"
 import { maskPhone } from "@/Utils/mask"
+import { EditOrder } from "./edit-order"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -136,11 +137,7 @@ export const columns: ColumnDef<Order>[] = [
             </Link>
           </Button>
 
-          <Button className={`${buttonVariants({ variant: "destructive" })} bg-orange-500 hover:bg-orange-500/90 dark:bg-orange-500 dark:hover:bg-orange-500/90`} size="icon" asChild title="Editar organização">
-            <Link href={route('orders.edit', order.id)}>
-              <Edit />
-            </Link>
-          </Button>
+          <EditOrder order={order} />
 
           <ActionDelete title={'esta ordem'} url={'orders.destroy'} param={order.id} />
         </div>
