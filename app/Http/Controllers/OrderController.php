@@ -75,7 +75,7 @@ class OrderController extends Controller
                         ->orWhere('cpf', 'like', '%' . $search . '%');
                 });
         }
-        $orders = $query->with('equipment')->with('customer')->paginate(12);
+        $orders = $query->with('equipment')->with('customer')->paginate(11);
         $whats = WhatsappMessage::first();
 
         return Inertia::render('orders/index', [

@@ -21,6 +21,7 @@ import ModalReceipt from '../receipts/modal-receipt';
 import ActionDelete from '@/components/action-delete';
 import AppPagination from '@/components/app-pagination';
 import InputSearch from '@/components/inputSearch';
+import { Badge } from '@/components/ui/badge';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -98,8 +99,8 @@ export default function Orders({ orders, whats }: any) {
                     <TableCell>{moment(order.created_at).format("DD/MM/YYYY")}</TableCell>
                     <TableCell>{order.equipment.equipment}</TableCell>
                     <TableCell>{order.model}</TableCell>
-                    <TableCell>{statusOrdemByValue(order.service_status)}</TableCell>
-                    <TableCell>{moment(order.delivery_forecast).format("DD/MM/YYYY")}</TableCell>
+                    <TableCell>{<Badge variant={'default'}>{statusOrdemByValue(order.service_status)}</Badge>}</TableCell>
+                    <TableCell>{order.delivery_date ? moment(order.delivery_date).format("DD/MM/YYYY") : ''}</TableCell>
                     <TableCell className='flex justify-end gap-2'>
 
                       <Button asChild size="icon" className="bg-green-500 hover:bg-green-500 text-white">

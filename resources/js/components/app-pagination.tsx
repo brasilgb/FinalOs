@@ -7,6 +7,7 @@ export default function AppPagination({ data }: any) {
     const clearLinks = [...data?.links];
     clearLinks.shift();
     clearLinks.pop();
+
     return (
         <div className="flex items-center justify-end  space-x-2">
             <div className="text-muted-foreground flex-1 text-sm">
@@ -50,16 +51,17 @@ export default function AppPagination({ data }: any) {
                     <ChevronLeft />
                 </Button>
             }
-            {clearLinks.map((item, index) => (
+
+            {clearLinks?.map((item: any, index: number) => (
                 !item.active ?
                     <Button
-                        variant="outline"
+                        variant="secondary"
                         size="icon"
                         className="size-8"
                         asChild
                     >
-                        <Link href={item.url}>
-                            {item.label}
+                        <Link href={`${item?.url}`}>
+                            {item?.label}
                         </Link>
                     </Button>
                     :
