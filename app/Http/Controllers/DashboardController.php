@@ -40,8 +40,16 @@ class DashboardController extends Controller
                 ->whereBetween('delivery_date', [$startDate, $endDate])
                 ->get('id')
         ];
-        $dailyCounts = DB::table('orders')->select(DB::raw('DATE(created_at) as date'), DB::raw('SUM(CASE WHEN equipment_id =\'1\' THEN 1 ELSE 0 END) as mobile_count'), DB::raw('SUM(CASE WHEN equipment_id =\'3\' THEN 1 ELSE 0 END) as desktop_count'))->whereMonth('created_at', now()->month)->whereYear('created_at', now()->year)->groupBy(DB::raw('DATE(created_at)'))->orderBy(DB::raw('DATE(created_at)'), 'ASC')->get();
-        $datajson = response()->json($dailyCounts);
-        return Inertia::render('dashboard/index', ['orders' => $orders, 'acount' => $acount, 'datajson' => $datajson]);
+        $chartequipments = Order::select(
+            DB::raw('DATE(created_at) as date'),
+            DB::raw('SUM(CASE WHEN equipment_id = 1 THEN 1 ELSE 0 END) as mobile_count'),
+            DB::raw('SUM(CASE WHEN equipment_id = 2 THEN 1 ELSE 0 END) as desktop_count'),
+            DB::raw('SUM(CASE WHEN equipment_id = 3 THEN 1 ELSE 0 END) as notebook_count')
+        )
+        ->groupBy('date')
+        ->orderBy('date', 'desc')
+        ->get();
+        // $chartequipments = response()->json($cequipments);
+        return Inertia::render('dashboard/index', ['orders' => $orders, 'acount' => $acount, 'chartequipments' => $chartequipments]);
     }
 }

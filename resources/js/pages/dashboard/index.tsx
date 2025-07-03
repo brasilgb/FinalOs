@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { ChartAreaDashboard } from '@/components/chart-area-dashboard';
 import { Badge } from '@/components/ui/badge';
 
-export default function Dashboard({ orders, acount, datajson }: { orders: any, acount: any, datajson: any }) {
+export default function Dashboard({ orders, acount, chartequipments }: { orders: any, acount: any, chartequipments: any }) {
 
     return (
         <AppLayout>
@@ -105,9 +105,9 @@ export default function Dashboard({ orders, acount, datajson }: { orders: any, a
                         </TabsContent>
                     </Tabs>
                 </div>
-                {/* <div className='mt-4'>
-                    <ChartAreaDashboard data={datajson} />
-                </div> */}
+                <div className='mt-4'>
+                    <ChartAreaDashboard chartequipments={chartequipments} />
+                </div>
             </div>
         </AppLayout>
     );

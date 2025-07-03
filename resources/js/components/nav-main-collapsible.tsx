@@ -28,6 +28,7 @@ export default function NavMainCollapsible({
     items?: {
       title: string
       url: string
+      active?: string
     }[]
   }[]
 }) {
@@ -52,7 +53,10 @@ export default function NavMainCollapsible({
                 <SidebarMenuSub>
                   {item.items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
-                      <SidebarMenuSubButton asChild>
+                      <SidebarMenuSubButton 
+                        asChild
+                        isActive={route().current(subItem.active ?? '')}
+                      >
                         <Link href={subItem.url}>
                           <span>{subItem.title}</span>
                         </Link>
