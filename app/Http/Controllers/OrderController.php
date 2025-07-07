@@ -59,7 +59,7 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $search = $request->get('q');
-        $customer = $request->get('oc');
+        $customer = $request->get('cl');
 
         $query = Order::orderBy('id', 'DESC');
 
@@ -75,7 +75,7 @@ class OrderController extends Controller
                         ->orWhere('cpf', 'like', '%' . $search . '%');
                 });
         }
-        $orders = $query->with('equipment')->with('customer')->paginate(11);
+        $orders = $query->with('equipment')->with('customer')->paginate(11)->withQueryString();
         $whats = WhatsappMessage::first();
 
         return Inertia::render('orders/index', [
