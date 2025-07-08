@@ -21,7 +21,6 @@ import ModalReceipt from '../receipts/modal-receipt';
 import ActionDelete from '@/components/action-delete';
 import AppPagination from '@/components/app-pagination';
 import InputSearch from '@/components/inputSearch';
-import { Badge } from '@/components/ui/badge';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -41,21 +40,21 @@ export default function Orders({ orders, whats }: any) {
   const stylesOrderStatus = (value: any) => {
     switch (value) {
       case 1:
-        return "bg-gray-300/50 border border-gray-300 !text-white text-xs uppercase";
+        return "bg-gray-300/90 border border-gray-300 !text-white text-xs uppercase";
       case 2:
-        return "bg-cyan-600/50 border border-cyan-600 !text-white text-xs uppercase";
+        return "bg-cyan-600/90 border border-cyan-600 !text-white text-xs uppercase";
       case 3:
-        return "bg-orange-600/50 border border-orange-600 !text-white text-xs uppercase";
+        return "bg-orange-600/90 border border-orange-600 !text-white text-xs uppercase";
       case 4:
-        return "bg-sky-600/50 border border-sky-600 !text-white text-xs uppercase";
+        return "bg-sky-600/90 border border-sky-600 !text-white text-xs uppercase";
       case 5:
-        return "bg-red-600/50 border border-red-600 !text-white text-xs uppercase";
+        return "bg-red-600/90 border border-red-600 !text-white text-xs uppercase";
       case 6:
-        return "bg-green-600/50 border border-green-600 !text-white text-xs uppercase";
+        return "bg-green-600/90 border border-green-600 !text-white text-xs uppercase";
       case 7:
-        return "bg-green-600/50 border border-green-600 !text-white text-xs uppercase";
+        return "bg-green-600/90 border border-green-600 !text-white text-xs uppercase";
       case 8:
-        return "bg-blue-600/50 border border-blue-600 !text-white text-xs uppercase";
+        return "bg-blue-600/90 border border-blue-600 !text-white text-xs uppercase";
     }
   };
 
@@ -121,7 +120,7 @@ export default function Orders({ orders, whats }: any) {
                     <TableCell>{moment(order.created_at).format("DD/MM/YYYY")}</TableCell>
                     <TableCell>{order.equipment.equipment}</TableCell>
                     <TableCell>{order.model}</TableCell>
-                    <TableCell>{<span className={`px-3 py-1  rounded-full font-medium ${stylesOrderStatus(order.service_status)}`}>{statusOrdemByValue(order.service_status)}</span>}</TableCell>
+                    <TableCell>{<span className={`px-3 py-1 rounded-full font-medium ${stylesOrderStatus(order.service_status)}`}>{statusOrdemByValue(order.service_status)}</span>}</TableCell>
                     <TableCell>{order.delivery_date ? moment(order.delivery_date).format("DD/MM/YYYY") : ''}</TableCell>
                     <TableCell className='flex justify-end gap-2'>
 

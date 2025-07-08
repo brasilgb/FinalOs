@@ -41,7 +41,7 @@ export default function EditOrder({ customers, order, technicals, equipments }: 
   }));
 
   const optionsTechnical = technicals.map((technical: any) => ({
-    value: technical.id,
+    value: technical.name,
     label: technical.name,
   }));
 
