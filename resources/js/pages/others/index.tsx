@@ -3,17 +3,15 @@ import AppearanceTabs from '@/components/appearance-tabs'
 import { Breadcrumbs } from '@/components/breadcrumbs'
 import HeadingSmall from '@/components/heading-small'
 import { Icon } from '@/components/icon'
-// import InputSearch from '@/components/inputSearch'
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
 import AppLayout from '@/layouts/app-layout'
-import { BreadcrumbItem } from '@/types'
-// import apios from '@/Utils/connectApi'
+import { BreadcrumbItem } from '@/types';
+import apios from '@/Utils/connectApi'
 import { maskCpfCnpj } from '@/Utils/mask'
 import { Head, useForm, usePage } from '@inertiajs/react'
-import { Save, Wrench } from 'lucide-react'
-// import { HardDriveUpload, Save, Wrench } from 'lucide-react';
-// import { useEffect, useState } from 'react'
+import { HardDriveUpload, Save, Wrench } from 'lucide-react';
+import { useEffect, useState } from 'react'
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -27,9 +25,9 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Others({ othersettings, customers, orders, company }: any) {
-    // const [loading, setLoading] = useState<boolean>(false);
-    // const [loading1, setLoading1] = useState<boolean>(false);
-    // const [uploading, setUploading] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false);
+    const [loading1, setLoading1] = useState<boolean>(false);
+    const [uploading, setUploading] = useState<string>('');
 
     const { flash } = usePage().props as any;
     const { data, setData, put, processing } = useForm({
@@ -42,33 +40,31 @@ export default function Others({ othersettings, customers, orders, company }: an
         put(route('other-settings.update', othersettings?.id));
     }
 
+    const pushOrders = async () => {
+        setLoading(true);
+        await apios.post('insert-order', {
+            orders: orders
+        })
+            .then((res) => {
+                setUploading(res.data.response.message);
+            })
+            .catch((err) => {
+                console.log(err.message);
+            }).finally(() => setLoading(false));
+    }
 
-    // const pushOrders = async () => {
-    //     setLoading(true);
-    //     await apios.post('insert-order', {
-    //         orders: orders
-    //     })
-    //         .then((res) => {
-    //             setUploading(res.data.response.message);
-    //         })
-    //         .catch((err) => {
-    //             console.log(err.message);
-    //         }).finally(() => setLoading(false));
-    // }
-
-    // const pushUsers = async () => {
-    //     setLoading1(true);
-    //     await apios.post('insert-user', {
-    //         customers: customers
-    //     })
-    //         .then((res) => {
-    //             setUploading(res.data.response.message);
-    //         })
-    //         .catch((err) => {
-    //             console.log(err.message);
-    //         }).finally(() => setLoading1(false));
-    // }
-
+    const pushUsers = async () => {
+        setLoading1(true);
+        await apios.post('insert-user', {
+            customers: customers
+        })
+            .then((res) => {
+                setUploading(res.data.response.message);
+            })
+            .catch((err) => {
+                console.log(err.message);
+            }).finally(() => setLoading1(false));
+    }
 
     return (
         <AppLayout>
@@ -98,7 +94,8 @@ export default function Others({ othersettings, customers, orders, company }: an
                     <HeadingSmall title="Configurações de aparência" description="Altere a aparencia do sistema entre temas claro ou escuro." />
                     <AppearanceTabs />
                 </div>
-                {/* <div className="space-y-6 mt-6">
+
+                <div className="space-y-6 mt-6">
                     <HeadingSmall title="Dados para área do cliente do site" description="Insere os dados do cliente e de suas ordens de serviço a área do cliente no site da empresa." />
                     <div className="flex items-center justify-start gap-2">
                         <Button
@@ -115,7 +112,8 @@ export default function Others({ othersettings, customers, orders, company }: an
                         </Button>
                     </div>
                     {uploading && <AlertSuccess message={uploading} className='!p-0' />}
-                </div> */}
+                </div>
+
                 <form onSubmit={handleSubmit} className="space-y-8">
                     <div className="space-y-6 mt-6">
                         <HeadingSmall title="Configuração de navegação" description="Altere entre o menu de navegação no topo e a barra de navegação lateral Sidebar." />

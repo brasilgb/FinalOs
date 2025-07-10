@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button"
+import { maskCpfCnpj } from "@/Utils/mask";
 import { Link } from "@inertiajs/react"
 import { ArrowLeft, Printer, Square } from "lucide-react"
 
@@ -32,7 +33,7 @@ function ReceiptCopy({ order, company, type, receipt, checklist, qrcode }: { ord
                     <div className="grid grid-cols-2 w-full">
                         <div className="flex flex-1 flex-col items-center">
                             <span className="font-medium">{company?.companyname}</span>
-                            <span className="font-medium">{company?.cnpj}</span>
+                            <span className="font-medium">{(company?.cnpj) && maskCpfCnpj(company?.cnpj)}</span>
                         </div>
                         <div className="flex flex-1 flex-col items-center">
                             <span className="font-medium">{company?.street}, {company?.number} - {company?.district}</span>
@@ -109,7 +110,7 @@ function ReceiptCopy({ order, company, type, receipt, checklist, qrcode }: { ord
                     <div className="rounded-lg print:bg-gray-100">
                         <ul className="flex flex-wrap items-center justify-start gap-1">
                             {listchec && listchec?.map((list: any) => (
-                                <li className="flex items-center gap-2"><Square className="h-4 w-4" /> {list}</li>
+                                <li className="flex items-center text-sm gap-2"><Square className="h-4 w-4" /> {list}</li>
                             ))}
                         </ul>
                     </div>
@@ -161,15 +162,15 @@ function ReceiptCopy({ order, company, type, receipt, checklist, qrcode }: { ord
             {/* Rodapé */}
             <div className="mt-auto">
                 <div className="flex justify-between items-center">
-                    <div className="text-xs text-center w-96">
+                    <div className="text-xs text-center">
                         {company?.city}, {new Date().toLocaleDateString(locale, option)}
                     </div>
-                    {/* {qrcode && type === 'oraberta' &&
-                        <div className="flex items-center justify-center text-[10px] gap-2">
-                            <span>Acompanhe o status de  sua ordem de serviço em  https://eplusteutonia.com.br/painel ou (área do cliente), Usuário: CPF/CNPJ - senha: 12345678 <span className="text-red-500">Após logar altere sua senha.</span></span>
-                            <img className="w-24" src="/qrcode.jpeg" alt="QRCode Eplus" />
+                    {qrcode && type === 'oraberta' &&
+                        <div className="flex items-center justify-center text-[10px] gap-2 w-96">
+                            <span>Acompanhe o status de  sua ordem de serviço em <br /> https://eplusteutonia.com.br/painel ou (área do cliente), Usuário: CPF/CNPJ - senha: 12345678 <span className="text-red-500">Após logar altere sua senha.</span></span>
+                            <img className="w-16" src="/qrcode.jpeg" alt="QRCode Eplus" />
                         </div>
-                    } */}
+                    }
                     <div className="text-center">
                         <div className="border-t border-black w-48 mb-1"></div>
                         <p className="text-xs">Assinatura do Cliente</p>

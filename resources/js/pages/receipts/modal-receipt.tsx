@@ -23,22 +23,22 @@ export default function ModalReceipt({ orderid }: { orderid: number }) {
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                     <div className="flex flex-col gap-3">
-                        <Button variant="secondary"
+                        <Button variant="default"
                             onClick={(e) => handlePrintReceipt(e, 'oraberta')}
                         >
                             Entrada de equipamento
                         </Button>
-                        <Button variant="secondary"
+                        <Button variant="default"
                             onClick={(e) => handlePrintReceipt(e, 'orentrega')}
                         >
                             Entrega de equipamento
                         </Button>
-                        <Button variant="secondary"
+                        <Button variant="default"
                             onClick={(e) => handlePrintReceipt(e, 'ororcamento')}
                         >
                             Orçamento de equipamento
                         </Button>
-                        <Button variant="secondary"
+                        <Button variant="default"
                             onClick={(e) => handlePrintReceipt(e, 'orchecklist')}
                         >
                             Checklist de equipamento

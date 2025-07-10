@@ -15,7 +15,6 @@ use Inertia\Inertia;
 
 class OrderController extends Controller
 {
-
         // Display and linting order for id
         public function allOrder()
         {
@@ -68,11 +67,9 @@ class OrderController extends Controller
         }
         if ($search) {
             $query = Order::where(function ($query) use ($search) {
-                $query->where('id', 'like', '%' . $search . '%');
-            })
-                ->orWhereHas('customer', function ($query) use ($search) {
-                    $query->where('name', 'like', "%$search%")
-                        ->orWhere('cpf', 'like', '%' . $search . '%');
+                $query->where('id', $search);
+            })->orWhereHas('customer', function ($query) use ($search) {
+                    $query->where('name', 'like', "%$search%");
                 });
         }
         $orders = $query->with('equipment')->with('customer')->paginate(11)->withQueryString();

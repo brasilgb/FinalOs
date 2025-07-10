@@ -19,10 +19,10 @@ class OtherController extends Controller
         }
         $query = Other::orderBy("id", "DESC")->first();
         $othersettings = Other::where("id", $query->id)->first();
-        // $customers = Customer::get(["id", "name", "cpf", "email"]);
-        // $orders = Order::get();
+        $customers = Customer::get(["id", "name", "cpf", "email"]);
+        $orders = Order::get();
         $company = Company::first();
-        return Inertia::render('others/index', ['othersettings' => $othersettings, 'company' => $company]);
+        return Inertia::render('others/index', ['othersettings' => $othersettings, 'company' => $company, 'customers' => $customers, 'orders' => $orders]);
     }
 
     /**

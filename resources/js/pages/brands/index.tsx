@@ -93,13 +93,13 @@ export default function Brands({ brands }: any) {
                 )
               }
             </TableBody>
-              <TableFooter>
-                <TableRow>
-                  <TableCell colSpan={5}>
-                    <AppPagination data={brands} />
-                  </TableCell>
-                </TableRow>
-              </TableFooter>
+            <TableFooter>
+              <TableRow>
+                <TableCell colSpan={5}>
+                  <AppPagination data={brands} />
+                </TableCell>
+              </TableRow>
+            </TableFooter>
           </Table>
         </div>
       </div>
