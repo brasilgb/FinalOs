@@ -35,7 +35,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function Orders({ orders, whats }: any) {
   const { flash, ziggy } = usePage().props as any;
-  const { oc } = (ziggy as any).query
+  const { cl } = (ziggy as any).query
 
   const stylesOrderStatus = (value: any) => {
     switch (value) {
@@ -140,7 +140,7 @@ export default function Orders({ orders, whats }: any) {
                       </Button>
 
                       <Button asChild size="icon" className="bg-orange-500 hover:bg-orange-600 text-white">
-                        <Link href={`/orders/${order.id}`} data={{ page: orders.current_page, oc: oc }} >
+                        <Link href={`/orders/${order.id}`} data={{ page: orders.current_page, cl: cl }} >
                           <Pencil className="h-4 w-4" />
                         </Link>
                       </Button>

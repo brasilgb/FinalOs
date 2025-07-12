@@ -33,7 +33,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function EditOrder({ customers, order, technicals, equipments }: any) {
   const { flash, ziggy } = usePage().props as any;
-  const { page, oc } = (ziggy as any).query
+  const { page, cl } = (ziggy as any).query;
 
   const optionsCustomer = customers.map((customer: any) => ({
     value: customer.id,
@@ -41,7 +41,7 @@ export default function EditOrder({ customers, order, technicals, equipments }: 
   }));
 
   const optionsTechnical = technicals.map((technical: any) => ({
-    value: technical.name,
+    value: technical.id,
     label: technical.name,
   }));
 
@@ -63,8 +63,8 @@ export default function EditOrder({ customers, order, technicals, equipments }: 
 
     services_performed: order.services_performed, // servicos executados
     parts: order.parts,
-    parts_value: order.parts_value,
-    service_value: order.service_value,
+    parts_value: order.parts_value ? order.parts_value : 0,
+    service_value: order.service_value ? order.service_value : 0,
     service_cost: order.service_cost, // custo
     delivery_date: order.delivery_date, // data de entrega
     responsible_technician: order.responsible_technician,
@@ -111,7 +111,7 @@ export default function EditOrder({ customers, order, technicals, equipments }: 
   const defaultEquipament = optionsEquipment?.filter((o: any) => o.value == order?.equipment_id).map((opt: any) => ({ value: opt.value, label: opt.label }));
   const statusDefault = statusServico?.filter((o: any) => o.value == order?.service_status).map((opt: any) => ({ value: opt.value, label: opt.label }));
   const defaultTechnical = optionsTechnical?.filter((o: any) => o.value == order?.responsible_technician).map((opt: any) => ({ value: opt.value, label: opt.label }));
-
+console.log(order?.responsible_technician);
   return (
     <AppLayout>
       {flash.message && <AlertSuccess message={flash.message} />}
@@ -130,7 +130,7 @@ export default function EditOrder({ customers, order, technicals, equipments }: 
         <div>
           <Button variant={'default'} asChild>
             <Link
-              href={`/orders?page=${page}${oc ? '&oc='+ oc : ''}`}
+              href={`/orders?page=${page}${cl ? '&cl='+ cl : ''}`}
             >
               <ArrowLeft h-4 w-4 />
               <span>Voltar</span>
@@ -342,7 +342,7 @@ export default function EditOrder({ customers, order, technicals, equipments }: 
 
             <div className="grid grid-cols-2 gap-4 mt-4">
               <div className="grid gap-2">
-                <Label htmlFor="service_status">Técnico responsável</Label>
+                <Label htmlFor="responsible_technician">Técnico responsável</Label>
                 <Select
                   menuPosition='fixed'
                   defaultValue={defaultTechnical}
@@ -369,6 +369,7 @@ export default function EditOrder({ customers, order, technicals, equipments }: 
                     }),
                   }}
                 />
+                {errors.responsible_technician && <div className="text-red-500 text-sm">{errors.responsible_technician}</div>}
               </div>
 
               <div className="grid gap-2">
