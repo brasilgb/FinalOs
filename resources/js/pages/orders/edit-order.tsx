@@ -132,7 +132,7 @@ export default function EditOrder({ customers, order, technicals, equipments }: 
         <div>
           <Button variant={'default'} asChild>
             <Link
-              href={`/orders?page=${page ? page : pageStatus} ${cl ? '&cl=' + cl : clStatus ? '&cl=' + clStatus : ''}`}
+              href={`/orders?page=${page ? page : pageStatus}${cl ? '&cl=' + cl : clStatus ? '&cl=' + clStatus : ''}`}
             >
               <ArrowLeft h-4 w-4 />
               <span>Voltar</span>

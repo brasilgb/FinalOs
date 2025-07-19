@@ -3,11 +3,10 @@ import { Icon } from "@/components/icon";
 import { Button } from "@/components/ui/button";
 import AppLayout from "@/layouts/app-layout";
 import { BreadcrumbItem } from "@/types";
-import { Head, useForm, usePage, router } from "@inertiajs/react";
-import { Cog, Printer, Save } from "lucide-react";
+import { Head, useForm, usePage } from "@inertiajs/react";
+import { Cog, Printer } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import AlertSuccess from "@/components/app-alert-success";
-import { useEffect } from "react";
 import { Input } from "@/components/ui/input";
 
 const breadcrumbs: BreadcrumbItem[] = [
