@@ -58,14 +58,14 @@ const styles = StyleSheet.create({
 
 export default function PrintLabels({ data }: any) {
     const { app } = usePage().props as any;
-    
+
     return (
         <>
             <Head title="Etiquetas" />
             <div className="h-8 bg-white flex items-center">
                 <div className="m-auto">
                     <Link className="flex items-center text-sm font-bold text-sky-500 uppercase"
-                        href={`${app.url}/label-printing`}
+                        href={`${app.url}label-printing`}
                     >
                         <ArrowLeft />
                         <span>Voltar</span>
