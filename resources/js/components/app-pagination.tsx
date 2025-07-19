@@ -9,7 +9,7 @@ export default function AppPagination({ data }: any) {
     clearLinks.pop();
 
     return (
-        <div className="flex items-center justify-end  space-x-2">
+        <div className="flex items-center justify-end space-x-2">
             <div className="text-muted-foreground flex-1 text-sm">
                 Página {data?.current_page} de{" "}
                 {data?.last_page}

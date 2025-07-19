@@ -14,7 +14,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 import moment from 'moment';
 import { statusOrdemByValue } from '@/Utils/functions';
 import ModalReceipt from '../receipts/modal-receipt';

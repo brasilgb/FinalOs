@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         height: '17mm',
         // marginRight: '2mm',
         // marginBottom: '0.5mm',
-        paddingVertical: '1.5mm',
+        paddingVertical: '2.5mm',
         borderWidth: 1,
         borderColor: "#ffffff",
         textAlign: 'center',
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     },
     textmd: {
-        fontSize: 10,
+        fontSize: 12,
         fontWeight: 'semibold',
     },
     textxs: {
@@ -80,8 +80,8 @@ export default function PrintLabels({ data }: any) {
                         <View style={styles.section}>
                             {data?.map((item: any) => (
                                 <View key={item.order} style={styles.etiqueta} wrap={false} >
-                                    <View style={styles.textxs}><Text>{item.order}</Text></View>
-                                    <View style={styles.textmd}><Text>{maskPhone(item.telephone)}</Text></View>
+                                    <View style={styles.textxs}><Text>{maskPhone(item.telephone)}</Text></View>
+                                    <View style={styles.textmd}><Text>{item.order}</Text></View>
                                     <View style={styles.textxs}><Text>{item.company}</Text></View>
                                 </View>
                             ))}

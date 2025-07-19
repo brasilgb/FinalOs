@@ -12,7 +12,7 @@ import { statusServico } from "@/Utils/dataSelect";
 import Select from 'react-select';
 import InputError from "@/components/input-error";
 import AlertSuccess from "@/components/app-alert-success";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { maskMoney, maskMoneyDot } from "@/Utils/mask";
 import moment from "moment";
 
@@ -34,6 +34,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function EditOrder({ customers, order, technicals, equipments }: any) {
   const { flash, ziggy } = usePage().props as any;
   const { page, cl } = (ziggy as any).query;
+  const [pageStatus, setPageStatus] = useState(page);
+  const [clStatus, setClStatus] = useState(cl);
 
   const optionsCustomer = customers.map((customer: any) => ({
     value: customer.id,
@@ -111,7 +113,7 @@ export default function EditOrder({ customers, order, technicals, equipments }: 
   const defaultEquipament = optionsEquipment?.filter((o: any) => o.value == order?.equipment_id).map((opt: any) => ({ value: opt.value, label: opt.label }));
   const statusDefault = statusServico?.filter((o: any) => o.value == order?.service_status).map((opt: any) => ({ value: opt.value, label: opt.label }));
   const defaultTechnical = optionsTechnical?.filter((o: any) => o.value == order?.responsible_technician).map((opt: any) => ({ value: opt.value, label: opt.label }));
-console.log(order?.responsible_technician);
+
   return (
     <AppLayout>
       {flash.message && <AlertSuccess message={flash.message} />}
@@ -130,7 +132,7 @@ console.log(order?.responsible_technician);
         <div>
           <Button variant={'default'} asChild>
             <Link
-              href={`/orders?page=${page}${cl ? '&cl='+ cl : ''}`}
+              href={`/orders?page=${page ? page : pageStatus} ${cl ? '&cl=' + cl : clStatus ? '&cl=' + clStatus : ''}`}
             >
               <ArrowLeft h-4 w-4 />
               <span>Voltar</span>

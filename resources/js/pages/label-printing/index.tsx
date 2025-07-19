@@ -38,7 +38,7 @@ export default function LabelPrinting({ labels }: any) {
     const handleLabelsTotals = () => {
         setData((data: any) => ({ ...data, initialorder: data?.initialorder }));
         setData((data: any) => ({ ...data, pages: data?.pages }));
-        const labelTotal = ((data?.initialorder - 1) + 96) * data.pages;
+        const labelTotal = ((data?.initialorder - 1) + data.pages * 96);
         setData((data: any) => ({ ...data, finalorder: labelTotal }));
     };
 
@@ -93,7 +93,7 @@ export default function LabelPrinting({ labels }: any) {
                             <div className="grid gap-2">
                                 <Label htmlFor="finalorder">Ordem final</Label>
                                 <Input
-                                readOnly
+                                    readOnly
                                     type="text"
                                     id="finalorder"
                                     value={data.finalorder}
