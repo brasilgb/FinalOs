@@ -132,7 +132,7 @@ const ImageUpload: React.FC<PageProps> = ({ savedimages, orderid, errors, succes
                                         {savedimages.map((img: any) => (
                                             <div key={img.id} className="relative group">
                                                 <img
-                                                    src={`${img.path}/${img.filename}`}
+                                                    src={`storage/orders/${img.order_id}/${img.filename}`}
                                                     alt="Preview"
                                                     className="w-full h-32 object-cover rounded shadow-md"
                                                 />
