@@ -4,10 +4,9 @@ import { Head, Link } from '@inertiajs/react';
 import { Calendar, MessageSquareMore, User, Users, Wrench } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from '@/components/ui/button';
-import { ChartAreaDashboard } from '@/components/chart-area-dashboard';
 import { Badge } from '@/components/ui/badge';
 
-export default function Dashboard({ orders, acount, chartequipments }: { orders: any, acount: any, chartequipments: any }) {
+export default function Dashboard({ orders, acount }: { orders: any, acount: any, chartequipments: any }) {
 
     return (
         <AppLayout>
@@ -36,7 +35,7 @@ export default function Dashboard({ orders, acount, chartequipments }: { orders:
                             <div className='py-2 border-t flex flex-wrap gap-2'>
                                 {orders?.agendados.map((age: any) => (
                                     <Button key={age.id} variant={'secondary'} asChild>
-                                        <Link href={route('schedules.edit', age.id)}>
+                                        <Link href={route('schedules.index', {"q":age.id})}>
                                             {age.id}
                                         </Link>
                                     </Button>
@@ -48,7 +47,7 @@ export default function Dashboard({ orders, acount, chartequipments }: { orders:
                             <div className='py-2 border-t flex flex-wrap gap-2'>
                                 {orders?.gerados.map((ger: any) => (
                                     <Button key={ger.id} variant={'secondary'} asChild>
-                                        <Link href={route('orders.edit', ger.id)}>
+                                        <Link href={route('orders.index', {"q":ger.id})}>
                                             {ger.id}
                                         </Link>
                                     </Button>
@@ -60,7 +59,7 @@ export default function Dashboard({ orders, acount, chartequipments }: { orders:
                             <div className='py-2 border-t flex flex-wrap gap-2'>
                                 {orders?.aprovados.map((apro: any) => (
                                     <Button key={apro.id} variant={'secondary'} asChild>
-                                        <Link href={route('orders.edit', apro.id)}>
+                                        <Link href={route('orders.index', {"q":apro.id})}>
                                             {apro.id}
                                         </Link>
                                     </Button>
@@ -72,7 +71,7 @@ export default function Dashboard({ orders, acount, chartequipments }: { orders:
                             <div className='py-2 border-t flex flex-wrap gap-2'>
                                 {orders?.concluidosca.map((conca: any) => (
                                     <Button key={conca.id} variant={'secondary'} asChild>
-                                        <Link href={route('orders.edit', conca.id)}>
+                                        <Link href={route('orders.index', {"q":conca.id})}>
                                             {conca.id}
                                         </Link>
                                     </Button>
@@ -84,7 +83,7 @@ export default function Dashboard({ orders, acount, chartequipments }: { orders:
                             <div className='py-2 border-t flex flex-wrap gap-2'>
                                 {orders?.concluidoscn.map((concn: any) => (
                                     <Button key={concn.id} variant={'secondary'} asChild>
-                                        <Link href={route('orders.edit', concn.id)}>
+                                        <Link href={route('orders.index', {"q":concn.id})}>
                                             {concn.id}
                                         </Link>
                                     </Button>
@@ -96,7 +95,7 @@ export default function Dashboard({ orders, acount, chartequipments }: { orders:
                             <div className='py-2 border-t flex flex-wrap gap-2'>
                                 {orders?.trintadias.map((ger: any) => (
                                     <Button key={ger.id} variant={'secondary'} asChild>
-                                        <Link href={route('orders.edit', ger.id)}>
+                                        <Link href={route('orders.index', {"q":ger.id})}>
                                             {ger.id}
                                         </Link>
                                     </Button>

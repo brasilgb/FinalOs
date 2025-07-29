@@ -21,6 +21,8 @@ import ModalReceipt from '../receipts/modal-receipt';
 import ActionDelete from '@/components/action-delete';
 import AppPagination from '@/components/app-pagination';
 import InputSearch from '@/components/inputSearch';
+import { Select } from '@radix-ui/react-select';
+import SelectFilter from '@/components/SelectFilter';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
@@ -75,6 +77,9 @@ export default function Orders({ orders, whats }: any) {
       <div className='flex items-center justify-between p-4'>
         <div>
           <InputSearch placeholder="Buscar ordem" url="orders.index" />
+        </div>
+        <div>
+            <SelectFilter />
         </div>
         <div>
           <Button variant={'default'} asChild>

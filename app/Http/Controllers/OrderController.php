@@ -15,33 +15,33 @@ use Inertia\Inertia;
 
 class OrderController extends Controller
 {
-        // Display and linting order for id
-        public function allOrder()
-        {
-            $dashData = [
-                'numorder' => count(Order::get()),
-                'numabertas' => count(Order::where('service_status', 1)->get()), // aberta
-                'numgerados' => count(Order::where('service_status', 3)->get()), // orc. gerado
-                'numaprovados' => count(Order::where('service_status', 4)->get()), // orc. aprovado
-                'numconcluidosca' => count(Order::where('service_status', 6)->get()), // concluido cli nao avisado
-                'numconcluidoscn' => count(Order::where('service_status', 7)->get()), // concluido cli avisado
-            ];
-            return [
-                'success' => true,
-                'result' => $dashData
-            ];
-        }
-    
-        // Display and linting order for id
-        public function getOrder($order)
-        {
-            $query = Order::where('id', $order)->with('customer')->with('equipment')->get();
-            return [
-                'success' => true,
-                'result' => $query
-            ];
-        }
-    
+    // Display and linting order for id
+    public function allOrder()
+    {
+        $dashData = [
+            'numorder' => count(Order::get()),
+            'numabertas' => count(Order::where('service_status', 1)->get()), // aberta
+            'numgerados' => count(Order::where('service_status', 3)->get()), // orc. gerado
+            'numaprovados' => count(Order::where('service_status', 4)->get()), // orc. aprovado
+            'numconcluidosca' => count(Order::where('service_status', 6)->get()), // concluido cli nao avisado
+            'numconcluidoscn' => count(Order::where('service_status', 7)->get()), // concluido cli avisado
+        ];
+        return [
+            'success' => true,
+            'result' => $dashData
+        ];
+    }
+
+    // Display and linting order for id
+    public function getOrder($order)
+    {
+        $query = Order::where('id', $order)->with('customer')->with('equipment')->get();
+        return [
+            'success' => true,
+            'result' => $query
+        ];
+    }
+
     // Display and listing customers for id order
     public function getOrderCli($customer)
     {
@@ -57,11 +57,15 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
+        $status = $request->get('status');
         $search = $request->get('q');
         $customer = $request->get('cl');
 
         $query = Order::orderBy('id', 'DESC');
 
+        if ($status) {
+            $query->where('service_status', $status);
+        }
         if ($customer) {
             $query->where('customer_id', $customer);
         }
@@ -69,8 +73,8 @@ class OrderController extends Controller
             $query = Order::where(function ($query) use ($search) {
                 $query->where('id', $search);
             })->orWhereHas('customer', function ($query) use ($search) {
-                    $query->where('name', 'like', "%$search%");
-                });
+                $query->where('name', 'like', "%$search%");
+            });
         }
         $orders = $query->with('equipment')->with('customer')->paginate(11)->withQueryString();
         $whats = WhatsappMessage::first();
@@ -112,7 +116,7 @@ class OrderController extends Controller
         $customers = Customer::get();
         $technicals = User::where('roles', 3)->orWhere('roles', 1)->where('is_active', 1)->get();
         return Inertia::render('orders/edit-order', ['order' => $order, 'customers' => $customers, 'technicals' => $technicals, 'equipments' => $equipments]);
-     }
+    }
 
     /**
      * Show the form for editing the specified resource.
