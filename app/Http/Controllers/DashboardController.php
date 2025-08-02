@@ -36,9 +36,9 @@ class DashboardController extends Controller
             'aprovados'  => Order::where('service_status', 4)->get('id'),
             'concluidosca' => Order::where('service_status', 6)->get('id'),
             'concluidoscn' => Order::where('service_status', 7)->get('id'),
-            'trintadias' => Order::where('service_status', 8)
+            'trintadias' => Order::where('service_status', 8)->where('feedback', 0)
                 ->whereBetween('delivery_date', [$startDate, $endDate])
-                ->get('id')
+                ->get('id') 
         ];
         $chartequipments = Order::select(
             DB::raw('DATE(created_at) as date'),

@@ -29,8 +29,8 @@ export default function SelectFilter() {
     return (
         <div className="flex items-center space-x-2">
             <Select defaultValue={`${data.statusorder}`} value={`${data.statusorder}`} onValueChange={(value) => setData("statusorder", value)}>
-                <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Filtrar ordem" />
+                <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Filtrar ordem por status" />
                 </SelectTrigger>
                 <SelectContent>
                     <SelectGroup>

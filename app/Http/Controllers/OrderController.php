@@ -60,9 +60,13 @@ class OrderController extends Controller
         $status = $request->get('status');
         $search = $request->get('q');
         $customer = $request->get('cl');
+        $feedback = $request->get('feedback');
+
+        if ($feedback) {
+            Order::where('id', $search)->update(['feedback' => $feedback]);
+        }
 
         $query = Order::orderBy('id', 'DESC');
-
         if ($status) {
             $query->where('service_status', $status);
         }

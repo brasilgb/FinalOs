@@ -1,12 +1,17 @@
 import { KpiDashboard } from '@/components/kpi-dashboard';
 import AppLayout from '@/layouts/app-layout';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import { Calendar, MessageSquareMore, User, Users, Wrench } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
 export default function Dashboard({ orders, acount }: { orders: any, acount: any, chartequipments: any }) {
+
+    const handleSelectedFadback = (id: number) => {
+
+        router.get(route('orders.index', { "q": id, "feedback": true }))
+    }
 
     return (
         <AppLayout>
@@ -35,7 +40,7 @@ export default function Dashboard({ orders, acount }: { orders: any, acount: any
                             <div className='py-2 border-t flex flex-wrap gap-2'>
                                 {orders?.agendados.map((age: any) => (
                                     <Button key={age.id} variant={'secondary'} asChild>
-                                        <Link href={route('schedules.index', {"q":age.id})}>
+                                        <Link href={route('schedules.index', { "q": age.id, "init": true })}>
                                             {age.id}
                                         </Link>
                                     </Button>
@@ -47,7 +52,7 @@ export default function Dashboard({ orders, acount }: { orders: any, acount: any
                             <div className='py-2 border-t flex flex-wrap gap-2'>
                                 {orders?.gerados.map((ger: any) => (
                                     <Button key={ger.id} variant={'secondary'} asChild>
-                                        <Link href={route('orders.index', {"q":ger.id})}>
+                                        <Link href={route('orders.index', { "q": ger.id, "init": true })}>
                                             {ger.id}
                                         </Link>
                                     </Button>
@@ -59,7 +64,7 @@ export default function Dashboard({ orders, acount }: { orders: any, acount: any
                             <div className='py-2 border-t flex flex-wrap gap-2'>
                                 {orders?.aprovados.map((apro: any) => (
                                     <Button key={apro.id} variant={'secondary'} asChild>
-                                        <Link href={route('orders.index', {"q":apro.id})}>
+                                        <Link href={route('orders.index', { "q": apro.id, "init": true })}>
                                             {apro.id}
                                         </Link>
                                     </Button>
@@ -71,7 +76,7 @@ export default function Dashboard({ orders, acount }: { orders: any, acount: any
                             <div className='py-2 border-t flex flex-wrap gap-2'>
                                 {orders?.concluidosca.map((conca: any) => (
                                     <Button key={conca.id} variant={'secondary'} asChild>
-                                        <Link href={route('orders.index', {"q":conca.id})}>
+                                        <Link href={route('orders.index', { "q": conca.id, "init": true })}>
                                             {conca.id}
                                         </Link>
                                     </Button>
@@ -83,7 +88,7 @@ export default function Dashboard({ orders, acount }: { orders: any, acount: any
                             <div className='py-2 border-t flex flex-wrap gap-2'>
                                 {orders?.concluidoscn.map((concn: any) => (
                                     <Button key={concn.id} variant={'secondary'} asChild>
-                                        <Link href={route('orders.index', {"q":concn.id})}>
+                                        <Link href={route('orders.index', { "q": concn.id, "init": true })}>
                                             {concn.id}
                                         </Link>
                                     </Button>
@@ -94,10 +99,15 @@ export default function Dashboard({ orders, acount }: { orders: any, acount: any
                             <div className='text-xs font-semibold py-1'>Serviços a trinta dias para provável feedback</div>
                             <div className='py-2 border-t flex flex-wrap gap-2'>
                                 {orders?.trintadias.map((ger: any) => (
-                                    <Button key={ger.id} variant={'secondary'} asChild>
-                                        <Link href={route('orders.index', {"q":ger.id})}>
-                                            {ger.id}
-                                        </Link>
+                                    <Button
+                                    className='cursor-pointer'
+                                        key={ger.id}
+                                        variant={'secondary'}
+                                        onClick={() => handleSelectedFadback(ger.id)}
+                                    >
+                                        {/* <Link href={}> */}
+                                        {ger.id}
+                                        {/* </Link> */}
                                     </Button>
                                 ))}
                             </div>
