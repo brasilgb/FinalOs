@@ -36,9 +36,11 @@ class DashboardController extends Controller
             'aprovados'  => Order::where('service_status', 4)->get('id'),
             'concluidosca' => Order::where('service_status', 6)->get('id'),
             'concluidoscn' => Order::where('service_status', 7)->get('id'),
-            'trintadias' => Order::where('service_status', 8)->where('feedback', 0)
-                ->whereBetween('delivery_date', [$startDate, $endDate])
-                ->get('id') 
+            'trintadias' => Customer::where('status', 8)
+                ->where('feedback', 0)
+                ->where('created_at', '>=', Carbon::now()->subDays(35)) // Busca registros dos últimos 35 dias
+                ->orderBy('id')
+                ->get()
         ];
         $chartequipments = Order::select(
             DB::raw('DATE(created_at) as date'),
@@ -46,9 +48,9 @@ class DashboardController extends Controller
             DB::raw('SUM(CASE WHEN equipment_id = 2 THEN 1 ELSE 0 END) as desktop_count'),
             DB::raw('SUM(CASE WHEN equipment_id = 3 THEN 1 ELSE 0 END) as notebook_count')
         )
-        ->groupBy('date')
-        ->orderBy('date', 'desc')
-        ->get();
+            ->groupBy('date')
+            ->orderBy('date', 'desc')
+            ->get();
         // $chartequipments = response()->json($cequipments);
         return Inertia::render('dashboard/index', ['orders' => $orders, 'acount' => $acount, 'chartequipments' => $chartequipments]);
     }
