@@ -13,15 +13,15 @@ use Inertia\Inertia;
 class EQModelController extends Controller
 {
 
-    public function getModelos(Request $request)
+    public function getModels(Request $request)
     {
-        $modelos = EQModel::where('brand_id', $request->brand)->get();
+        $models = EQModel::where('brand_id', $request->brand)->get();
         return response()->json([
             "success" => true,
-            "data" => $modelos
+            "data" => $models
         ]);
     }
-    
+
     /**
      * Display a listing of the resource.
      */

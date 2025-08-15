@@ -1,17 +1,12 @@
 import { KpiDashboard } from '@/components/kpi-dashboard';
 import AppLayout from '@/layouts/app-layout';
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { Calendar, MessageSquareMore, User, Users, Wrench } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
 export default function Dashboard({ orders, acount }: { orders: any, acount: any, chartequipments: any }) {
-
-    const handleSelectedFadback = (id: number) => {
-
-        router.get(route('orders.index', { "q": id, "feedback": true }))
-    }
 
     return (
         <AppLayout>
@@ -100,14 +95,13 @@ export default function Dashboard({ orders, acount }: { orders: any, acount: any
                             <div className='py-2 border-t flex flex-wrap gap-2'>
                                 {orders?.trintadias.map((ger: any) => (
                                     <Button
-                                    className='cursor-pointer'
                                         key={ger.id}
                                         variant={'secondary'}
-                                        onClick={() => handleSelectedFadback(ger.id)}
+                                        asChild
                                     >
-                                        {/* <Link href={}> */}
-                                        {ger.id}
-                                        {/* </Link> */}
+                                        <Link href={route('orders.index', { "q": ger.id, "init": true, "fd": 1 })}>
+                                            {ger.id}
+                                        </Link>
                                     </Button>
                                 ))}
                             </div>

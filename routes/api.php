@@ -32,11 +32,11 @@ Route::get('/clientes', [CustomerController::class, 'getClientes']);
 
 Route::post('/orcamentos', [BudgetController::class, 'getOrcamentos']);
 
-Route::post('/servicos', [ServiceController::class, 'getServicos']);
+Route::post('/services', [ServiceController::class, 'getServices']);
 
-Route::get('/marcas', [BrandController::class, 'getMarcas']);
+Route::get('/brands', [BrandController::class, 'getBrands']);
 
-Route::post('/modelos', [EQModelController::class, 'getModelos']);
+Route::post('/models', [EQModelController::class, 'getModels']);
 
 Route::get('/empresa', [CompanyController::class, 'getEmpresaInfo']);
 

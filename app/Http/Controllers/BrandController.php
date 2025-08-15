@@ -11,13 +11,13 @@ use Inertia\Inertia;
 
 class BrandController extends Controller
 {
-    
-    public function getMarcas()
+
+    public function getBrands()
     {
-        $marcas = Brand::get();
+        $brands = Brand::get();
         return response()->json([
             "success" => true,
-            "data" => $marcas
+            "data" => $brands
         ]);
     }
 
