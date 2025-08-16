@@ -11,29 +11,30 @@ import {
 } from "@/components/ui/select"
 import { statusServico } from "@/Utils/dataSelect"
 import { useForm, usePage } from "@inertiajs/react";
-import { Filter } from "lucide-react";
 
 export default function SelectFilter() {
     const { ziggy } = usePage().props as any;
     const { status } = (ziggy as any).query
 
-    const { data, setData, get } = useForm({
+    const { data, get } = useForm({
         statusorder: status || '',
     });
 
-    function handleSubmit() {
-        console.log("Selected status:", data.statusorder);
-        get(route('orders.index', { "status": `${data.statusorder}` }));
+    function handleSubmit(value: any) {
+        console.log("Selected status:", value);
+        get(route('orders.index', { "status": `${value}` }));
     }
 
     return (
         <div className="flex items-center space-x-2">
-            <Select defaultValue={`${data.statusorder}`} value={`${data.statusorder}`} onValueChange={(value) => setData("statusorder", value)}>
+            <Select defaultValue={`${data.statusorder}`} value={`${data.statusorder}`} onValueChange={(value) => handleSubmit(value)}>
                 <SelectTrigger className="w-full">
                     <SelectValue placeholder="Filtrar ordem por status" />
                 </SelectTrigger>
                 <SelectContent>
                     <SelectGroup>
+                        <SelectLabel>Feedback</SelectLabel>
+                        <SelectItem value="999">Listar Feedback</SelectItem>
                         <SelectLabel>Status</SelectLabel>
                         {statusServico.map((status) => (
                             <SelectItem key={status.value} value={`${status.value}`}>
@@ -43,9 +44,9 @@ export default function SelectFilter() {
                     </SelectGroup>
                 </SelectContent>
             </Select>
-            <button type="button" onClick={handleSubmit} >
+            {/* <button type="button" onClick={handleSubmit} >
                 <Filter className="w-5 h-5 text-gray-500" />
-            </button>
+            </button> */}
         </div>
     )
 }

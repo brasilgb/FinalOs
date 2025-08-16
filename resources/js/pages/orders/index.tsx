@@ -2,7 +2,7 @@ import { Breadcrumbs } from '@/components/breadcrumbs'
 import { Icon } from '@/components/icon';
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types';
-import { Head, Link, router, useForm, usePage } from '@inertiajs/react'
+import { Head, Link, router, usePage } from '@inertiajs/react'
 import { ImageUp, Pencil, Plus, Wrench } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import AlertSuccess from '@/components/app-alert-success';
@@ -23,7 +23,6 @@ import AppPagination from '@/components/app-pagination';
 import InputSearch from '@/components/inputSearch';
 import SelectFilter from '@/components/SelectFilter';
 import { Switch } from '@/components/ui/switch';
-import { useEffect, useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -36,9 +35,9 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Orders({ orders, whats }: any) {
+export default function Orders({ orders, whats, trintadias }: any) {
     const { flash, ziggy } = usePage().props as any;
-    const { cl, init, fd } = (ziggy as any).query
+    const { cl, init } = (ziggy as any).query
 
     const stylesOrderStatus = (value: any) => {
         switch (value) {
@@ -60,12 +59,10 @@ export default function Orders({ orders, whats }: any) {
                 return "bg-blue-600/90 border border-blue-600 !text-white text-xs uppercase";
         }
     };
-    const [feedbackOrder, setFeedbackOrder] = useState<boolean>(false);
 
-    const handleFeedbackCheck = (e:any,value: boolean, id: number) => {
-        e.preventDefault();
-        setFeedbackOrder(!feedbackOrder)
-        router.get(route('orders.index', { "feedback": !feedbackOrder ? 1 : 0, "q": id }))
+    const handleFeedbackCheck = (value: number, id: number) => {
+        const newValue = value === 1 ? 0 : 1;
+        router.get(route('orders.feedback', { "feedback": newValue, "orderid": id }))
     }
 
     return (
@@ -137,10 +134,12 @@ export default function Orders({ orders, whats }: any) {
                                         <TableCell>{<span className={`px-3 py-1 rounded-full font-medium ${stylesOrderStatus(order.service_status)}`}>{statusOrdemByValue(order.service_status)}</span>}</TableCell>
                                         <TableCell>{order.delivery_date ? moment(order.delivery_date).format("DD/MM/YYYY") : ''}</TableCell>
                                         <TableCell>
-                                            <Switch
-                                                checked={feedbackOrder}
-                                                onCheckedChange={(e:any) => handleFeedbackCheck(e,!feedbackOrder, order.id)}
-                                            />
+                                            {trintadias.filter((or: any) => or.id === order.id).length > 0 && (
+                                                <Switch
+                                                    checked={order.feedback}
+                                                    onCheckedChange={() => handleFeedbackCheck(order.feedback, order.id)}
+                                                />
+                                            )}
                                         </TableCell>
                                         <TableCell className='flex justify-end gap-2'>
 
@@ -181,7 +180,7 @@ export default function Orders({ orders, whats }: any) {
                         </TableBody>
                         <TableFooter>
                             <TableRow>
-                                <TableCell colSpan={9}>
+                                <TableCell colSpan={10}>
                                     <AppPagination data={orders} />
                                 </TableCell>
                             </TableRow>

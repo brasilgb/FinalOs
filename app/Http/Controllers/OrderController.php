@@ -9,6 +9,7 @@ use App\Models\Equipment;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\WhatsappMessage;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -60,15 +61,22 @@ class OrderController extends Controller
         $status = $request->get('status');
         $search = $request->get('q');
         $customer = $request->get('cl');
-        $feedback = $request->get('feedback');
 
-        if ($feedback) {
-            Order::where('id', $search)->update(['feedback' => $feedback]);
-        }
+        $endDate = Carbon::now()->subDays(25)->endOfDay();
+        $startDate = Carbon::now()->subDays(30)->startOfDay();
+        $allfeedback = Order::where('service_status', 8)
+            ->whereBetween('delivery_date', [$startDate, $endDate])
+            ->get('id');
 
         $query = Order::orderBy('id', 'DESC');
         if ($status) {
-            $query->where('service_status', $status);
+            if ($status > 10) {
+                $query->where('service_status', 8)
+                    ->whereBetween('delivery_date', [$startDate, $endDate])
+                    ->get('id');
+            } else {
+                $query->where('service_status', $status);
+            }
         }
         if ($customer) {
             $query->where('customer_id', $customer);
@@ -82,10 +90,12 @@ class OrderController extends Controller
         }
         $orders = $query->with('equipment')->with('customer')->paginate(11)->withQueryString();
         $whats = WhatsappMessage::first();
+        $trintadias = $allfeedback;
 
         return Inertia::render('orders/index', [
             'orders' => $orders,
             'whats' => $whats,
+            'trintadias' => $trintadias
         ]);
     }
 
@@ -149,5 +159,15 @@ class OrderController extends Controller
     {
         $order->delete();
         return redirect()->route('orders.index')->with('success', 'Ordem excluída com sucesso');
+    }
+
+    public function getFeedback(Request $request)
+    {
+        $feedback = $request->get('feedback');
+        $orderid = $request->get('orderid');
+        Order::where('id', $orderid)->update(['feedback' => $feedback]);
+        response()->json([
+            "success" => true
+        ]);
     }
 }

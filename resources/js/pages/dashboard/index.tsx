@@ -1,7 +1,7 @@
 import { KpiDashboard } from '@/components/kpi-dashboard';
 import AppLayout from '@/layouts/app-layout';
 import { Head, Link } from '@inertiajs/react';
-import { Calendar, MessageSquareMore, User, Users, Wrench } from 'lucide-react';
+import { Calendar, Check, MessageSquareMore, User, Users, Wrench } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -99,7 +99,8 @@ export default function Dashboard({ orders, acount }: { orders: any, acount: any
                                         variant={'secondary'}
                                         asChild
                                     >
-                                        <Link href={route('orders.index', { "q": ger.id, "init": true, "fd": 1 })}>
+                                        <Link href={route('orders.index', { "q": ger.id, "init": true, "fd": 1 })} className='relative'>
+                                            {ger.feedback && <Check className='h-4 w-4 absolute -top-1 -right-1' />}
                                             {ger.id}
                                         </Link>
                                     </Button>

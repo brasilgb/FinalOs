@@ -17,11 +17,8 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $endDate = Carbon::now()->subDays(30)->endOfDay();
-        $startDate = Carbon::now()->subDays(32)->startOfDay();
-        // $ordensDeServico = Order::where('service_status', 8)
-        //     ->whereBetween('delivery_date', [$startDate, $endDate])
-        //     ->get();
+        $endDate = Carbon::now()->subDays(25)->endOfDay();
+        $startDate = Carbon::now()->subDays(30)->startOfDay();
 
         $acount = [
             'numuser' => count(User::get()),
@@ -36,17 +33,10 @@ class DashboardController extends Controller
             'aprovados'  => Order::where('service_status', 4)->get('id'),
             'concluidosca' => Order::where('service_status', 6)->get('id'),
             'concluidoscn' => Order::where('service_status', 7)->get('id'),
-<<<<<<< HEAD
-            'trintadias' => Customer::where('status', 8)
-                ->where('feedback', 0)
-                ->where('created_at', '>=', Carbon::now()->subDays(35)) // Busca registros dos últimos 35 dias
-                ->orderBy('id')
-                ->get()
-=======
-            'trintadias' => Order::where('service_status', 8)->where('feedback', '0')
+
+            'trintadias' => Order::where('service_status', 8)
                 ->whereBetween('delivery_date', [$startDate, $endDate])
-                ->get('id')
->>>>>>> 7b672b1 (Push)
+                ->get()
         ];
         $chartequipments = Order::select(
             DB::raw('DATE(created_at) as date'),
