@@ -17,8 +17,8 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $endDate = Carbon::now()->subDays(25)->endOfDay();
-        $startDate = Carbon::now()->subDays(30)->startOfDay();
+        $startDate = Carbon::now()->subDays(7)->startOfDay();
+        $endDate = Carbon::now()->subDays(-4)->endOfDay();
 
         $acount = [
             'numuser' => count(User::get()),
