@@ -63,7 +63,7 @@ class OrderController extends Controller
         $customer = $request->get('cl');
 
         $startDate = Carbon::now()->subDays(7)->startOfDay();
-        $endDate = Carbon::now()->subDays(-4)->endOfDay();
+        $endDate = Carbon::now()->subDays(4)->endOfDay();
 
         $allfeedback = Order::where('service_status', 8)
             ->whereBetween('delivery_date', [$startDate, $endDate])
